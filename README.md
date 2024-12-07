@@ -77,12 +77,51 @@ falling from cliffs, but archives of social media posts.
 
 Is this kind of software useful?
 --------------------------------
-Everyone is moving to the cloud anyway. The issue, the meta-issue
-is that google shud down services that it can't profit from, and
-Meta Facebook can kick you off without any kind of due process.
-Not that you could archive your facebook posts, anyway. And then,
-discord, and phone cameras. Chat logs SMS and whatsApp messages
-backed up or maybe not.
+Everyone is moving to the cloud anyway. Photos live on cell phones,
+and are automatically synced to Google's cloud. If you run out of
+storage, you can buy more for $X/month. This is an easy choice for
+most users: why futz with a desktop computer, or worse, a Linux desktop,
+when everything runs on the cloud? Of course, if you don't pay your
+monthly fee, your data disappears.
+
+Plan B is to buy a NAS storage box, and keep your stuff there. These
+are expensive, but very very easy for most users: plug 'em in and go.
+Is there secret, silent data corruption on a NAS box? Who knows? Are
+you keeping backup copies? "Who needs backup", you might think, "I've
+got RAID." This kind of thinking is fine, until "operator error" results
+in a deleted file that maybe you really should not have deleted.
+
+So the idea here is for the FSF purist: someone who wants fine-grained
+freedoms to control their data, rather then being beholden to some cloud
+provider who will wipe your data soon as you miss a monthly bill or two.
+Someone who might be willing to use a proprietary NAS box, but would
+like some way of double-checking.
+
+This project is for the finicky and technically sophisticated user
+(hobbyist?) who runs a Linux desktop or three at home, and worries about
+their data. Perhaps one day, this project wiil be useful to archivists
+or librarians. Maybe even scientists or business owners. But lets not
+get ahead of ourselves. Let's take a closer look.
+
+
+Data types
+-----------
+The issue, the meta-issue is that google, and many other on-line
+social media and networking services (MySpace, anyone?) have a habit
+of shutting down services that are not profitable. If you are lucky,
+you might get a copy of your data.
+
+More generally, you can't. When Meta/Facebook ditches you, you do not
+have the option of downloading all your old posts and photos. Those are
+gone forever. The insult is lack of due process: Facebook is judge, jury
+and hangman. The injury is loss of connection, loss of data.
+
+Some sources are just hard to backup. Chats on Discord. SMS and WhatsApp
+messages (and photos, videos, sounds) Perhaps valueless for a younger
+crowd. Perhaps more interesting if its from grandma, or a deceased loved
+one.  There's nothing wrong with building a digital shrine for a lost loved
+one. This is what love and cherished memories are about.  Perhaps one
+day, the weight of the past will be too much. That is not today.
 
 Version 0.0.0
 -------------
