@@ -55,8 +55,8 @@ inspires developers and sustains users. So here:
   databases and complex data. Allow data forensics and data recovery.
   Do things that data archivists need. Handle medical data, business data,
   science data. Scale to exabytes. Big-Ten accounting firms offer
-  asset tracking for large accounts. IBM offers data management systems
-  for large corporations. How do they deal with this?
+  asset tracking for large accounts. IBM offers information management
+  systems for large corporations. How do they deal with this?
 * Build the foundations for AI.
 
 Don't laugh at that last bullet. Yes, you and I both are tired of the
