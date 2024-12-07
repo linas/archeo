@@ -54,7 +54,9 @@ inspires developers and sustains users. So here:
 * Start small, for home users. Expand to archives, libraries. Support
   databases and complex data. Allow data forensics and data recovery.
   Do things that data archivists need. Handle medical data, business data,
-  science data. Scale to exabytes.
+  science data. Scale to exabytes. Big-Ten accounting firms offer
+  asset tracking for large accounts. IBM offers data management systems
+  for large corporations. How do they deal with this?
 * Build the foundations for AI.
 
 Don't laugh at that last bullet. Yes, you and I both are tired of the
@@ -125,16 +127,67 @@ day, the weight of the past will be too much. That is not today.
 
 Version 0.0.0
 -------------
-No code yet.
+There is no code here, yet. A system architecture is being imagined
+for an imaginary target audience and user.
 
+Questions and Ideas
+-------------------
+Ideally, the system envisioned here "plays nice" with existing systems.
+Perhaps its a module on existing systems. Perhaps the impleemntation
+can make use of existing frameworks. How would this work?
 
-Boiling the ocean
-Archivists
-Backups
-Big Ten accounting firms -- who has what?
-wireshark packet sniffing
-intrusion detction says files have changed. System knows what you have. Sort of.
-splunk error log exploration
+* What do archivists and digital librarians do today? If they import
+  a new data set, do they scrub it? How do they track multiple copies
+  of what they have?
 
-ceph, mdrain, ext4fs, btrfs, xfs metadata
-File explorers & file browsers
+* How do backup systems keep track of what's where? When the last backup
+  was made? If the backup is corrupted? What are the existing open source
+  backup systems?
+
+* Intrusion detection systems store hashes of files, and detect corruption
+  based on those hashes. If you don't have hashes of your old data, you are
+  SOL. Are there systems or frameworks for tracking file hashes and other
+  file metadata? Can these be used in data archival systems?
+
+* File explorers and (graphical) file browsers... show files. Do any of
+  them provide a framework for tracking data health? A meta-system for
+  tracking backup copies? Some plugin framework?
+
+* Systems like splunk are designed for admins who need to track error logs
+  for hundreds of machines. Can the splunk dashboard and framework be
+  repurposed for tracking archive health?
+
+* Systems like wireshark can do low-level network packet inspection.
+  Wirsehark includes a packet disasembly and formatting language. This
+  has been used to create thousands of packet disassemblers, since each
+  byte and bit in a packet can be named and labelled. Could this be used
+  to disassemble and repair MP3 files? Tar files? Corrupted git archives?
+
+* Disk drive forensics tools can pull apart corrupted disk images. Is
+  there any kind of generic framework that can be used?
+
+* How does one prevent damage, moving forward, into the future?
+  Clearly, off-the-shelf mdraid+ext4fs plus consumer-grade PC's, disk
+  drives and controllers are inadequate. Stacked combinations of
+  LVM, Btrfs, XFS are not obviously better. Ceph is a distribued
+  storage system. The very first time I used it, I found data corruption
+  errors. Perhaps Ceph is to blame, perhaps a disk controller is to blame.
+  Maybe a cosmic ray hit the system during file copy. It's also not
+  fully foolproof, even if it is deployed on a large scale by large cloud
+  providers.
+
+Piecemeal systems
+-----------------
+If you want to do manual repairs on a handful of items, there's a selection
+of tools. Below is a randomized list.
+
+* mp3val for finding and repairing broken MP3's, Does NOT use multiple
+  copies to create a "best version".
+
+* ddresucue for dumping corrupted disk drives.
+
+* Misc rescue tools for non-bootable systems.
+
+Design frameworks
+-----------------
+
