@@ -188,6 +188,18 @@ of tools. Below is a randomized list.
 
 * Misc rescue tools for non-bootable systems.
 
-Design frameworks
------------------
+Design requirements
+-------------------
+In my current modest setup, I need these things:
+
+* Log of which directories were copied from where to where, and when.
+* Directory metadata: how many files? How many bytes?
+* If the original version is still there, does the new copy agree
+  with the old one?
+* Can a compare of new and old be run on some peridoic basis?
+  e.g. once a month? Twice a year? What was the result?
+* Checksums. Compute and store checksums. Compare file contents
+  by checksum.  Find files by checksum.
+* When were these last computed? What was the matching file
+  name? What was the file metadata at that time?
 
