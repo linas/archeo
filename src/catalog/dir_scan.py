@@ -1,16 +1,20 @@
 #
 # dir-scan.py
 #
-# Perform a scane of a directory.
-# Adhere to crawl guidelines will scanning
+# Perform a scan of a directory.
+# Adhere to crawl guidelines while scanning.
 
 import os
 from witness import file_witness, witness_db_open, witness_db_close
 
 def dir_witness(hostname, dirpath):
-	diter = os.scandir(dirpath)
-	for fob in diter:
-		print("yoo", fob)
+	# Files first
+	for fob in os.scandir(dirpath) :
+		if fob.is_file() :
+			fid = file_witness(hostname, fob.path)
+			print("reco", fid, fob.path)
 
-# r = file_witness(hostname, "/tmp/xxx")
-# print("I got fileid ", r)
+	# Directories next
+	for fob in os.scandir(dirpath) :
+		if fob.is_dir() :
+			print("yoo", fob.path)

@@ -3,6 +3,11 @@ The File Catalog
 The file catalog creates a searchable index of files,
 organized by filename, content hash and other file data.
 
+API Design
+----------
+Currently uses SQLite3 for storage. Uses a closure-like idea, so that
+future changes could use other DB's, as desired.
+
 Table Design
 ------------
 SQL tables need to hold this info, and they need to be normalized
@@ -40,3 +45,9 @@ Do this to get started:
 ```
 cat file-witness.sql | sqlite3 file-witness.db
 ```
+
+Similar projects
+----------------
+* [Fred Hutch Storage Crawler](https://github.com/FredHutch/storage-crawler)
+  Walks filesystem, stores file metadata in Postgres DB. Tiny project,
+  abandoned in 2016 after a handful of commits.
