@@ -7,7 +7,7 @@
 import os
 import sqlite3
 from witness import witness_db_open, witness_db_close
-from dir_scan import dir_witness
+from crawler import dir_witness
 
 hostname = "phony"
 
