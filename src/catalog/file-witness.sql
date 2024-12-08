@@ -37,6 +37,7 @@ CREATE TABLE FileRecord (
 	protocol TEXT,
 
 	-- File hash. xxh3 seems like a good choice. 64-bit.
+	filexxh3 INTEGER,
 
 	-- File size, in bytes.
 	filesize INT,
@@ -49,7 +50,8 @@ CREATE TABLE FileRecord (
 
 	-- Unique ID for this particular file record.
 	-- SQLite wants INTEGER so that this can function as a primary key.
-	frecid INTEGER PRIMARY KEY AUTOINCREMENT
+	-- This will autoincrement when not supplied.
+	frecid INTEGER PRIMARY KEY
 );
 
 -- Record of when a file with the indicated FileRecord was last seen
