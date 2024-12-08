@@ -122,6 +122,7 @@ def witness_date(conn, fileid) :
 
 # Be a witness to the existence of a file.
 # This is the primary, main public API implemented in this file.
+# Return the id number of the witnessed object
 #
 # Arguments:
 #   conn the sqlite3 connection
@@ -130,5 +131,6 @@ def witness_date(conn, fileid) :
 def file_witness(conn, domain, fullname):
 	frecid = get_file_record(conn, domain, fullname)
 	witness_date(conn, frecid)
+	return frecid
 
 # ------------------- That's all! End of file! ------------------
