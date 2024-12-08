@@ -105,7 +105,18 @@ def get_file_record(conn, domain, fullname):
 def witness_date(fileid) :
 	# Get the current time, right now.
 	now = datetime.now()
-	# insrec =  "," + str(now.timestamp()) + ");"
+
+	# Create a new cursor. Not very efficient but so what.
+	cursor = conn.cursor()
+
+	# Stuff a bunch of data into the DB
+	insrec = "INSERT INTO RecordWitness(frecid, witnessdate) VALUES "
+	insrec += "(" + str(fileid) + "," + str(now.timestamp()) + ");"
+	cursor.execute(insrec)
+
+	# Save (commit) the changes
+	conn.commit()
+
 
 # Be a witness to the existence of a file.
 #
