@@ -14,7 +14,16 @@ import xxhash
 # Get the xxhash of a file at the given location.
 # Returns a 64-bit int.
 def get_xxhash(filename):
-	f = open(filename, "rb")
+
+	# A typical exception is "Access denied". In this case, we return
+	# a hash of zero, and so the existence of the file will be noted,
+	# but not of it's contents.
+	# XXX FIXME: this logging should be controlled by the config file.
+	try:
+		f = open(filename, "rb")
+	except:
+		return 0
+
 	hasher = xxhash.xxh64()
 	while True:
 		chunk = f.read(4096)

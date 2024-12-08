@@ -52,7 +52,11 @@ Open Questions/Issues
 
 * What to do if "permission denied"? Current plan is to have this run
   by superuser with global filesystem visibility, but general security
-  and permissions mapping is unclear.
+  and permissions mapping is unclear. How this is logged should be
+  determined by the config file.
+
+  Current impl will log a filename, but return a hash of zero, because
+  the contents are unreadable. Directories are currently not logged.
 
 * Should there be a log of a file being searched for, and not found?
 

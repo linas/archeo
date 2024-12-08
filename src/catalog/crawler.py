@@ -12,7 +12,8 @@ from witness import file_witness, witness_db_open, witness_db_close
 def dir_witness(hostname, dirpath):
 
 	# Errors include `PermissionError: [Errno 13] Permission denied`
-	# Not sure what to do about that. RIght now, do nothing.
+	# Not sure what to do about that. Right now, do nothing.
+	# XXX FIXME: operation should be determined by the config file.
 	try:
 		dgen = os.scandir(dirpath)
 	except:
