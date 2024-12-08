@@ -49,15 +49,40 @@ Data Integrity
   the state of the file system with the database. If it detects changes
   (e.g. addition or modification of some files), it includes these changes
   in its report, so that the security administrators could check these changes.
+* [FIM File Integrity Monitor](https://github.com/Achiefs/fim)
+  Tracks any event over your files. It is capable of keeping historical data
+  of your files. It checks the filesystem changes in the background.
+  [Can FIM be adapted for Archeo?](https://github.com/Achiefs/fim/discussions/178)
 
 File characterization
 ---------------------
-* DROID
-* Apache Tika
-* C3PO
+* [Apache Tika](https://tika.apache.org/) - Content analysis toolkit.
+  Detects and extracts metadata and text from over a thousand different
+  file types (such as PPT, XLS, and PDF). Java. Active project.
+* [DROID](https://www.nationalarchives.gov.uk/information-management/manage-information/policy-process/digital-continuity/file-profiling-tool-droid/)
+  Digital Record Object Identification. File identification tool.
+  See [github source](https://github.com/digital-preservation/droid)
+  Appears to be inactive. Windows-focused, GUI. Hass command line too.
+* [C3PO](https://openpreservation.org/blogs/c3po-content-profiling-tool-preservation-analysis/)
+  content profiling tool for preservation analysis.
+  See also [github repo](https://github.com/peshkira/c3po) Abandoned.
+
 * FIDO
-* JHOVE
+* [JHOVE](https://jhove.openpreservation.org/)
+  Open source file format identification, validation & characterisation.
+  Validates a dozen different file formats to make sure they pass basic
+  integrity checks. Java. Seems stagnant, last update 2019.
 * FITS
+
+Moving Data
+-----------
+Moving data from here to there.
+* [Airbyte](https://github.com/airbytehq/airbyte) has 300+ connectors
+  to move data from here to there. Talking about "big data" mostly.
+
+* HEVO
+
+* Many others.
 
 Saving stuff
 ------------

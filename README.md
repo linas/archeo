@@ -204,4 +204,7 @@ In my current modest setup, I need these things:
   by checksum.  Find files by checksum.
 * When were these last computed? What was the matching file
   name? What was the file metadata at that time?
+* Allow file validation plugins. e.g. JHOVE, Apache Tika of DROID
+  can be used to determine if a file passes basic integrity checks.
+
 
