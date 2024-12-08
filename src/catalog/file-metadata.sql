@@ -10,6 +10,9 @@
 -- thus have an "accurate" clock, I'm not convinced UTC issues haven't
 -- mess up file tiemstamps.
 --
+-- Foreign keys will be used.
+PRAGMA foreign_keys = ON;
+--
 -- Log of a file object, including name, size, location, and content hash.
 -- None of this data is unique: there may be multiple files of the given
 -- name, but with different sizes, contents, locations.
@@ -21,13 +24,13 @@ CREATE TABLE FileRecord (
 	filepath TEXT NOT NULL,
 
 	-- Domain (hostname) Domains might also be cold storage (offline
-	   disks) or otherwise unreachable at any given point in time.
+	-- disks) or otherwise unreachable at any given point in time.
 	domain TEXT NOT NULL,
 
 	-- Protocol. Usually will be `file:` unless its `nfs:` or `ceph:`
-	   or similar access method. Note that this might lead to confusion
-	   for mounted filesystems, bind-mounts and similar.  If blank,
-	   assume local filesystem or local mount point.
+	-- or similar access method. Note that this might lead to confusion
+	-- for mounted filesystems, bind-mounts and similar.  If blank,
+	-- assume local filesystem or local mount point.
 	protocol TEXT,
 
 	-- File hash. xxh3 seems like a good choice. 64-bit.
@@ -47,27 +50,30 @@ CREATE TABLE FileRecord (
 );
 
 -- Record of when a file with the indicated FileRecord was last seen
-   and validated as having the metadata as recorded in the FileRecord
+-- and validated as having the metadata as recorded in the FileRecord
 CREATE TABLE RecordWitness (
 
 	-- File record ID, references primary key in FileRecord
 	frecid INTEGER,
-	FOREIGN KEY (frecid) REFERENCES FileRecord(frecid),
 
 	-- Date last seen and verified.
-	witnessdate INT
+	witnessdate INT,
+
+	-- Foreign keys must be last in sqlite3 table defs.
+	FOREIGN KEY (frecid) REFERENCES FileRecord(frecid)
 );
 
 -- Record of two files having identical content. They may have different
 -- timestamps, names and filepaths, but must have the same size and hash.
 CREATE TABLE IdenticalContent (
 	frecid_a INTEGER,
-	FOREIGN KEY (frecid_a) REFERENCES FileRecord(frecid),
 	frecid_b INTEGER,
-	FOREIGN KEY (frecid_b) REFERENCES FileRecord(frecid),
 
 	-- Date of comparison
-	comparedate IT
+	comparedate IT,
+
+	FOREIGN KEY (frecid_a) REFERENCES FileRecord(frecid),
+	FOREIGN KEY (frecid_b) REFERENCES FileRecord(frecid)
 );
 
 
