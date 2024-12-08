@@ -65,6 +65,28 @@ Saving stuff
   ArchiveBox is a powerful, self-hosted internet archiving solution
   to collect, save, and view websites offline.
 
+Data Quality Tools
+------------------
+"Data Quality" is a code-word for the aggregating vast amounts of data
+from giant websites. This includes data on marketing campaigns, click-thru,
+A/B testing, browsing histories, browsing patterns. The focus is on dealing
+with a fire-hose of click and mouse-movement data streaming in from thousands
+or millions of users.
+
+This is not about the quality of archival data, but about streams of fresh
+data coming in.
+
+* [6 Popular Open Source Data Quality Tools To Know in 2024: Overview, Features & Resources](https://atlan.com/open-source-data-quality-tools/)
+
+Provides a review of:
+ * Deequ
+ * dbt Core
+ * MobyDQ
+ * Great Expectations
+ * Soda Core
+ * Cucumber
+
+
 Information Management Systems
 ------------------------------
 And content management systems (CMS). Aimed at libraries, archives,
