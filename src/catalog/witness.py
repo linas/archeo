@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 #
 # witness.py
 #
@@ -105,7 +104,7 @@ def get_file_record(conn, domain, fullname):
 	return rowid
 
 # Record date of witnessing
-def witness_date(fileid) :
+def witness_date(conn, fileid) :
 	# Get the current time, right now.
 	now = datetime.now()
 
@@ -122,6 +121,7 @@ def witness_date(fileid) :
 
 
 # Be a witness to the existence of a file.
+# This is the primary, main public API implemented in this file.
 #
 # Arguments:
 #   conn the sqlite3 connection
@@ -129,15 +129,6 @@ def witness_date(fileid) :
 #   domain: the hostname
 def file_witness(conn, domain, fullname):
 	frecid = get_file_record(conn, domain, fullname)
-	print("yo freci ", frecid)
-	witness_date(frecid)
+	witness_date(conn, frecid)
 
-
-conn = sqlite3.connect('file-witness.db')
-
-r = file_witness(conn, "funny", "/tmp/xxx")
-r = file_witness(conn, "funny", "/tmp/zzz")
-
-# Close the connection
-conn.close()
-
+# ------------------- That's all! End of file! ------------------
