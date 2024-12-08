@@ -51,6 +51,7 @@ inspires developers and sustains users. So here:
 * Consolidate all my old archives and copies. They are everywhere,
   I don't even know what I have, if its any good, and its all taking up
   disk space. Where is it? What is it? Is it rotten? Is it good?
+* Provide "some level of" content integrity assurances.
 * Start small, for home users. Expand to archives, libraries. Support
   databases and complex data. Allow data forensics and data recovery.
   Do things that data archivists need. Handle medical data, business data,
@@ -148,6 +149,7 @@ can make use of existing frameworks. How would this work?
   based on those hashes. If you don't have hashes of your old data, you are
   SOL. Are there systems or frameworks for tracking file hashes and other
   file metadata? Can these be used in data archival systems?
+  Examples include Tripwire.
 
 * File explorers and (graphical) file browsers... show files. Do any of
   them provide a framework for tracking data health? A meta-system for
