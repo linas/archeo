@@ -32,9 +32,21 @@ def dir_witness(hostname, dirpath):
 def crawl_witness(conffile):
 	config = ConfigParser()
 	config.readfp(open(conffile))
+
 	unit_descr = config.get('Unit', 'Description')
 
-	print("ok", unit_descr)
+	crawl_stanza = 'Crawler';
 
-# path2 = config.get('My Section', 'path2')
-	return
+	crawl_descr = config.get(crawl_stanza, 'Description')
+
+	print("Will crawl: ", crawl_descr)
+	try:
+		domain = config.get(crawl_stanza, 'xDomain')
+	except:
+		try:
+			domain = os.uname().nodename
+		except:
+			domain = ''
+
+	print("Domain: ", domain)
+

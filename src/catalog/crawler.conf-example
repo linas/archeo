@@ -20,6 +20,7 @@
 Description=Witnessing crawler
 
 [Crawler]
+Description=Phony etc crawler
 Domain=foony
 Root=/etc
 PruneBindMounts=yes
