@@ -3,6 +3,7 @@ Tools
 Not much here yet. Directories:
 
 * `catalog`: the crawler, for populating the intial database.
+* `webui`: the main control panel.
 
 TODO
 ----
