@@ -131,6 +131,12 @@ Version 0.0.0
 There is no code here, yet. A system architecture is being imagined
 for an imaginary target audience and user.
 
+Systems Survey
+--------------
+The [Systems Survey](Systems-Survey.md) is an attempt to list and review
+related systems, or systems that could provide tools, or a framework, or
+otherwise be deployed.
+
 Questions and Ideas
 -------------------
 Ideally, the system envisioned here "plays nice" with existing systems.
@@ -178,18 +184,6 @@ can make use of existing frameworks. How would this work?
   fully foolproof, even if it is deployed on a large scale by large cloud
   providers.
 
-Piecemeal systems
------------------
-If you want to do manual repairs on a handful of items, there's a selection
-of tools. Below is a randomized list.
-
-* mp3val for finding and repairing broken MP3's, Does NOT use multiple
-  copies to create a "best version".
-
-* ddresucue for dumping corrupted disk drives.
-
-* Misc rescue tools for non-bootable systems.
-
 Design requirements
 -------------------
 In my current modest setup, I need these things:
@@ -202,6 +196,8 @@ In my current modest setup, I need these things:
   e.g. once a month? Twice a year? What was the result?
 * Checksums. Compute and store checksums. Compare file contents
   by checksum.  Find files by checksum.
+* Limit checksum collection to specific file types, similar to how
+  locate, mlocate, plocate and updatedb work.
 * When were these last computed? What was the matching file
   name? What was the file metadata at that time?
 * Allow file validation plugins. e.g. JHOVE, Apache Tika of DROID

@@ -11,7 +11,7 @@ Piecemeal data recovey tools
 ----------------------------
 * [Top 20 Best Linux Data Recovery Tools to Recover Deleted/Corrupted Files](https://www.digitalocean.com/community/tutorials/top-best-linux-data-recovery-tools)
   This list includes tools for disk recovery (dealing with failing
-  or filed disk drives with bad sectors, etc.
+  or filed disk drives with bad sectors, etc.)
   -- TestDisk - Partition and Disk Recovery Tool
   -- Mondo Rescue - Network Drive Recovery Utility
   -- ddrescue - GNU Data Recovery Utility
@@ -24,6 +24,7 @@ Piecemeal data recovey tools
   -- Scalpel - A Cross-Platform File Carving Utility
      Based on Foremost, can find/extract data from corrupted disks.
   -- [PhotoRec](https://www.cgsecurity.org/wiki/PhotoRec) - Photo Recovery Utility
+  -- mp3val - MP3 validation and recovery.
 
   Boot rescue systems-- rescue Linux systems that won't boot any more.
   -- Boot Repair - Live CD File Recovery
