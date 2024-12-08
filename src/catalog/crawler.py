@@ -38,15 +38,19 @@ def crawl_witness(conffile):
 	crawl_stanza = 'Crawler';
 
 	crawl_descr = config.get(crawl_stanza, 'Description')
-
 	print("Will crawl: ", crawl_descr)
+
 	try:
-		domain = config.get(crawl_stanza, 'xDomain')
+		domain = config.get(crawl_stanza, 'Domain')
 	except:
 		try:
 			domain = os.uname().nodename
 		except:
 			domain = ''
-
 	print("Domain: ", domain)
+
+	rootdir = config.get(crawl_stanza, 'RootDir')
+	print("Root dir: ", rootdir)
+
+	dir_witness(domain, rootdir)
 
