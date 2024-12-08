@@ -126,7 +126,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.1
+Version 0.0.2
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -135,7 +135,8 @@ migrating data from here to there, and specifically, from off my raid
 arrays and onto Ceph.
 
 The current system architecture is imaginary, and the implementation
-was started only a few hours ago. So, nothing at all. See *HOWTO* below.
+was started only a day ago. A basic filesystem crawler/cataloger is
+mostly kind of done-ish. See *HOWTO* below.
 
 Systems Survey
 --------------
@@ -224,7 +225,7 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.1 Sooo...
+This is version 0.0.2 Sooo...
 ```
 apt install python3
 apt install python3-xxhash

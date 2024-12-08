@@ -10,9 +10,10 @@
 ;              If not specified, the hostname is used.
 ;    RootDir -- Directory in which to start the crawl.
 ;              For this demo, /etc is used. This is a decent-sized
-;              directory, neither huge nor tiny, and so the crawl
-;              won't spiral out of control and finish in some reasonable
-;              amount of time.
+;              directory, usually containing a few thousand files.
+;              Crawling this won't sprial out of control, while still
+;              offering a non-trivial demo. Anyway, you might want to
+;              track files in your /etc, looking for corruption.
 ;
 ; The various Prune directives have the same meaning as in `/etc/updatedbconf`
 ;
