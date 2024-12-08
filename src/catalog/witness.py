@@ -33,7 +33,7 @@ def get_xxhash(filename):
 # This is meant to be a "private routine only", a helper for the internal
 # use of the witness, below. Thus, it has a "hard to use" but more(?)
 # efficient API
-def find_witness(conn, domain, filepath, filename, fhash, fsize) :
+def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
 
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
@@ -49,13 +49,15 @@ def find_witness(conn, domain, filepath, filename, fhash, fsize) :
 	return rowid
 
 
-# Be a witness to the existence of a file.
+# Find or create a file record. This is not the same as "witnessing"
+# the file; a witness also records the date when the file was seen.
+# This, by contrast, merely creates a tracking id for a file.
 #
 # Arguments:
 #   conn the sqlite3 connection
 #   fullname: the full file pathname
 #   domain: the hostname
-def file_witness(conn, domain, fullname):
+def get_file_record(conn, domain, fullname):
 
 	# Try to find the file in the filesystem
 	fh = pathlib.Path(fullname, follow_symlinks=False)
@@ -74,7 +76,7 @@ def file_witness(conn, domain, fullname):
 	fhash = str(get_xxhash(fullname))
 
 	# Do we already have a witness for this file? If so, return that
-	frecid = find_witness(conn, domain, filepath, filename, fhash, fsize)
+	frecid = find_file_record(conn, domain, filepath, filename, fhash, fsize)
 	if frecid:
 		return frecid
 
@@ -105,13 +107,22 @@ def witness_date(fileid) :
 	now = datetime.now()
 	# insrec =  "," + str(now.timestamp()) + ");"
 
+# Be a witness to the existence of a file.
+#
+# Arguments:
+#   conn the sqlite3 connection
+#   fullname: the full file pathname
+#   domain: the hostname
+def file_witness(conn, domain, fullname):
+	frecid = get_file_record(conn, domain, fullname)
+	print("yo freci ", frecid)
+	witness_date(frecid)
+
 
 conn = sqlite3.connect('file-witness.db')
 
 r = file_witness(conn, "funny", "/tmp/xxx")
-print("yo insert " + str(r))
 r = file_witness(conn, "funny", "/tmp/zzz")
-print("yo insert " + str(r))
 
 # Close the connection
 conn.close()
