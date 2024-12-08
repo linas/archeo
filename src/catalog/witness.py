@@ -40,7 +40,10 @@ def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
 
 	# Search for a matching witness, if any
 	sel = "SELECT frecid FROM FileRecord WHERE "
-	sel += "filename = '" + filename + "';"
+	sel += "filename = '" + filename
+	sel += "' AND filepath = '" + filepath
+	sel += "' AND filexxh = " + fhash
+	sel += " AND filesize = " + fsize + ";"
 	w = cursor.execute(sel)
 	ro = w.fetchone()
 	if not ro:
