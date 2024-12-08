@@ -36,8 +36,8 @@ CREATE TABLE FileRecord (
 	-- assume local filesystem or local mount point.
 	protocol TEXT,
 
-	-- File hash. xxh3 seems like a good choice. 64-bit.
-	filexxh3 INTEGER,
+	-- File hash. xxh seems like a good choice. 64-bit.
+	filexxh INTEGER,
 
 	-- File size, in bytes.
 	filesize INT,
