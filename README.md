@@ -228,6 +228,7 @@ HOWTO
 This is version 0.0.2 Sooo...
 ```
 apt install python3
+apt install python3-flask
 apt install python3-xxhash
 apt install sqlite3
 apt install apache2
