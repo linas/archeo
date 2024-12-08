@@ -16,6 +16,16 @@ so that "things are finable". Some normalization notes:
 * Every time a file is witnessed (i.e. seen by this software system)
   it should be logged.
 
+The file witness does *not* currently record the UID and GID of the
+file owner. The problem here is that different hosts map the UID and
+GID to different usernames, and I don't currently understand how to
+deal with this. I need the UID/GID map at the time its observed, as
+it exists on the observing host ... and not some later time.
+
+This also includes issues like rwx permissions. I don't know how to
+securely track file ownership and permissions in a multi-host setting.
+Fixing this is an important TODO, I guess.
+
 
 HOWTO
 -----
