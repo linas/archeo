@@ -6,20 +6,34 @@
 #
 
 from datetime import datetime
+import os
 import sqlite3
 
-def file_witness(conn, filename):
+# Be a witness to the existence of a file.
+#
+# Arguments:
+#   conn the sqlite3 connection
+#   fullname: the full file pathname
+#   domain: the hostname
+def file_witness(conn, domain, fullname):
+
+	# Split the full filepathname into a filepath and the filename
+	(filepath, filename) = os.path.split(fullname)
+
+	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
+	# Get the current time, right now.
 	now = datetime.now()
-	print("it is now ", now)
-	cursor.execute("INSERT INTO FileRecord(filename, filepath, domain, filesize, filecreate, recordcreate) VALUES ('somefile','/wher/ever','fanny',42,43,44);")
+	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filesize, filecreate, recordcreate) VALUES "
+	insrec += "('" + filename + "','" + filepath + "','" + domain + "',42,43," + str(now.timestamp()) + ");"
+	cursor.execute(insrec)
 
 	# Save (commit) the changes
 	conn.commit()
 
 conn = sqlite3.connect('file-witness.db')
 
-file_witness(conn, "foobar")
+file_witness(conn, "funny", "/some/thing/foobar")
 
 # Close the connection
 conn.close()
