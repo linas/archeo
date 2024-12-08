@@ -4,6 +4,7 @@
 # Crawl a file system, creating witness records for the files that are found.
 # Adhere to crawl guidelines while scanning.
 
+from configparser import ConfigParser
 import os
 from witness import file_witness, witness_db_open, witness_db_close
 
@@ -27,3 +28,13 @@ def dir_witness(hostname, dirpath):
 	for fob in os.scandir(dirpath) :
 		if fob.is_dir(follow_symlinks=False) :
 			dir_witness(hostname, fob.path)
+
+def crawl_witness(conffile):
+	config = ConfigParser()
+	config.readfp(open(conffile))
+	unit_descr = config.get('Unit', 'Description')
+
+	print("ok", unit_descr)
+
+# path2 = config.get('My Section', 'path2')
+	return

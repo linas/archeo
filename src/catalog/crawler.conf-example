@@ -9,6 +9,10 @@
 ;              subdir crawls, or network file systems.
 ;              If not specified, the hostname is used.
 ;    Root -- Directory in which to start the crawl.
+;            For this demo, /etc is used. This is a decent-sized
+;            directory, neither huge nor tiny, and so the crawl
+;            won't spiral out of control and finish in some reasonable
+;            amount of time.
 ;
 ; The various Prune directives have the same meaning as in `/etc/updatedbconf`
 ;
@@ -17,7 +21,7 @@ Description=Witnessing crawler
 
 [Crawler]
 Domain=foony
-Root=/demo
+Root=/etc
 PruneBindMounts=yes
 PruneNames=.git .bzr .hg .svn
 PrunePaths=/tmp /var/spool /media /var/lib/os-prober /var/lib/ceph /home/.ecryptfs /var/lib/schroot
