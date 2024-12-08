@@ -45,9 +45,6 @@ CREATE TABLE FileRecord (
 	-- File creation timestamp.
 	filecreate INT,
 
-	-- Date this record was created.
-	recordcreate INT,
-
 	-- Unique ID for this particular file record.
 	-- SQLite wants INTEGER so that this can function as a primary key.
 	-- This will autoincrement when not supplied.

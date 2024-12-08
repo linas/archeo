@@ -21,7 +21,8 @@ def get_xxhash(filename):
 		if not chunk:
 			break
 		hasher.update(chunk)
-	return hasher.hexdigest()
+	# return hasher.hexdigest()
+	return hasher.intdigest()
 
 # Be a witness to the existence of a file.
 #
@@ -34,9 +35,9 @@ def file_witness(conn, domain, fullname):
 	# Try to find the file in the filesystem
 	fh = pathlib.Path(fullname, follow_symlinks=False)
 
-	# Hmm. Should probably throw an error, here
+	# Throw an exception if the file doesn't exist.
 	if not fh.is_file():
-		return False
+		raise ValueError("No such file")
 
 	# Split the full filepathname into a filepath and the filename
 	(filepath, filename) = os.path.split(fullname)
@@ -44,17 +45,22 @@ def file_witness(conn, domain, fullname):
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
 
-	# Get the current time, right now.
-	now = datetime.now()
-	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filexxh, filesize, filecreate, recordcreate) VALUES "
+	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filexxh, filesize, filecreate) VALUES "
 	insrec += "('" + filename + "','" + filepath + "','" + domain + "',"
-	insrec += str(get_xxhash(fullname))
+	insrec += str(get_xxhash(fullname)) + ","
 	fstat = fh.stat()
-	insrec += str(fstat.st_size) + "," + str(fstat.st_mtime) + "," + str(now.timestamp()) + ");"
+	insrec += str(fstat.st_size) + "," + str(fstat.st_mtime) + ");"
 	cursor.execute(insrec)
 
 	# Save (commit) the changes
 	conn.commit()
+
+# Record date of witnessing
+def witness_date(fileid) :
+	# Get the current time, right now.
+	now = datetime.now()
+	# insrec =  "," + str(now.timestamp()) + ");"
+
 
 conn = sqlite3.connect('file-witness.db')
 
