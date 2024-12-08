@@ -34,7 +34,19 @@ def get_xxhash(filename):
 # use of the witness, below. Thus, it has a "hard to use" but more(?)
 # efficient API
 def find_witness(conn, domain, filepath, filename, fhash, fsize) :
-	return 0
+
+	# Create a new cursor. Not very efficient but so what.
+	cursor = conn.cursor()
+
+	# Search for a matching witness, if any
+	sel = "SELECT frecid FROM FileRecord WHERE "
+	sel += "filename = '" + filename + "';"
+	w = cursor.execute(sel)
+	ro = w.fetchone()
+	if not ro:
+		return 0
+	(rowid,) = ro
+	return rowid
 
 
 # Be a witness to the existence of a file.
@@ -60,17 +72,27 @@ def file_witness(conn, domain, fullname):
 
 	# Get the file hash
 	fhash = str(get_xxhash(fullname))
-	find_witness(conn, domain, filepath, filename, fhash, fsize)
 
+	# Do we already have a witness for this file? If so, return that
+	frecid = find_witness(conn, domain, filepath, filename, fhash, fsize)
+	if frecid:
+		return frecid
+
+	# If we are here, we create a new witness record.
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
 
 	# Stuff a bunch of data into the DB
 	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filexxh, filesize, filecreate) VALUES "
 	insrec += "('" + filename + "','" + filepath + "','" + domain + "',"
-	insrec += fhash + "," + fsize + "," + str(fstat.st_mtime) + ");"
+	insrec += fhash + "," + fsize + "," + str(fstat.st_mtime) + ")"
+	insrec += " RETURNING frecid;"
 	cursor.execute(insrec)
-	rowid = cursor.lastrowid
+
+	# We could get the rowid from the cursor.lastrowid
+	# but RETURNING gives me warm fuzzies.
+	# rowid = cursor.lastrowid
+	(rowid,) = cursor.fetchone()
 
 	# Save (commit) the changes
 	conn.commit()
