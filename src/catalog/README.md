@@ -8,6 +8,12 @@ to exclude specific file-types, directories or file-system types from
 the filesystem crawl. Different config files can be given for differet
 crawls.
 
+Issues
+------
+The crawler is *slow*. The primary reason for this appears that the
+update of the database is slow. It seems to be bottlenecked on writes.
+Its also possible that inappropriate indexing is creating issues.
+
 API Design
 ----------
 Currently uses SQLite3 for storage. Uses a closure-like idea, so that

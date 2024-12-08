@@ -46,6 +46,16 @@ def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
 
+	# Avoid computing the filehash if we already know that the
+	# the file is not in the catalog. This is the most common case,
+	# when cataloging brand-new, previously-unseen files.
+	sel = "SELECT frecid FROM FileRecord WHERE "
+	sel += "filename = '" + filename + "';"
+	w = cursor.execute(sel)
+	ro = w.fetchone()
+	if not ro:
+		return 0
+
 	# Search for a matching witness, if any
 	sel = "SELECT frecid FROM FileRecord WHERE "
 	sel += "filename = '" + filename
