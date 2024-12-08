@@ -9,7 +9,7 @@ import os
 from witness import file_witness, witness_db_open, witness_db_close
 
 # Crawl the indicated directory
-def dir_witness(hostname, dirpath):
+def dir_witness(config, dirpath):
 
 	# Errors include `PermissionError: [Errno 13] Permission denied`
 	# Not sure what to do about that. Right now, do nothing.
@@ -18,6 +18,8 @@ def dir_witness(hostname, dirpath):
 		dgen = os.scandir(dirpath)
 	except:
 		return
+
+	hostname = config['Domain']
 
 	# Files first
 	for fob in dgen :
@@ -28,30 +30,39 @@ def dir_witness(hostname, dirpath):
 	# Directories next. Handle this with a recursive call.
 	for fob in os.scandir(dirpath) :
 		if fob.is_dir(follow_symlinks=False) :
-			dir_witness(hostname, fob.path)
+			dir_witness(config, fob.path)
 
+# Perform a crawl, as specified in the config file.
 def crawl_witness(conffile):
 	config = ConfigParser()
 	config.readfp(open(conffile))
 
+	# Prit info about the crawl
 	unit_descr = config.get('Unit', 'Description')
 
 	crawl_stanza = 'Crawler';
+	crawl_cfg = config[crawl_stanza]
 
-	crawl_descr = config.get(crawl_stanza, 'Description')
+	crawl_descr = crawl_cfg['Description']
 	print("Will crawl: ", crawl_descr)
 
+	# Set the default domain to the hostname, if it's
+	# not specified.
 	try:
-		domain = config.get(crawl_stanza, 'Domain')
+		domain = crawl_cfg['Domain']
 	except:
 		try:
 			domain = os.uname().nodename
 		except:
 			domain = ''
+	crawl_cfg['Domain'] = domain
 	print("Domain: ", domain)
 
-	rootdir = config.get(crawl_stanza, 'RootDir')
+	# Get the location to start the crawl.
+	rootdir = crawl_cfg['RootDir']
 	print("Root dir: ", rootdir)
 
-	dir_witness(domain, rootdir)
+	# Do the heavy lifting
+	dir_witness(crawl_cfg, rootdir)
 
+# ------------------ Enf of File. That's all, folks! ----------------

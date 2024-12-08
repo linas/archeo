@@ -25,6 +25,13 @@ text formatting.
 The crawl control loosely resembles the `/etc/updatedb.conf` file used
 by the `locate`, `slocate` and `plocate` file utilities.
 
+File Guide
+----------
+* crawler.conf-example: An example config file.
+* file-witness.sql: database definition
+* witness.py: code that can witness one file.
+* crawler.py: code that crawls the filesystem
+
 Table Design
 ------------
 SQL tables need to hold this info, and they need to be normalized
