@@ -8,3 +8,10 @@ so that "things are finable". Some normalization notes:
 
 * There may be multiple files with the same content hash. They
   may be in different locations.
+
+* There may be multiple files with the same name, but with
+  different metadata (file creation timestamp, file size,
+  directory location
+
+* Every time a file is witnessed (i.e. seen by this software system)
+  it should be loged.
