@@ -12,7 +12,8 @@ import pathlib
 import sqlite3
 import xxhash
 
-# Get the xxhash of the path at given location.
+# Get the xxhash of a file at the given location.
+# Returns a 64-bit int.
 def get_xxhash(filename):
 	f = open(filename, "rb")
 	hasher = xxhash.xxh64()
@@ -23,6 +24,18 @@ def get_xxhash(filename):
 		hasher.update(chunk)
 	# return hasher.hexdigest()
 	return hasher.intdigest()
+
+# Attempt to locate a known file record, based on the filename, filepath
+# size and hash. This does not guarantee that its "really the same file".
+# because there could be hash collisions, because we're not using crypto-
+# strong hashes. But I think that's OK, for present purposes.
+#
+# This is meant to be a "private routine only", a helper for the internal
+# use of the witness, below. Thus, it has a "hard to use" but more(?)
+# efficient API
+def find_witness(conn, domain, filepath, filename, fhash, fsize) :
+	return 0
+
 
 # Be a witness to the existence of a file.
 #
@@ -42,18 +55,27 @@ def file_witness(conn, domain, fullname):
 	# Split the full filepathname into a filepath and the filename
 	(filepath, filename) = os.path.split(fullname)
 
+	fstat = fh.stat()
+	fsize = str(fstat.st_size)
+
+	# Get the file hash
+	fhash = str(get_xxhash(fullname))
+	find_witness(conn, domain, filepath, filename, fhash, fsize)
+
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
 
+	# Stuff a bunch of data into the DB
 	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filexxh, filesize, filecreate) VALUES "
 	insrec += "('" + filename + "','" + filepath + "','" + domain + "',"
-	insrec += str(get_xxhash(fullname)) + ","
-	fstat = fh.stat()
-	insrec += str(fstat.st_size) + "," + str(fstat.st_mtime) + ");"
+	insrec += fhash + "," + fsize + "," + str(fstat.st_mtime) + ");"
 	cursor.execute(insrec)
+	rowid = cursor.lastrowid
 
 	# Save (commit) the changes
 	conn.commit()
+
+	return rowid
 
 # Record date of witnessing
 def witness_date(fileid) :
@@ -64,9 +86,10 @@ def witness_date(fileid) :
 
 conn = sqlite3.connect('file-witness.db')
 
-file_witness(conn, "funny", "/tmp/xxx")
-file_witness(conn, "funny", "/tmp/zzz")
-file_witness(conn, "funny", "/tmp/www")
+r = file_witness(conn, "funny", "/tmp/xxx")
+print("yo insert " + str(r))
+r = file_witness(conn, "funny", "/tmp/zzz")
+print("yo insert " + str(r))
 
 # Close the connection
 conn.close()
