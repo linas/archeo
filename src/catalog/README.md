@@ -73,6 +73,8 @@ Open Questions/Issues
 
 * Should there be a log of a file being searched for, and not found?
 
+* Currently, links are never followed. SHould this be configurable?
+
 
 HOWTO
 -----

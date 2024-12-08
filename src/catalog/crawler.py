@@ -21,16 +21,24 @@ def dir_witness(config, dirpath):
 
 	hostname = config['Domain']
 
-	# Files first
+	# Files first.
 	for fob in dgen :
 		if fob.is_file(follow_symlinks=False) :
 			fid = file_witness(hostname, fob.path)
 			print("reco", fid, fob.path)
 
 	# Directories next. Handle this with a recursive call.
+	# Prune directory name patterns. Yes, someday this could
+	# be a regex. Not today.
+	prunenames = config['PruneNames'].split()
+	prunepaths = config['PrunePaths'].split()
+
 	for fob in os.scandir(dirpath) :
 		if fob.is_dir(follow_symlinks=False) :
-			dir_witness(config, fob.path)
+			if not fob.name in prunenames and not fob.path in prunepaths :
+				dir_witness(config, fob.path)
+			else:
+				print("skip dir ", fob.path)
 
 # Perform a crawl, as specified in the config file.
 def crawl_witness(conffile):
