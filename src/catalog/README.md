@@ -14,4 +14,12 @@ so that "things are finable". Some normalization notes:
   directory location
 
 * Every time a file is witnessed (i.e. seen by this software system)
-  it should be loged.
+  it should be logged.
+
+
+HOWTO
+-----
+Do this to get started:
+```
+cat file-witness.sql | sqlite3 file-witness.db
+```

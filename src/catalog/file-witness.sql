@@ -1,8 +1,11 @@
 --
--- File metadata
+-- File metadata witness
+--
+-- Make a record of having seen some file at some point in time, having
+-- some associated data, such as a location, size and content hash.
 --
 -- To create a new database, simply say:
---    cat file-metadata.sql | sqlite3 file-metadata.db
+--    cat file-witness.sql | sqlite3 file-witness.db
 --
 -- Dates will be stored as Unix timestampes (seconds since Jan 1, 1970)
 -- This is because unix files conventionally have unix timestamps, so

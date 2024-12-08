@@ -126,10 +126,16 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.0
+Version 0.0.1
 -------------
-There is no code here, yet. A system architecture is being imagined
-for an imaginary target audience and user.
+Based on a few days of searching the net, I can't find anything even
+vaguely close to what I want. And so, perhaps stupidly, I've started
+writing a system. That is because this is kind of a blocker for my
+migrating data from here to there, and specifically, from off my raid
+arrays and onto Ceph.
+
+The current system architecture is imaginary, and the implementation
+was started only a few hours ago. So, nothing at all. See *HOWTO* below.
 
 Systems Survey
 --------------
@@ -218,10 +224,10 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.0 Sooo...
+This is version 0.0.1 Sooo...
 ```
 apt install python3
 apt install python3-xxhash
 apt install sqlite3
 ```
-
+Then go to `src/catalog` and review the README there.
