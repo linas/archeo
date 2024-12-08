@@ -145,7 +145,10 @@ can make use of existing frameworks. How would this work?
 
 * What do archivists and digital librarians do today? If they import
   a new data set, do they scrub it? How do they track multiple copies
-  of what they have?
+  of what they have? Short answer: no, they do not. If they do, they
+  do not talk about it, and it is not mentioned on their project
+  websites. The assumption is, I assume, that they can trust their
+  storage systems to not screw up.
 
 * How do backup systems keep track of what's where? When the last backup
   was made? If the backup is corrupted? What are the existing open source
@@ -155,7 +158,7 @@ can make use of existing frameworks. How would this work?
   based on those hashes. If you don't have hashes of your old data, you are
   SOL. Are there systems or frameworks for tracking file hashes and other
   file metadata? Can these be used in data archival systems?
-  Examples include Tripwire.
+  Examples include Tripwire and FIM (File Integrity Monitor).
 
 * File explorers and (graphical) file browsers... show files. Do any of
   them provide a framework for tracking data health? A meta-system for
@@ -203,4 +206,20 @@ In my current modest setup, I need these things:
 * Allow file validation plugins. e.g. JHOVE, Apache Tika of DROID
   can be used to determine if a file passes basic integrity checks.
 
+Tech selection
+--------------
+* Should be possible for ordinary coders to modify and extend. Thus,
+  python seems like a reasonable choice. Java seems overkill/awkward,
+  and rust not popular enough. (and rust requires compiling).
+* Data has to be kept somewhere. Ideally, configurable, in some
+  database. Postgres, MariaDB and SQLite all seem viable. The first
+  two feel like overkill. SQLite seems small, simple, easy for now.
+* High performance is not a requirement. High usability is.
+
+HOWTO
+-----
+This is version 0.0.0 Sooo...
+```
+apt install python3
+```
 
