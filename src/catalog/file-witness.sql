@@ -15,7 +15,17 @@
 --
 -- Foreign keys will be used.
 PRAGMA foreign_keys = ON;
---
+
+-- DB version. I anticipate future changes to the DB, and I anticipate
+-- that rescanning the file system to rebuild the DB may not be viable,
+-- e.g. for cold storage. Thus, data may need to be migrated to a later
+-- version. This records the version number of the file-witnessing tableset.
+CREATE TABLE Version (
+	dbname TEXT NOT NULL,
+	version INTEGER
+);
+INSERT INTO Version (dbname, version) VALUES ('FileWitness', 1);
+
 -- Log of a file object, including name, size, location, and content hash.
 -- None of this data is unique: there may be multiple files of the given
 -- name, but with different sizes, contents, locations.
