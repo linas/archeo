@@ -4,16 +4,18 @@
 #
 # Do stuff.
 
+import os
 import sqlite3
-from witness import file_witness
+from witness import file_witness, witness_db_open, witness_db_close
 
-conn = sqlite3.connect('file-witness.db')
+hostname = "phony"
 
-r = file_witness(conn, "funny", "/tmp/xxx")
+witness_db_open('file-witness.db')
+
+r = file_witness(hostname, "/tmp/xxx")
 print("I got fileid ", r)
-r = file_witness(conn, "funny", "/tmp/zzz")
+r = file_witness("funny", "/tmp/zzz")
 print("I got fileid ", r)
 
 # Close the connection
-conn.close()
-
+witness_db_close()

@@ -41,6 +41,7 @@ def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
 	sel = "SELECT frecid FROM FileRecord WHERE "
 	sel += "filename = '" + filename
 	sel += "' AND filepath = '" + filepath
+	sel += "' AND domain = '" + domain
 	sel += "' AND filexxh = " + fhash
 	sel += " AND filesize = " + fsize + ";"
 	w = cursor.execute(sel)
@@ -119,16 +120,33 @@ def witness_date(conn, fileid) :
 	# Save (commit) the changes
 	conn.commit()
 
+# functions above are "private" to this module
+# -------------------------------------------------------------------------
+#
+# DB connection as global. This should be a per-thread global,
+# but multi-threading is low on te priority list right now.
+# Basically, the connection will be a part of the DB context
+# I don't want to drag this through the whole API just to get
+# at the context. Think of this as a (lisp) closure.
+global conn;
+
+def witness_db_open(dbname):
+	global conn
+	conn = sqlite3.connect(dbname)
+
+def witness_db_close():
+	global conn
+	conn.close()
 
 # Be a witness to the existence of a file.
 # This is the primary, main public API implemented in this file.
 # Return the id number of the witnessed object
 #
 # Arguments:
-#   conn the sqlite3 connection
 #   fullname: the full file pathname
 #   domain: the hostname
-def file_witness(conn, domain, fullname):
+def file_witness(domain, fullname):
+	global con
 	frecid = get_file_record(conn, domain, fullname)
 	witness_date(conn, frecid)
 	return frecid
