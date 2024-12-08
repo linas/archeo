@@ -1,12 +1,13 @@
 #
-# dir-scan.py
+# crawler.py
 #
-# Perform a scan of a directory.
+# Crawl a file system, creating witness records for the files that are found.
 # Adhere to crawl guidelines while scanning.
 
 import os
 from witness import file_witness, witness_db_open, witness_db_close
 
+# Crawl the indicated directory
 def dir_witness(hostname, dirpath):
 
 	# Errors include `PermissionError: [Errno 13] Permission denied`

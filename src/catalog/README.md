@@ -16,6 +16,9 @@ future changes could use other DB's, as desired.
 The crawler control file uses conventional Unix-style stanza-key-value
 text formatting.
 
+The crawl control loosely resembles the `/etc/updatedb.conf` file used
+by the `locate`, `slocate` and `plocate` file utilities.
+
 Table Design
 ------------
 SQL tables need to hold this info, and they need to be normalized
