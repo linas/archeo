@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 #
-# main_panel.py
+# __main__.py
 #
 # Main control panel for Archeo
 #

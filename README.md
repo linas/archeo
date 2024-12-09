@@ -236,10 +236,12 @@ apt install python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
-As user:
+As user, start the webserver app. This uses the `gunicorn` wsgi server
+for python, and runs a server listening on port `5080`. Connect to this
+with `http://example.com:5080/` or perhaps `http://localhost:5080/`.
 ```
 python3 -m venv .venv
 . .venv/bin/activate
-pip install src
+gunicorn -w 4 -b 0.0.0.0:5080 src.webui.main_panel
 ```
 Then go to `src/catalog` and review the README there.
