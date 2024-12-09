@@ -64,6 +64,10 @@ def search_form():
 def dupe_files():
 	return show_dup_files()
 
+@app.route('/filename.detail', methods=['GET'])
+def filename_detail():
+	return "a ha ha ha"
+
 @app.route('/', methods=['POST'])
 def blarg_post():
 	global foobar
