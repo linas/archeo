@@ -11,12 +11,8 @@ from flask import render_template
 app = Flask(__name__)
 
 @app.route('/')
-def ola():
-	return "hello worrld"
-
-#@app.route('/')
-#def bonkers_form():
-#	return render_template("index.html")
+def bonkers_form():
+	return render_template("index.html")
 
 @app.route('/', methods=['POST'])
 def blarg_post():
