@@ -12,7 +12,7 @@ from flask import request
 from flask import render_template
 
 # XXX FIXME Super ultra mega Hack alert!
-# My friend Mario likes to drive a super ultra mega car.
+# My friend Dario likes to drive a super ultra mega car.
 # Drives too fast, drives to flash, doesn't care about the crash.
 # The import of flask_tables (in various other files) fails if this
 # is not added to the system path. Beats me why. Clearly something is
