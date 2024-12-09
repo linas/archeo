@@ -66,16 +66,14 @@ def dupe_files():
 
 @app.route('/filename.detail', methods=['GET'])
 def filename_detail():
-	return "a ha ha ha"
+	return "a ha ha ha so you want " + request.args['filename']
 
 @app.route('/', methods=['POST'])
 def blarg_post():
-	global foobar
-	bop = op()
 
 	foo = request.form['foo']
 	bar = request.form['bar']
-	return "You typed " + foo + " and " + bar + " and foobar=" + str(foobar) + bop
+	return "You typed " + foo + " and " + bar
 
 #if __name__ == "__main__":
 #    server.run(host='0.0.0.0', port=5080)
