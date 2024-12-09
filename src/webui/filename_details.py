@@ -42,4 +42,5 @@ def show_filename_details(filename):
 			size=rec[2], date=rec[3], hash=hex(xxhash), frecid=rec[5]))
 
 	ftable = FilenameDetailsTable(filelist)
-	return render_template("filename-details.html", recordcount=rowcount, filetable=ftable)
+	return render_template("filename-details.html", filename=filename,
+		recordcount=rowcount, filetable=ftable)
