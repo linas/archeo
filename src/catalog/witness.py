@@ -49,21 +49,16 @@ def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
 	# Avoid computing the filehash if we already know that the
 	# the file is not in the catalog. This is the most common case,
 	# when cataloging brand-new, previously-unseen files.
-	sel = "SELECT frecid FROM FileRecord WHERE "
-	sel += "filename = '" + filename + "';"
-	w = cursor.execute(sel)
+	sel = "SELECT frecid FROM FileRecord WHERE filename = ?;"
+	w = cursor.execute(sel, (filename,))
 	ro = w.fetchone()
 	if not ro:
 		return 0
 
 	# Search for a matching witness, if any
-	sel = "SELECT frecid FROM FileRecord WHERE "
-	sel += "filename = '" + filename
-	sel += "' AND filepath = '" + filepath
-	sel += "' AND domain = '" + domain
-	sel += "' AND filexxh = " + fhash
-	sel += " AND filesize = " + fsize + ";"
-	w = cursor.execute(sel)
+	sel = "SELECT frecid FROM FileRecord WHERE filename = ? AND "
+	sel += "filepath = ? AND domain = ? AND filexxh = ? AND filesize = ?;"
+	w = cursor.execute(sel, (filename, filepath, domain, fhash, fsize))
 	ro = w.fetchone()
 	if not ro:
 		return 0
@@ -107,11 +102,10 @@ def get_file_record(conn, domain, fullname):
 	cursor = conn.cursor()
 
 	# Stuff a bunch of data into the DB
-	insrec = "INSERT INTO FileRecord(filename, filepath, domain, filexxh, filesize, filecreate) VALUES "
-	insrec += "('" + filename + "','" + filepath + "','" + domain + "',"
-	insrec += fhash + "," + fsize + "," + str(fstat.st_mtime) + ")"
-	insrec += " RETURNING frecid;"
-	cursor.execute(insrec)
+	insrec = "INSERT INTO FileRecord "
+	insrec += "(filename, filepath, domain, filexxh, filesize, filecreate) "
+	insrec += "VALUES (?, ?, ?, ?, ?, ?) RETURNING frecid;"
+	cursor.execute(insrec, (filename, filepath, domain, fhash, fsize, fstat.st_mtime))
 
 	# We could get the rowid from the cursor.lastrowid
 	# but RETURNING gives me warm fuzzies.
@@ -132,9 +126,8 @@ def witness_date(conn, fileid) :
 	cursor = conn.cursor()
 
 	# Stuff a bunch of data into the DB
-	insrec = "INSERT INTO RecordWitness(frecid, witnessdate) VALUES "
-	insrec += "(" + str(fileid) + "," + str(now.timestamp()) + ");"
-	cursor.execute(insrec)
+	insrec = "INSERT INTO RecordWitness(frecid, witnessdate) VALUES (?, ?);"
+	cursor.execute(insrec, (fileid, now.timestamp()))
 
 	# Save (commit) the changes
 	conn.commit()
