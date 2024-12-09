@@ -31,7 +31,14 @@ def get_xxhash(filename):
 			break
 		hasher.update(chunk)
 	# return hasher.hexdigest()
-	return hasher.intdigest()
+
+	# Half the time, the sign bit will be set. But sqlite3 chokes
+	# on this case. So explictly convert to signed 64-bit
+	uinthash = hasher.intdigest()
+	if uinthash > 2**63-1 :
+		return uinthash - 2**64
+	else :
+		return uinthash
 
 # Attempt to locate a known file record, based on the filename, filepath
 # size and hash. This does not guarantee that its "really the same file".
