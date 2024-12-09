@@ -10,18 +10,21 @@ from flask import render_template
 
 app = Flask(__name__)
 
+# Main application page. Includes various search options
 @app.route('/')
-def bonkers_form():
+def search_form():
 	return render_template("index.html")
+
+@app.route('/dup-filenames', methods=['POST'])
+def dupe_files():
+	return render_template("file-list.html")
 
 @app.route('/', methods=['POST'])
 def blarg_post():
+
 	foo = request.form['foo']
 	bar = request.form['bar']
-	if foo == 'bla' :
-		return "<h1>Binkers ...</h1>"
-	else :
-		return "<h1>Bonkers !</h1>"
+	return "You typed " + foo + " and " + bar
 
 #if __name__ == "__main__":
 #    server.run(host='0.0.0.0', port=5080)
