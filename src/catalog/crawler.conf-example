@@ -2,7 +2,7 @@
 ; crawler.conf-example
 ;
 ; This is an example crawler config file. Edit as desired to configure
-; the file crawl. Notable config paramters:
+; the file crawl. Notable config parameters:
 ;    Domain -- The domain that will be recorded in the crawl records.
 ;              Typically this is the hostname, but it may also be any
 ;              custom name, used to identify cold storage, limited

@@ -15,7 +15,7 @@ Apache install would require, and thus can get you up and running
 more quickly.
 
 A long-term goal is to allow custom modules written e.g. in rust or java
-and eventually, there has to be accomodation for that. Just not today.
+and eventually, there has to be accommodation for that. Just not today.
 
 Alternative frameworks and servers:
 * Flask -- ideal for python microservices, i.e. projects like this.

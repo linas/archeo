@@ -1,7 +1,7 @@
 
 Archeo -- Data Recovery
 =======================
-Repairing lost, corrupted, damaged data. The Archivist's Freind.
+Repairing lost, corrupted, damaged data. The Archivist's Friend.
 Data Hoarders Welcome.  Data Archeology. Forensics. Longevity.
 A Unified View of Data.
 
@@ -102,7 +102,7 @@ like some way of double-checking.
 
 This project is for the finicky and technically sophisticated user
 (hobbyist?) who runs a Linux desktop or three at home, and worries about
-their data. Perhaps one day, this project wiil be useful to archivists
+their data. Perhaps one day, this project will be useful to archivists
 or librarians. Maybe even scientists or business owners. But lets not
 get ahead of ourselves. Let's take a closer look.
 
@@ -191,7 +191,7 @@ can make use of existing frameworks. How would this work?
   drives and controllers are inadequate (because that's the setup I used
   for the last few decades, and now I have data corruption.) Stacked
   combinations of LVM, Btrfs, XFS are not obviously better. Ceph is a
-  distribued storage system. The very first time I used it, I found data
+  distributed storage system. The very first time I used it, I found data
   corruption errors. Perhaps Ceph is to blame, perhaps a disk controller
   is to blame.  Maybe a cosmic ray hit the system during file copy. Ceph
   is aimed at large clusters, not small users. Fully debugged if you have

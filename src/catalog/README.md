@@ -50,7 +50,7 @@ so that "things are findable". Some notes about normalization:
   directory location)
 
 * Every time a file is witnessed (i.e. seen by this software system)
-  it should be logged. This is doen with the RecordWitness table.
+  it should be logged. This is done with the RecordWitness table.
 
 Open Questions/Issues
 ---------------------

@@ -2,13 +2,13 @@ Tools
 -----
 Not much here yet. Directories:
 
-* `catalog`: the crawler, for populating the intial database.
+* `catalog`: the crawler, for populating the initial database.
 * `webui`: the main control panel.
 
 TODO
 ----
 Some general ideas.
-* If a directory has files with hash miscompares, and that diretory
+* If a directory has files with hash miscompares, and that directory
   is under git control, then perhaps git can offer an explanation of
   what is happening to that file.
 

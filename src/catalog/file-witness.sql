@@ -11,7 +11,7 @@
 -- This is because unix files conventionally have unix timestamps, so
 -- no conversion is required. Although most machines will run NTP, and
 -- thus have an "accurate" clock, I'm not convinced UTC issues haven't
--- mess up file tiemstamps.
+-- mess up file timestamps.
 --
 -- Foreign keys will be used.
 PRAGMA foreign_keys = ON;

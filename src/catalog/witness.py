@@ -143,7 +143,7 @@ def witness_date(conn, fileid) :
 # -------------------------------------------------------------------------
 #
 # DB connection as global. This should be a per-thread global,
-# but multi-threading is low on te priority list right now.
+# but multi-threading is low on the priority list right now.
 # Basically, the connection will be a part of the DB context
 # I don't want to drag this through the whole API just to get
 # at the context. Think of this as a (lisp) closure.
