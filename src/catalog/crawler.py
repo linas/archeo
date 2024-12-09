@@ -30,8 +30,17 @@ def dir_witness(config, dirpath):
 	# Directories next. Handle this with a recursive call.
 	# Prune directory name patterns. Yes, someday this could
 	# be a regex. Not today.
-	prunenames = config['PruneNames'].split()
-	prunepaths = config['PrunePaths'].split()
+
+	# If config file doesn't specify these, just ignore.
+	try:
+		prunenames = config['PruneNames'].split()
+	except:
+		prunenames = []
+
+	try:
+		prunepaths = config['PrunePaths'].split()
+	except:
+		prunepaths = []
 
 	for fob in os.scandir(dirpath) :
 		if fob.is_dir(follow_symlinks=False) :
