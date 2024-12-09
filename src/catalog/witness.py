@@ -83,6 +83,12 @@ def get_file_record(conn, domain, fullname):
 	if not fh.is_file():
 		raise ValueError("No such file")
 
+	# On Linux, filenames are just "a bunch of bytes", maybe
+	# an iso8859 encoding, maybe utf8, maybe microsoft-crazy.
+	# The database can only deal with utf-8 strings, so convert
+	# byte craziness to utf8. "encode()" is the function to do this.
+	fullname = fullname.encode('utf8', 'surrogateescape')
+
 	# Split the full filepathname into a filepath and the filename
 	(filepath, filename) = os.path.split(fullname)
 
