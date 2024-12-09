@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 #
-# __main__.py
+# home_page.py
 #
 # Main control panel for Archeo
 #
@@ -12,7 +12,8 @@ from flask import request
 from flask import render_template
 
 # The dot in front of the name searches the current dir.
-from .query import query_db_open, query_db_close, find_duplicated_names
+from .query import query_db_open, query_db_close
+from .dup_files import show_dup_files
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -52,12 +53,7 @@ def search_form():
 # Find duplicated filenames
 @app.route('/dup-filenames', methods=['POST'])
 def dupe_files():
-	hm = find_duplicated_names()
-	filecount = len(hm.fetchall())
-	print("oh yeah", filecount)
-	#for rec in hm:
-	#	print("donkers", rec)
-	return render_template("file-list.html", filecount=filecount)
+	return show_dup_files()
 
 @app.route('/', methods=['POST'])
 def blarg_post():
