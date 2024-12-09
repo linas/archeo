@@ -75,7 +75,7 @@ There should be ways of exploring, finding, searching, discovering.
 Knowing who you are, by knowing what you remember. Living organisms
 have eyes for looking, for seeing. An AI/AGI needs sensory organs,
 too, but for "seeing" collections of data. For finding and exploring
-data, for living in a world not of tiger hiding in grass and rocks
+data, for living in a world not of tigers hiding in grass and rocks
 falling from cliffs, but archives of social media posts.
 
 Is this kind of software useful?
@@ -135,7 +135,7 @@ migrating data from here to there, and specifically, from off my raid
 arrays and onto Ceph.
 
 The current system architecture is imaginary, and the implementation
-was started only a day ago. A basic filesystem crawler/cataloger has
+was started only two days ago. A basic filesystem crawler/cataloger has
 been set up, and it works. A web UI has been prototyped.  See the
 *HOWTO* below.
 
@@ -143,7 +143,8 @@ Systems Survey
 --------------
 The [Systems Survey](Systems-Survey.md) is an attempt to list and review
 related systems, or systems that could provide tools, or a framework, or
-otherwise be deployed.
+otherwise be deployed. Anyone out there care to move this page to the
+project wiki?
 
 Questions and Ideas
 -------------------
@@ -187,13 +188,14 @@ can make use of existing frameworks. How would this work?
 
 * How does one prevent damage, moving forward, into the future?
   Clearly, off-the-shelf mdraid+ext4fs plus consumer-grade PC's, disk
-  drives and controllers are inadequate. Stacked combinations of
-  LVM, Btrfs, XFS are not obviously better. Ceph is a distribued
-  storage system. The very first time I used it, I found data corruption
-  errors. Perhaps Ceph is to blame, perhaps a disk controller is to blame.
-  Maybe a cosmic ray hit the system during file copy. It's also not
-  fully foolproof, even if it is deployed on a large scale by large cloud
-  providers.
+  drives and controllers are inadequate (because that's the setup I used
+  for the last few decades, and now I have data corruption.) Stacked
+  combinations of LVM, Btrfs, XFS are not obviously better. Ceph is a
+  distribued storage system. The very first time I used it, I found data
+  corruption errors. Perhaps Ceph is to blame, perhaps a disk controller
+  is to blame.  Maybe a cosmic ray hit the system during file copy. Ceph
+  is aimed at large clusters, not small users. Fully debugged if you have
+  1000 OSD's on 100 hosts. But not so much if you have 3 OSD's on two hosts.
 
 Design requirements
 -------------------
@@ -211,14 +213,15 @@ In my current modest setup, I need these things:
   locate, mlocate, plocate and updatedb work.
 * When were these last computed? What was the matching file
   name? What was the file metadata at that time?
-* Allow file validation plugins. e.g. JHOVE, Apache Tika of DROID
+* Allow file validation plugins. e.g. JHOVE, Apache Tika or DROID
   can be used to determine if a file passes basic integrity checks.
 
 Tech selection
 --------------
-* Should be possible for ordinary coders to modify and extend. Thus,
-  python seems like a reasonable choice. Java seems overkill/awkward,
-  and rust not popular enough. (and rust requires compiling).
+* Should be possible for ordinary coders to modify and extend this
+  project. Thus, python seems like a reasonable choice. Java seems
+  overkill/awkward, and rust not popular enough. (And rust requires
+  compiling).
 * Data has to be kept somewhere. Ideally, configurable, in some
   database. Postgres, MariaDB and SQLite all seem viable. The first
   two feel like overkill. SQLite seems small, simple, easy for now.
@@ -230,16 +233,13 @@ This is version 0.0.3 Not much here yet.
 
 As root:
 ```
-apt install python3
-apt install python3-flask
-apt install python3-venv
-apt install python3-xxhash
+apt install python3 python3-flask python3-venv python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
 There are two parts to this app: a crawler, with populates a database,
 and a web user interface, which can be used to examine what was found.
 
-Go to `src/catalog` and learn how to run the crawler (read the README file).
+Go to [`src/catalog`](src/catalog) and learn how to run the crawler (read the README file).
 
-Go to `src/webui` and learn how to run the web interface.
+Go to [`src/webui`](src/webui) and learn how to run the web interface.
