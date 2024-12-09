@@ -12,7 +12,7 @@ from flask import request
 from flask import render_template
 
 # The dot in front of the name searches the current dir.
-# from .query import config_db
+from .query import query_db_open, query_db_close
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -30,6 +30,7 @@ def config_db(conffile) :
 	db_stanza = config['WitnessDB']
 	dbfile = db_stanza['Location']
 	print("Will use db located at: " + dbfile)
+	query_db_open(dbfile)
 
 # Perform initialization. This is called once per worker thread.
 # Some of the init does not require per-worker config
