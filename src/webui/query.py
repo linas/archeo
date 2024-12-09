@@ -1,9 +1,8 @@
 #
-# __init__.py
+# query.py
 #
-# Init script for the webui for Archeo.
+# Database query shim for the webui for Archeo.
 
-foobar=42
 
-def op() :
-	return "donk"
+def stuff() :
+	return

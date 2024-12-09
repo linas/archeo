@@ -4,13 +4,41 @@
 #
 # Main control panel for Archeo
 #
+import sys, errno
+from configparser import ConfigParser
+
 from flask import Flask
 from flask import request
 from flask import render_template
 
-from .query import op, foobar
+# The dot in front of the name searches the current dir.
+# from .query import config_db
 
-app = Flask(__name__)
+# Read config file to discover DB location.
+def config_db(conffile) :
+	global done_setup
+	print("you heard that")
+
+	config = ConfigParser()
+
+	try:
+		config.readfp(open(conffile))
+	except:
+		print("Fatal error: cannot find config file")
+		sys.exit(errno.EINTR);
+
+	db_stanza = crawl_cfg['WitnessDB']
+
+	dbfile = db_stanza['Location']
+
+
+def create_app() :
+	app = Flask(__name__)
+
+	config_db("webui.conf")
+	return app
+
+app = create_app()
 
 # Main application page. Includes various search options
 @app.route('/')
