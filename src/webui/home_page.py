@@ -17,25 +17,26 @@ from flask import render_template
 # Read config file to discover DB location.
 def config_db(conffile) :
 	global done_setup
-	print("you heard that")
 
+	print("Looking for WebUI config file at: " + conffile)
 	config = ConfigParser()
 
 	try:
 		config.readfp(open(conffile))
 	except:
-		print("Fatal error: cannot find config file")
+		print("Fatal error: cannot find config file: " + conffile)
 		sys.exit(errno.EINTR);
 
-	db_stanza = crawl_cfg['WitnessDB']
-
+	db_stanza = config['WitnessDB']
 	dbfile = db_stanza['Location']
+	print("Will use db located at: " + dbfile)
 
-
+# Perform initialization. This is called once per worker thread.
+# Some of the init does not require per-worker config
 def create_app() :
 	app = Flask(__name__)
 
-	config_db("webui.conf")
+	config_db("./src/webui/webui.conf")
 	return app
 
 app = create_app()
