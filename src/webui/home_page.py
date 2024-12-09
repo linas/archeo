@@ -14,7 +14,7 @@ from flask import render_template
 # XXX FIXME Super ultra mega Hack alert!
 # My freind Mario likes to drive a super ultra mega car.
 # Drives too fast, drives to flash, doesn't care about the crash.
-# the import of flask_tables (in various other files) fails if this
+# The import of flask_tables (in various other files) fails if this
 # is not added to the system path. Beats me why. Clearly something is
 # broken, because this is just plain wrong.
 import sys
