@@ -46,7 +46,8 @@ apt install python3-flask
 apt install python3-venv
 apt install gunicorn
 ```
-As a regular user, start the webserver:
+As a regular user, copy `webui.conf-example` to `webui.conf` and edit
+to indicate the location of the file catalog. Then start the webserver:
 ```
 cd /this/project/home/dir
 python3 -m venv .venv

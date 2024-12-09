@@ -10,9 +10,13 @@ crawls.
 
 Issues
 ------
-The crawler is *slow*. The primary reason for this appears that the
-update of the database is slow. It seems to be bottlenecked on writes.
-Its also possible that inappropriate indexing is creating issues.
+* The crawler is *slow*. The primary reason for this appears that the
+  update of the database is slow. It seems to be bottlenecked on writes.
+  Its also possible that inappropriate indexing is creating issues.
+* The Web UI cannot be used while the crawler is running. This is
+  because SQLite3 is effectively a single-user system. Perhaps it was
+  a bad design choice, and should be rectified.
+* A list of additional issues included further down.
 
 API Design
 ----------
@@ -81,6 +85,11 @@ HOWTO
 Do this to get started:
 ```
 cat file-witness.sql | sqlite3 file-witness.db
+cp crawler.conf-example crawler.conf
+```
+Edit the `crawler.conf` file to config adirectory to be calaoged.
+Then run the cataloger, and wait:
+```
 ./main.py
 ```
 

@@ -1,0 +1,12 @@
+;
+; webui.conf-example
+;
+; This is an example web-ui config file. Edit as desired to configure
+; the location of the witness database.
+;
+[Unit]
+Description=Archeo Web UI
+
+[WitnessDB]
+Description=Archeo crawler DB location
+Location=../catalog/file-witness.sb
