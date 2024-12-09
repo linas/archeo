@@ -30,7 +30,12 @@ def show_filename_details(filename):
 		# qresult columns are
 		# domain, filepath, filesize, filecreate, filexxh, frecid, protocol
 
-		filelist.append(dict(row=rowcount, path=rec[1], frecid=rec[5]))
+		# SQLite3 has a habit of converting 64-bit hashes into floats.
+		# I hae no clue if this corrupts them or not. So what the heck.
+		xxhash = rec[4]
+		xxhash = int(xxhash)
 
-	ftable = FileNameDetailsTable(filelist)
+		filelist.append(dict(row=rowcount, path=rec[1], hash=hex(xxhash), frecid=rec[5]))
+
+	ftable = FilenameDetailsTable(filelist)
 	return render_template("filename-details.html", recordcount=rowcount, filetable=ftable)
