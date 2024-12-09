@@ -225,12 +225,21 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.2 Sooo...
+This is version 0.0.2 Not much here yet.
+
+As root:
 ```
 apt install python3
 apt install python3-flask
+apt install python3-venv
 apt install python3-xxhash
 apt install sqlite3
-apt install apache2
+apt install gunicorn
+```
+As user:
+```
+python3 -m venv .venv
+. .venv/bin/activate
+pip install src
 ```
 Then go to `src/catalog` and review the README there.

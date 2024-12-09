@@ -31,8 +31,11 @@ webserver on your local host, and aims it at the Archeo control panel.
 As the root user:
 ```
 apt install python3-flask
-apt install apache2
-service apache2 start
-mv /var/www/html /var/www/html-otherstuff
-ln -s /where/ever/src/archeo/src/webui /var/www/html
+apt install gunicorn
 ```
+
+Reference material
+------------------
+* [Flask Deploying to Production](https://flask.palletsprojects.com/en/stable/deploying/)
+* [Flask Deployong to Apache Httpd](https://flask.palletsprojects.com/en/stable/deploying/apache-httpd/)
+  Notes about deploying Flask on Apache.
