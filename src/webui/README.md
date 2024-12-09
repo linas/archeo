@@ -61,8 +61,8 @@ cd /this/project/home/dir
 . .venv/bin/activate  # Not needed, if you already did it above
 gunicorn -w 4 -b 0.0.0.0:5080 src.webui.home_page:app
 ```
-The above creates a python "virtual environment" (provviding a degree
-of isolation from the rest of the operating ssytem) It then starts a
+The above creates a python "virtual environment" (providing a degree
+of isolation from the rest of the operating system) It then starts a
 a webserver located at `http://localhost:5080/` The `0.0.0.0` exposes
 it to the local network, and so the pages become accessible on other
 (local) machines.
@@ -71,4 +71,3 @@ Reference Material
 ------------------
 * [Flask Deploying to Production](https://flask.palletsprojects.com/en/stable/deploying/)
 * [Flask Deployong to Apache Httpd](https://flask.palletsprojects.com/en/stable/deploying/apache-httpd/)
-  Notes about deploying Flask on Apache.
