@@ -17,20 +17,21 @@ class DupeTable(Table):
 	row = Col('')
 	name = Col('File Name')
 	count = Col('Count')
-	fid = Col('fid')
 
 # Find duplicated filenames
 def show_dup_files():
-	hm = find_duplicated_names()
+	qresult = find_duplicated_names()
 
-	# filecount = len(hm.fetchall())
+	# filecount = len(qresult.fetchall())
 	filecount = 0
 	filelist = []
-	for rec in hm:
+	for rec in qresult:
 		filecount += 1
 		# Ugly API: columns according to SQL query.
-		filelist.append(dict(row=filecount, name=rec[0], count=rec[2], fid=rec[1]))
-		# print("donkers", rec)
+		fname = rec[0]
+		fmore = "<a href=\"show-name-dupes.html?name=" + fname + "\">"
+		fmore += fname + "</a>"
+		filelist.append(dict(row=filecount, name=fmore, count=rec[2]))
 
 	ftable = DupeTable(filelist)
 	return render_template("file-list.html", filecount=filecount, filetable=ftable)
