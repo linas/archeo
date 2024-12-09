@@ -12,7 +12,7 @@ from flask import request
 from flask import render_template
 
 # The dot in front of the name searches the current dir.
-from .query import query_db_open, query_db_close
+from .query import query_db_open, query_db_close, find_duplicated_names
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -42,13 +42,18 @@ def create_app() :
 
 app = create_app()
 
+# ---------------------------------------------------------------------
+
 # Main application page. Includes various search options
 @app.route('/')
 def search_form():
 	return render_template("index.html")
 
+# Find duplicated filenames
 @app.route('/dup-filenames', methods=['POST'])
 def dupe_files():
+	hm = find_duplicated_names()
+	print("oh yeah", hm)
 	return render_template("file-list.html")
 
 @app.route('/', methods=['POST'])

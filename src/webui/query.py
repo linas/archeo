@@ -21,3 +21,16 @@ def query_db_open(dbname):
 def query_db_close():
 	global conn
 	conn.close()
+
+# -------------------------------------------------------------------------
+
+def find_duplicated_names() :
+
+	# Create a new cursor. Not very efficient but so what.
+	cursor = conn.cursor()
+
+	sel = "SELECT filename, frecid, COUNT(*) FROM FileRecord GROUP BY filename HAVING COUNT(*) > 1;"
+
+	w = cursor.execute(sel)
+	ro = w.fetchone()
+	return ro
