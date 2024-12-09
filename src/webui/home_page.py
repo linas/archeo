@@ -23,6 +23,7 @@ sys.path.append('./.venv/lib/python3.11/site-packages')
 # The dot in front of the name searches the current dir.
 from .query import query_db_open, query_db_close
 from .dup_files import show_dup_files
+from .filename_details import show_filename_details
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -59,14 +60,15 @@ app = create_app()
 def search_form():
 	return render_template("index.html")
 
-# Find duplicated filenames
+# Find duplicated filenames, display them.
 @app.route('/dup-filenames', methods=['POST'])
 def dupe_files():
 	return show_dup_files()
 
+# Display details for a given filename.
 @app.route('/filename.detail', methods=['GET'])
 def filename_detail():
-	return "a ha ha ha so you want " + request.args['filename']
+	return show_filename_details(request.args['filename'])
 
 @app.route('/', methods=['POST'])
 def blarg_post():
