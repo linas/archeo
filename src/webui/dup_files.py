@@ -14,20 +14,10 @@ from .query import find_duplicated_names
 
 # Declare table header
 class DupeTable(Table):
+	row = Col('')
 	name = Col('File Name')
 	count = Col('Count')
 	fid = Col('fid')
-
-# Get some objects
-class Item(object):
-	def __init__(self, name, count, fid):
-		self.name = name
-		self.count = count
-		self.fid = fid
-
-# Or, equivalently, some dicts
-items = [dict(name='foo', count=44, fid=3),
-		 dict(name='bar', count=66, fid=5)]
 
 # Find duplicated filenames
 def show_dup_files():
@@ -38,9 +28,9 @@ def show_dup_files():
 	filelist = []
 	for rec in hm:
 		filecount += 1
-		filelist.append(dict(name='foo', count=filecount, fid=99))
-		print("donkers", rec)
+		# Ugly API: columns according to SQL query.
+		filelist.append(dict(row=filecount, name=rec[0], count=rec[2], fid=rec[1]))
+		# print("donkers", rec)
 
-	print("oh yeah", filecount)
 	ftable = DupeTable(filelist)
 	return render_template("file-list.html", filecount=filecount, filetable=ftable)
