@@ -12,33 +12,35 @@ from .query import find_duplicated_names
 
 # ---------------------------------------------------------------------
 
-# Declare your table
-class ItemTable(Table):
-	name = Col('Name')
-	description = Col('Description')
+# Declare table header
+class DupeTable(Table):
+	name = Col('File Name')
+	count = Col('Count')
+	fid = Col('fid')
 
 # Get some objects
 class Item(object):
-	def __init__(self, name, description):
+	def __init__(self, name, count, fid):
 		self.name = name
-		self.description = description
-items = [Item('Name1', 'Description1'),
-		 Item('Name2', 'Description2'),
-		 Item('Name3', 'Description3')]
-# Or, equivalently, some dicts
-items = [dict(name='Name1', description='Description1'),
-		 dict(name='Name2', description='Description2'),
-		 dict(name='Name3', description='Description3')]
+		self.count = count
+		self.fid = fid
 
-# Populate the table
-ftable = ItemTable(items)
+# Or, equivalently, some dicts
+items = [dict(name='foo', count=44, fid=3),
+		 dict(name='bar', count=66, fid=5)]
 
 # Find duplicated filenames
 def show_dup_files():
 	hm = find_duplicated_names()
-	filecount = len(hm.fetchall())
-	print("oh yeah", filecount)
-	#for rec in hm:
-	#	print("donkers", rec)
 
+	# filecount = len(hm.fetchall())
+	filecount = 0
+	filelist = []
+	for rec in hm:
+		filecount += 1
+		filelist.append(dict(name='foo', count=filecount, fid=99))
+		print("donkers", rec)
+
+	print("oh yeah", filecount)
+	ftable = DupeTable(filelist)
 	return render_template("file-list.html", filecount=filecount, filetable=ftable)
