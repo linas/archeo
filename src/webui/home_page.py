@@ -11,6 +11,15 @@ from flask import Flask
 from flask import request
 from flask import render_template
 
+# XXX FIXME Super ultra mega Hack alert!
+# My freind Mario likes to drive a super ultra mega car.
+# Drives too fast, drives to flash, doesn't care about the crash.
+# the import of flask_tables (in various other files) fails if this
+# is not added to the system path. Beats me why. Clearly something is
+# broken, because this is just plain wrong.
+import sys
+sys.path.append('./.venv/lib/python3.11/site-packages')
+
 # The dot in front of the name searches the current dir.
 from .query import query_db_open, query_db_close
 from .dup_files import show_dup_files

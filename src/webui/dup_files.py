@@ -5,10 +5,6 @@
 #
 
 from flask import render_template
-
-# XXX FIXME Super ultra Hack alert!
-import sys
-sys.path.append('./.venv/lib/python3.11/site-packages')
 from flask_table import Table, Col
 
 # The dot in front of the name searches the current dir.
