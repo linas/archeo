@@ -32,3 +32,12 @@ def find_duplicated_names() :
 	cursor = conn.cursor()
 	sel = "SELECT filename, frecid, COUNT(*) FROM FileRecord GROUP BY filename HAVING COUNT(*) > 1;"
 	return cursor.execute(sel)
+
+# -------------------------------------------------------------------------
+
+# Return filename details
+def find_filename_details(filename) :
+	cursor = conn.cursor()
+	sel = "SELECT domain, filepath, filesize, filecreate, filexxh, frecid, protocol "
+	sel += "FROM FileRecord WHERE filename='" + filename + "';"
+	return cursor.execute(sel)
