@@ -53,8 +53,11 @@ def search_form():
 @app.route('/dup-filenames', methods=['POST'])
 def dupe_files():
 	hm = find_duplicated_names()
-	print("oh yeah", hm)
-	return render_template("file-list.html")
+	filecount = len(hm.fetchall())
+	print("oh yeah", filecount)
+	#for rec in hm:
+	#	print("donkers", rec)
+	return render_template("file-list.html", filecount=filecount)
 
 @app.route('/', methods=['POST'])
 def blarg_post():

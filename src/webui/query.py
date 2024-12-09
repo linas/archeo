@@ -24,13 +24,11 @@ def query_db_close():
 
 # -------------------------------------------------------------------------
 
+# Return a list of duplicted filenames.
+# This is fairly normal: the same filename may be used in many places
 def find_duplicated_names() :
 
 	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
-
 	sel = "SELECT filename, frecid, COUNT(*) FROM FileRecord GROUP BY filename HAVING COUNT(*) > 1;"
-
-	w = cursor.execute(sel)
-	ro = w.fetchone()
-	return ro
+	return cursor.execute(sel)

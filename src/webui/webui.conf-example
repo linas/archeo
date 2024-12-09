@@ -9,4 +9,4 @@ Description=Archeo Web UI
 
 [WitnessDB]
 Description=Archeo crawler DB location
-Location=./src/catalog/file-witness.sb
+Location=./src/catalog/file-witness.db
