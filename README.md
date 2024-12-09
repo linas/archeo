@@ -126,7 +126,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.2
+Version 0.0.3
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -135,8 +135,9 @@ migrating data from here to there, and specifically, from off my raid
 arrays and onto Ceph.
 
 The current system architecture is imaginary, and the implementation
-was started only a day ago. A basic filesystem crawler/cataloger is
-mostly kind of done-ish. See *HOWTO* below.
+was started only a day ago. A basic filesystem crawler/cataloger has
+been set up, and it works. A web UI has been prototyped.  See the
+*HOWTO* below.
 
 Systems Survey
 --------------
@@ -225,7 +226,7 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.2 Not much here yet.
+This is version 0.0.3 Not much here yet.
 
 As root:
 ```
@@ -236,12 +237,9 @@ apt install python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
-As user, start the webserver app. This uses the `gunicorn` wsgi server
-for python, and runs a server listening on port `5080`. Connect to this
-with `http://example.com:5080/` or perhaps `http://localhost:5080/`.
-```
-python3 -m venv .venv
-. .venv/bin/activate
-gunicorn -w 4 -b 0.0.0.0:5080 src.webui.home_page:app
-```
-Then go to `src/catalog` and review the README there.
+There are two parts to this app: a crawler, with populates a database,
+and a web user interface, which can be used to examine what was found.
+
+Go to `src/catalog` and learn how to run the crawler (read the README file).
+
+Go to `src/webui` and learn how to run the web interface.
