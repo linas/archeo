@@ -46,12 +46,19 @@ apt install python3-flask
 apt install python3-venv
 apt install gunicorn
 ```
-As a regular user, copy `webui.conf-example` to `webui.conf` and edit
-to indicate the location of the file catalog. Then start the webserver:
+As a regular user, finish install of python:
 ```
 cd /this/project/home/dir
 python3 -m venv .venv
 . .venv/bin/activate
+pip install flask-table
+```
+
+As a regular user, copy `webui.conf-example` to `webui.conf` and edit
+to indicate the location of the file catalog. Then start the webserver.
+```
+cd /this/project/home/dir
+. .venv/bin/activate  # Not needed, if you already did it above
 gunicorn -w 4 -b 0.0.0.0:5080 src.webui.home_page:app
 ```
 The above creates a python "virtual environment" (provviding a degree

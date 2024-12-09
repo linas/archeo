@@ -5,7 +5,11 @@
 #
 
 from flask import render_template
-# from flask_table import Table, Col
+
+# XXX FIXME Super ultra Hack alert!
+import sys
+sys.path.append('./.venv/lib/python3.11/site-packages')
+from flask_table import Table, Col
 
 # The dot in front of the name searches the current dir.
 from .query import find_duplicated_names
