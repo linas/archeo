@@ -93,10 +93,10 @@ def get_file_record(conn, domain, fullname):
 	(filepath, filename) = os.path.split(fullname)
 
 	fstat = fh.stat()
-	fsize = str(fstat.st_size)
+	fsize = fstat.st_size
 
 	# Get the file hash
-	fhash = str(get_xxhash(fullname))
+	fhash = get_xxhash(fullname)
 
 	# Do we already have a witness for this file? If so, return that
 	frecid = find_file_record(conn, domain, filepath, filename, fhash, fsize)
