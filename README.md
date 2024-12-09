@@ -242,6 +242,6 @@ with `http://example.com:5080/` or perhaps `http://localhost:5080/`.
 ```
 python3 -m venv .venv
 . .venv/bin/activate
-gunicorn -w 4 -b 0.0.0.0:5080 src.webui.main_panel
+gunicorn -w 4 -b 0.0.0.0:5080 src.webui.home_page:app
 ```
 Then go to `src/catalog` and review the README there.
