@@ -5,7 +5,7 @@
 #
 
 from flask import render_template
-from flask_table import Table, Col, LinkCol
+from flask_table import Table, Col, DatetimeCol
 
 # The dot in front of the name searches the current dir.
 from .query import find_filename_details
@@ -15,7 +15,10 @@ from .query import find_filename_details
 # Declare table header
 class FilenameDetailsTable(Table):
 	row = Col('')
+	host = Col('Domain')
 	path = Col('File path')
+	size = Col('Size (bytes)')
+	date = DatetimeCol('Last modified')
 	frecid = Col('Record ID')
 	hash = Col('xxHash')
 
@@ -35,7 +38,8 @@ def show_filename_details(filename):
 		xxhash = rec[4]
 		xxhash = int(xxhash)
 
-		filelist.append(dict(row=rowcount, path=rec[1], hash=hex(xxhash), frecid=rec[5]))
+		filelist.append(dict(row=rowcount, host=rec[0], path=rec[1],
+			size=rec[2], date=rec[3], hash=hex(xxhash), frecid=rec[5]))
 
 	ftable = FilenameDetailsTable(filelist)
 	return render_template("filename-details.html", recordcount=rowcount, filetable=ftable)
