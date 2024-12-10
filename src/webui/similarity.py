@@ -56,11 +56,13 @@ def compare_contents(filehash) :
 
 	# Create the summarization table.
 	SummaryTable = create_table('boffa')
+	SummaryTable.add_column('row', Col(''))
 	SummaryTable.add_column('domain', Col('Domain'))
 	SummaryTable.add_column('filepath', Col('Path'))
-	SummaryTable.add_column('numfiles', Col('Num files'))
-	SummaryTable.add_column('common', Col('Num in common'))
-	SummaryTable.add_column('overlap', Col('Percent in common'))
+	# SummaryTable.add_column('common', Col('Files in common'))
+	# SummaryTable.add_column('numfiles', Col('Tot files'))
+	# SummaryTable.add_column('overlapstr', Col('% common'))
+	SummaryTable.add_column('ratio', Col('Common ratio'))
 
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
@@ -116,9 +118,11 @@ def compare_contents(filehash) :
 	for pa in dirlist:
 		pa['common'] = commoncount
 		overlap = commoncount / pa['numfiles']
-		overlap = int (1000.0 * overlap)
-		overlap = overlap / 10.0
-		pa['overlap'] = str(overlap) + " %"
+		pa['overlap'] = overlap
+		overlapstr = str(int (1000.0 * overlap) / 10.0) + " %"
+		pa['overlapstr'] = overlapstr
+		pa['ratio'] = str(commoncount) + " / " + str(pa['numfiles']) \
+			+ " = " + overlapstr
 
 	summary_table = SummaryTable(dirlist)
 
