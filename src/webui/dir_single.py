@@ -27,6 +27,10 @@ class DirListTable(Table):
 #		endpoint='directory_detail',
 #      url_kwargs=dict(signedhash='xxhash')))
 
+class FileTable(Table):
+	prop = Col('')
+	val = Col('')
+
 # -------------------------------------------------------------------------
 
 # Print a directory listing.
@@ -36,6 +40,9 @@ class DirListTable(Table):
 # It will be used to display all other files having the same
 # domain and filepath.
 def show_single_dir(sxhash, dirinfo) :
+
+	dirinfo = dict(dirinfo)
+	dirinfo['hashstr'] = prthash(sxhash)
 
 	# Get a list of all distinct hashes in this directory
 	dentries = select_filerecords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
@@ -83,8 +90,15 @@ def show_single_dir(sxhash, dirinfo) :
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
 
+	finfolist = []
+	finfolist.append({'prop': "Domain:", 'val': dirinfo['domain']})
+	finfolist.append({'prop': "Path:", 'val': dirinfo['filepath']})
+	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
+	finfolist.append({'prop': "Last modified:", 'val': dirinfo['filecreate']})
+	file_table = FileTable(finfolist)
+
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
-		dirlisttable=dir_list_table)
+		fileinfo=file_table, dirlisttable=dir_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
