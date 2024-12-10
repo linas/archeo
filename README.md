@@ -126,7 +126,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.3
+Version 0.0.4
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -229,7 +229,7 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.3 Not much here yet.
+This is version 0.0.4 Not much here yet.
 
 As root:
 ```
