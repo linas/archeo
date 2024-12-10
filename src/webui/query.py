@@ -54,17 +54,6 @@ def find_filename_details(filename) :
 
 # -------------------------------------------------------------------------
 
-# Return file record details by hash. The argument is assumed to
-# be a 64-bit signed int, previously returned by sqlite3, so that
-# no further conversion/massaging is required.
-def find_filehash_details(filehash) :
-	cursor = conn.cursor()
-	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid "
-	sel += "FROM FileRecord WHERE filexxh=?;"
-	return cursor.execute(sel, (filehash,))
-
-# -------------------------------------------------------------------------
-
 # Generic select on the FileRecord table.
 # Example usage:
 #   select_filerecords(domain='foo', filepath='/bar/baz')

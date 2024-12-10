@@ -10,7 +10,7 @@ from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
 from .utils import prthash, to_uint64
-from .query import find_duplicated_hashes, find_filehash_details
+from .query import find_duplicated_hashes, select_filerecords
 
 # ---------------------------------------------------------------------
 
@@ -37,14 +37,14 @@ def show_dup_hashes():
 		# filexxh, COUNT(*)
 
 		# We use this to construct a second query, for all files with
-		# a given hash.
+		# a given hash. Returned columns are
+		# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 		first = True
-		fresult = find_filehash_details(rec[0])
+		fresult = select_filerecords(filexxh=rec['filexxh'])
 		for fi in fresult:
 			itemcount += 1
 			if first:
 				first = False
-				# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 				rowlist.append(dict(row=itemcount,
 					# prthash is used for display on the web page and is
 					# subject to change. The hex conversion is used in the
@@ -52,10 +52,12 @@ def show_dup_hashes():
 					# end, and thus must not change on a whim.
 					xxhash = hex(to_uint64(rec[0])),
 					hashstr=prthash(rec[0]), count=rec[1],
-					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
+					host=fi['domain'], path=fi['filepath'], name=fi['filename'],
+					size=fi['filesize'], date=fi['filecreate']))
 			else :
 				rowlist.append(dict(row=itemcount, xxhash = '', hashstr='', count='',
-					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
+					host=fi['domain'], path=fi['filepath'], name=fi['filename'],
+					size=fi['filesize'], date=fi['filecreate']))
 
 		# Blank line. Maybe there's some prettier way; I cna't be bothered.
 		rowlist.append(dict(row='', xxhash = '', hashstr='', count='',

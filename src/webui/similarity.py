@@ -3,7 +3,7 @@
 #
 # Ad hoc code to find directories with similar content.
 
-from .query import find_filehash_details, select_filerecords
+from .query import select_filerecords
 from .utils import prthash, to_sint64
 
 from flask import render_template
