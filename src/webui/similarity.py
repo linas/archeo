@@ -1,19 +1,29 @@
 #
 # similarity.py
 #
-# Ad hoc code to find directories with similar content.
+# Do flask rendering to show directories with similar content.
+#
 
 from .query import select_filerecords
 from .utils import prthash, to_sint64
 
 from flask import render_template
-from flask_table import Table, Col, LinkCol
+from flask_table import Table, Col, DatetimeCol
 
 # General plan:
 # -- Given a hash, find all files having that hash.
 # -- Find parent directories of these files.
 # -- Look at other files in the parent dirs, and see what fraction
 #    the files in there have the same hash. Count.
+
+# Declare table header
+class DirTable(Table):
+	row = Col('')
+	domain = Col('Domain')
+	filepath = Col('Path')
+	filename = Col('Name')
+	filesize = Col('Size (bytes)')
+	filecreate = DatetimeCol('Last modified')
 
 # -------------------------------------------------------------------------
 
@@ -29,15 +39,27 @@ def compare_contents(filehash) :
 	sxhash = to_sint64(uxhash)
 	qpaths = select_filerecords(filexxh=sxhash)
 
-	itemcount = 0
-	for pa in qpaths:
-		itemcount += 1
-		oth = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
-		print ("foo ", oth.fetchone())
-		# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
+	# filerecord column names are
+	# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 
-	print("hello simy ", itemcount);
-	return render_template("similar-dirs.html", xxhash=filehash)
+	# Gather a list of directories in which the hash appears
+	dircount = 0
+	dirlist = []
+	for pa in qpaths:
+		dircount += 1
+		loc = dict(pa)
+		loc['row'] = dircount
+		dirlist.append(loc)
+	dirtable = DirTable(dirlist)
+
+	# Gather a set of all filenames
+	fileset = set()
+	hashset = set()
+	for pa in qpaths:
+		dentry = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
+		fileset.add(dentry['filename'])
+
+	return render_template("similar-dirs.html", xxhash=filehash, dirtable=dirtable)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
