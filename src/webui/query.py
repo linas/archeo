@@ -12,12 +12,14 @@ import sqlite3
 # but punting on this for now.
 #
 # This should behave like a closure, but I don't know how to do a
-# clusure in python, yet.
+# closure in python, yet.
 global conn;
 
 def query_db_open(dbname):
 	global conn
 	conn = sqlite3.connect(dbname)
+	# The row factory allows access to query results by column name.
+	conn.row_factory = sqlite3.Row
 
 def query_db_close():
 	global conn
