@@ -45,15 +45,6 @@ def find_duplicated_hashes() :
 
 # -------------------------------------------------------------------------
 
-# Return filename details
-def find_filename_details(filename) :
-	cursor = conn.cursor()
-	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid "
-	sel += "FROM FileRecord WHERE filename=?;"
-	return cursor.execute(sel, (filename,))
-
-# -------------------------------------------------------------------------
-
 # Generic select on the FileRecord table.
 # Example usage:
 #   select_filerecords(domain='foo', filepath='/bar/baz')

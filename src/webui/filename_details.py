@@ -9,7 +9,7 @@ from flask_table import Table, Col, DatetimeCol
 
 # The dot in front of the name searches the current dir.
 from .utils import prthash
-from .query import find_filename_details
+from .query import select_filerecords
 
 # ---------------------------------------------------------------------
 
@@ -25,16 +25,17 @@ class FilenameDetailsTable(Table):
 
 # Find duplicated filenames
 def show_filename_details(filename):
-	qresult = find_filename_details(filename)
+	qresult = select_filerecords(filename=filename)
 
+	# Available columns are
+	# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 	rowcount = 0
 	filelist = []
 	for rec in qresult:
 		rowcount += 1
-		# qresult columns are
-		# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-		filelist.append(dict(row=rowcount, host=rec[1], path=rec[2],
-			size=rec[4], date=rec[5], hash=prthash(rec[6]), frecid=rec[7]))
+		filelist.append(dict(row=rowcount, host=rec['domain'], path=rec['filepath'],
+			size=rec['filesize'], date=rec['filecreate'], hash=prthash(rec['filexxh']),
+			frecid=rec['frecid']))
 
 	ftable = FilenameDetailsTable(filelist)
 	return render_template("filename-details.html", filename=filename,
