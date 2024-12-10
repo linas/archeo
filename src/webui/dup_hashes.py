@@ -6,7 +6,7 @@
 #
 
 from flask import render_template
-from flask_table import Table, Col, DatetimeCol
+from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
 from .utils import prthash
@@ -17,7 +17,8 @@ from .query import find_duplicated_hashes, find_filehash_details
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	hash = Col('xxHash')
+	hash = LinkCol('xxHash', attr='hash', endpoint='path_similarity',
+      url_kwargs=dict(signedhash='hash'))
 	count = Col('Count')
 	host = Col('Domain')
 	path = Col('Path')

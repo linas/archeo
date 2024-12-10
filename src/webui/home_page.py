@@ -26,6 +26,7 @@ from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
 from .similar_dirs import show_similar_dirs
+from .similarity import compare_contents
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -83,6 +84,13 @@ def sim_dirs():
 @app.route('/filename.detail', methods=['GET'])
 def filename_detail():
 	return show_filename_details(request.args['filename'])
+
+# ----------------------------------------------------------------------
+# Hash-path similarity
+# Display similarity of parent dirs containing identical files.
+@app.route('/parent.similarity', methods=['GET'])
+def path_similarity():
+	return compare_contents(request.args['signedhash'])
 
 # ----------------------------------------------------------------------
 # Testing

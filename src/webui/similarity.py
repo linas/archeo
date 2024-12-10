@@ -4,7 +4,7 @@
 # Ad hoc code to find directories with similar content.
 
 import sqlite3
-from .query import conn, find_filehash_details
+from .query import find_filehash_details
 
 # General plan:
 # -- Given a hash, find all files having that hash.
@@ -31,6 +31,7 @@ def compare_contents(filehash) :
 		#	host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
 	print("hello simy ", itemcount);
+	return "foobarbaz"
 
 #	cursor = conn.cursor()
 #	sel = "SELECT protocol, domain, filepath, filename, frecid "
