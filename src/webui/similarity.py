@@ -8,7 +8,7 @@ from .query import select_filerecords
 from .utils import prthash, to_sint64
 
 from flask import render_template
-from flask_table import Table, Col, DatetimeCol
+from flask_table import Table, Col, DatetimeCol, create_table
 
 # General plan:
 # -- Given a hash, find all files having that hash.
@@ -52,14 +52,28 @@ def compare_contents(filehash) :
 		dirlist.append(loc)
 	dirtable = DirTable(dirlist)
 
+	# Create a variable-width table.
+	DiffTable = create_table('foobar')
+	DiffTable.add_column('filename', Col('Name'))
+
 	# Gather a set of all filenames
+	dircount = 0
 	fileset = set()
 	hashset = set()
 	for pa in qpaths:
+		dircount += 1
 		dentry = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
 		fileset.add(dentry['filename'])
 
-	return render_template("similar-dirs.html", xxhash=filehash, dirtable=dirtable)
+	filist = []
+	for fi in fileset:
+		ro['filename'] = fi
+		filist.append[ro]
+
+	diff_table = DiffTable(filist)
+
+	return render_template("similar-dirs.html", xxhash=filehash,
+		dirtable=dirtable, difftable=diff_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
