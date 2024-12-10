@@ -31,10 +31,11 @@ class DirListTable(Table):
 
 # Print a directory listing.
 #
-# The argument is the FileRecord query result of length one.
+# The first argument is a signed int content hash (of some file).
+# The second argument is the FileRecord query result of length one.
 # It will be used to display all other files having the same
 # domain and filepath.
-def show_single_dir(dirinfo) :
+def show_single_dir(sxhash, dirinfo) :
 
 	# Get a list of all distinct hashes in this directory
 	dentries = select_filerecords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])

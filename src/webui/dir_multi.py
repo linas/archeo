@@ -31,9 +31,10 @@ class DirTable(Table):
 # Compare contents of filepaths having at least one file with shared
 # content.
 #
-# The argument is the string that came on the URL GET. It is the hash
-# to explore, printed with a leading 0x and is unsigned.
-def show_multi_dir(qpaths) :
+# The first arg is the signed in hash for which the listing is being
+# expanded on. The second are is the reqult of the DB query, containing
+# a collection of directories in which this hash appears
+def show_multi_dir(sxhash, qpaths) :
 
 	# Stash the list of directories. We'll walk this list repeatedly.
 	dircount = 0
