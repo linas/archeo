@@ -97,13 +97,18 @@ def compare_contents(filehash) :
 		# Each dir either has one or more files with that hash,
 		# or none. Report all files having the same hash.
 		same_everywhere = True
+		maxfiles = 0
 		for pa in dirlist:
 			dentry = select_filerecords(filepath=pa['filepath'],
 				domain=pa['domain'], filexxh=hash)
-			defile = dentry.fetchone()
+			allfiles = dentry.fetchall()
+			nfiles = len(allfiles)
+			if maxfiles < nfiles:
+				maxfiles = nfiles;
+
 			key = 'filename' + pa['row']
-			if defile :
-				difro[key] = defile['filename']
+			if 0 < nfiles :
+				difro[key] = allfiles[0]['filename']
 			else :
 				difro[key] = '-'
 				same_everywhere = False
@@ -114,6 +119,32 @@ def compare_contents(filehash) :
 			commoncount += 1
 
 		filist.append(difro)
+
+		# One (or more) of the directories have more than one
+		# file with the given hash. Report these on distinct rows.
+		# Blank out the hash to avoid clutter.
+		for idx in range (1, maxfiles) :
+			totcount += 1
+			difro = {}
+			difro['row'] = totcount
+			difro['hashstr'] = ''
+
+			# We could save the query results above, or we can just
+			# rerun the query. I'm lazy, the performance hit is tiny.
+			# Just rerun the query. Pick up where we left off.
+			for pa in dirlist:
+				dentry = select_filerecords(filepath=pa['filepath'],
+					domain=pa['domain'], filexxh=hash)
+				allfiles = dentry.fetchall()
+				nfiles = len(allfiles)
+				key = 'filename' + pa['row']
+				if idx < nfiles :
+					difro[key] = allfiles[idx]['filename']
+				else :
+					difro[key] = '-'
+
+			# Add this to the list
+			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
 	diff_table = DiffTable(filist)
