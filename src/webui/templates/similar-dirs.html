@@ -12,8 +12,11 @@ with the given name and timestamp:
 {{ dirtable }}
 <p>
 These directories may have other files in common. This is summarized
-below, as a ratio: the number of files in common, divided by the total
-number of files in that directory. This is also shown as a percentage.
+below, as a ratio: the number of <i>unique</i> files in common, divided
+by the total number of <i>unique</i> files in that directory. Any given
+directory may have files with the same content, but different names;
+these are <i>not</i> counted as being distinct (even though they have
+different names).
 <p>
 {{ summarytable }}
 <p>
