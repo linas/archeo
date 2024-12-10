@@ -50,7 +50,15 @@ def compare_contents(filehash) :
 		loc = dict(pa)
 		loc['row'] = str(dircount)
 		dirlist.append(loc)
+
+	# Report on the one hash, as it appears in the differnt locations.
 	dirtable = DirTable(dirlist)
+
+	# Create the summarization table.
+	SummaryTable = create_table('boffa')
+	SummaryTable.add_column('domain', Col('Domain'))
+	SummaryTable.add_column('filepath', Col('Path'))
+	SummaryTable.add_column('numfiles', Col('Number of files'))
 
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
@@ -64,8 +72,11 @@ def compare_contents(filehash) :
 	hashset = set()
 	for pa in dirlist:
 		dentries = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
+		filecount = 0;
 		for dentry in dentries:
+			filecount += 1
 			hashset.add(dentry['filexxh'])
+		pa['numfiles'] = filecount
 
 	# Gather names of the files for each hash
 	filist = []
@@ -90,8 +101,10 @@ def compare_contents(filehash) :
 
 	diff_table = DiffTable(filist)
 
+	summary_table = SummaryTable(dirlist)
+
 	return render_template("similar-dirs.html", xxhash=filehash,
-		dirtable=dirtable, difftable=diff_table)
+		dirtable=dirtable, difftable=diff_table, summarytable=summary_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
