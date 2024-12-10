@@ -25,7 +25,7 @@ from .query import query_db_open, query_db_close
 from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
-from .similar_dirs import show_similar_dirs
+from .similar_summary import show_similar_summary
 from .similarity import compare_contents
 
 # Read config file to discover DB location.
@@ -74,9 +74,9 @@ def dupe_hashes():
 	return show_dup_hashes()
 
 # Find similar dirs.
-@app.route('/similar-dirs', methods=['POST'])
-def sim_dirs():
-	return show_similar_dirs()
+@app.route('/similar-summary', methods=['POST'])
+def sim_summary():
+	return show_similar_summary()
 
 # ----------------------------------------------------------------------
 # File-detail sub-page

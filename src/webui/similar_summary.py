@@ -1,7 +1,7 @@
 #
-# similar_dirs.py
+# similar_summary.py
 #
-# Do flask rendering to show similar directories.
+# Do flask rendering to show summary of similar directories.
 #
 
 from flask import render_template
@@ -13,5 +13,5 @@ from flask_table import Table, Col
 # ---------------------------------------------------------------------
 
 # Find directories with similar content.
-def show_similar_dirs():
-	return render_template("similar-dirs.html")
+def show_similar_summary():
+	return render_template("similar-summary.html")

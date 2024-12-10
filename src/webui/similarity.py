@@ -5,6 +5,10 @@
 
 import sqlite3
 from .query import find_filehash_details
+from .utils import prthash
+
+from flask import render_template
+from flask_table import Table, Col, LinkCol
 
 # General plan:
 # -- Given a hash, find all files having that hash.
@@ -22,6 +26,7 @@ from .query import find_filehash_details
 # conversion/massaging is required.
 def compare_contents(filehash) :
 
+	print("look for has ", prthash(filehash))
 	qpaths = find_filehash_details(filehash)
 
 	itemcount = 0
@@ -31,7 +36,7 @@ def compare_contents(filehash) :
 		#	host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
 	print("hello simy ", itemcount);
-	return "foobarbaz"
+	return render_template("similar-dirs.html", xxhash=filehash)
 
 #	cursor = conn.cursor()
 #	sel = "SELECT protocol, domain, filepath, filename, frecid "
