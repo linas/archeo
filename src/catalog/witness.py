@@ -92,9 +92,32 @@ def get_file_record(conn, domain, fullname):
 
 	# On Linux, filenames are just "a bunch of bytes", maybe
 	# an iso8859 encoding, maybe utf8, maybe microsoft-crazy.
-	# The database can only deal with utf-8 strings, so convert
-	# byte craziness to utf8. "encode()" is the function to do this.
-	fullname = fullname.encode('utf8', 'surrogateescape')
+	# The database can only deal with strings that are taken to be
+	# bytestrings of valid utf8 chars. Meanwhile, in python3,
+	# strings are strings of chars, which may or may not be
+	# representable (or "encodable") as utf8.
+	#
+	# Thus, we test. If the filename can be "encoded" into utf8,
+	# *then* just pass the python string to sqlite3, and let sqlite3
+	# call encode() on it. Which it will, because when it fails, it
+	# throws an exception. We want to anticipate this exception, before
+	# it happens, and avoid it. We want to avoid it because its nasty
+	# to handle at that point; its too late.
+	#
+	# So we test by trying the encode ourselves. If no error, then
+	# do nothing, and pass the python string to sqlite as-is. But if
+	# it throws, then we encode ourselves, using the 'surrogateescape'
+	# option. This gives us a byte string, which sqlite can deal with.
+	#
+	# We don't want to do this for all strings, because then the plain
+	# old SELECT blah FROM blah WHERE foo='bar'; fails in the native
+	# sqlite3 command shell, because foo is a byte string and 'bar' is
+	# a cough cough "character string". Yes, this is screwy and
+	# non-sensical, but so it goes.
+	try:
+		fullname.encode('utf8')
+	except:
+		fullname = fullname.encode('utf8', 'surrogateescape')
 
 	# Split the full filepathname into a filepath and the filename
 	(filepath, filename) = os.path.split(fullname)
