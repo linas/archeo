@@ -57,7 +57,7 @@ def find_filename_details(filename) :
 # no further conversion/massaging is required.
 def find_filehash_details(filehash) :
 	cursor = conn.cursor()
-	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid"
+	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid "
 	sel += "FROM FileRecord WHERE filexxh=?;"
 	return cursor.execute(sel, (filehash,))
 
