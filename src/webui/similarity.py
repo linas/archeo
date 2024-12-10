@@ -48,31 +48,38 @@ def compare_contents(filehash) :
 	for pa in qpaths:
 		dircount += 1
 		loc = dict(pa)
-		loc['row'] = dircount
+		loc['row'] = str(dircount)
 		dirlist.append(loc)
 	dirtable = DirTable(dirlist)
 
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
-	DiffTable.add_column('filename', Col('Name'))
+	DiffTable.add_column('filexxh', Col('Hash'))
+	for pa in dirlist:
+		fname = 'filename' + loc['row']
+		ftitle = 'Name in ' + loc['row']
+		DiffTable.add_column(fname, Col(ftitle))
 
-	# Gather a set of all filenames
-	dircount = 0
-	fileset = set()
+	# Gather a set of all filehashes that appear in all dirs
 	hashset = set()
 	for pa in dirlist:
-		dircount += 1
 		dentries = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
-		print("sup ", dentries)
 		for dentry in dentries:
-			print("yo", dentry['filename'])
-			fileset.add(dentry['filename'])
+			hashset.add(dentry['filexxh'])
 
+	# Gather names of the files for each hash
 	filist = []
-	for fi in fileset:
-		ro = {}
-		ro['filename'] = fi
-		filist.append(ro)
+	for fi in filehash:
+		difro = {}
+		difro['filexxh'] = fi
+
+#		for pa in dirlist:
+#			dentry = select_filerecords(filepath=pa['filepath'], domain=pa['domain'], filexxh=pa[fi])
+#			print("yoo ", dentry.fetchone())
+
+		difro['filename1'] = 'asf'
+		difro['filename2'] = 'ert'
+		filist.append(difro)
 
 	diff_table = DiffTable(filist)
 
