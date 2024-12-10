@@ -63,7 +63,7 @@ def show_multi_dir(sxhash, qpaths) :
 	DiffTable.add_column('row', Col(''))
 	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
-      url_kwargs=dict(signedhash='xxhash')))
+		url_kwargs=dict(signedhash='xxhash')))
 
 	for pa in dirlist:
 		fname = 'filename' + pa['row']
@@ -133,6 +133,7 @@ def show_multi_dir(sxhash, qpaths) :
 			difro = {}
 			difro['row'] = ''
 			difro['hashstr'] = ''
+			difro['xxhash'] = ''
 
 			# We could save the query results above, or we can just
 			# rerun the query. I'm lazy, the performance hit is tiny.
