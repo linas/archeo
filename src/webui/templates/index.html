@@ -8,9 +8,17 @@
 This panel could look a lot nicer, right?
 <hr>
 <p>
-Search for files with duplicate names:
+Search for files with identical filenames (but different directories or hashes):
     <form action="dup-filenames" method="POST">
         <input type="submit" name="dupe-names" value="Files with same name">
+    </form>
+
+<p>
+Search for files with identical content hashes (but different directories
+or filenames). Files with the same hash are almost surely identical, just
+differing in name and/or location.
+    <form action="dup-hashes" method="POST">
+        <input type="submit" name="dupe-hashes" value="Files with same hash">
     </form>
 
 <p>
