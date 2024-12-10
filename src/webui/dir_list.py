@@ -26,10 +26,24 @@ def show_dir_listing(filehash) :
 	# Get the directory that this file appears in.
 	qpath = select_filerecords(filexxh=sxhash)
 	qdir = qpath.fetchall()
-	if 1 < len(qdir) :
-		return show_multi_dir(sxhash, qdir)
-	else :
+	if 1 == len(qdir) :
 		return show_single_dir(sxhash, qdir[0])
+	else :
+		# This content can appear multiple times in one directory,
+		# or in multiple directories. Fgure out which.
+		multidir = False
+		basedom = qdir[0]['domain']
+		basedir = qdir[0]['filepath']
+		for idx in range (1, len(qdir)) :
+			if basedir != qdir[idx]['filepath'] :
+				multidir = True
+			if basedom != qdir[idx]['domain'] :
+				multidir = True
+
+		if multidir :
+			return show_multi_dir(sxhash, qdir)
+		else :
+			return show_single_dir(sxhash, qdir[0])
 
 
 # ------------------ End of File. That's all, folks! ----------------------
