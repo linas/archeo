@@ -66,6 +66,7 @@ def compare_contents(filehash) :
 
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
+	DiffTable.add_column('row', Col(''))
 	DiffTable.add_column('hashstr', Col('Hash'))
 	for pa in dirlist:
 		fname = 'filename' + pa['row']
@@ -85,13 +86,16 @@ def compare_contents(filehash) :
 	# Gather names of the files for each hash
 	filist = []
 	commoncount = 0;
+	totcount = 0;
 	for hash in hashset:
+		totcount += 1
 		difro = {}
+		difro['row'] = totcount
 		difro['filexxh'] = hash
 		difro['hashstr'] = prthash(hash)
 
-		# Each dir either has a file with that hash, or not.
-		# If it does, report the filename.
+		# Each dir either has one or more files with that hash,
+		# or none. Report all files having the same hash.
 		same_everywhere = True
 		for pa in dirlist:
 			dentry = select_filerecords(filepath=pa['filepath'],
