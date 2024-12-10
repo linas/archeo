@@ -19,6 +19,6 @@ def to_uint64(signed_int64):
 # Common utility so that all web pages print in the same format.
 # TODO: fix this to get rid of the leading 0x
 def prthash(signed_int64):
-	return hex(to_uint64)
+	return hex(to_uint64(signed_int64))
 
 # ------------------- That's all! End of file! ------------------
