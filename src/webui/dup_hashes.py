@@ -17,7 +17,7 @@ from .query import find_duplicated_hashes, select_filerecords
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	hash = LinkCol('xxHash', attr='hashstr', endpoint='path_similarity',
+	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
       url_kwargs=dict(signedhash='xxhash'))
 	count = Col('Count')
 	domain = Col('Domain')

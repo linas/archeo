@@ -61,7 +61,7 @@ def show_multi_dir(qpaths) :
 	DiffTable = create_table('foobar')
 	DiffTable.add_column('row', Col(''))
 	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
-		endpoint='path_similarity',
+		endpoint='directory_detail',
       url_kwargs=dict(signedhash='xxhash')))
 
 	for pa in dirlist:

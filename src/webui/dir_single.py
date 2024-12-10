@@ -24,7 +24,7 @@ class DirListTable(Table):
 	filecreate = DatetimeCol('Last modified')
 
 #	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
-#		endpoint='path_similarity',
+#		endpoint='directory_detail',
 #      url_kwargs=dict(signedhash='xxhash')))
 
 # -------------------------------------------------------------------------
