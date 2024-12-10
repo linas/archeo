@@ -3,8 +3,7 @@
 #
 # Ad hoc code to find directories with similar content.
 
-import sqlite3
-from .query import find_filehash_details
+from .query import find_filehash_details, select_filerecords
 from .utils import prthash, to_sint64
 
 from flask import render_template
@@ -28,21 +27,17 @@ def compare_contents(filehash) :
 	# Convert string hash to what sqlite wants.
 	uxhash = int(filehash, 16)
 	sxhash = to_sint64(uxhash)
-	qpaths = find_filehash_details(sxhash)
+	qpaths = select_filerecords(filexxh=sxhash)
 
 	itemcount = 0
 	for pa in qpaths:
 		itemcount += 1
+		oth = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
+		print ("foo ", oth.fetchone())
 		# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-		#	host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
 	print("hello simy ", itemcount);
 	return render_template("similar-dirs.html", xxhash=filehash)
-
-#	cursor = conn.cursor()
-#	sel = "SELECT protocol, domain, filepath, filename, frecid "
-#	sel += "FROM FileRecord WHERE filexxh=?;"
-#	return cursor.execute(sel, (filehash,))
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------

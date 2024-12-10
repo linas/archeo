@@ -63,5 +63,27 @@ def find_filehash_details(filehash) :
 	sel += "FROM FileRecord WHERE filexxh=?;"
 	return cursor.execute(sel, (filehash,))
 
+# -------------------------------------------------------------------------
+
+# Generic select on the FileRecord table.
+# Example usage:
+#   select_filerecords(domain='foo', filepath='/bar/baz')
+# Creates query
+#   SELECT * FROM FileRecord WHERE domain='foo' AND filepath='/bar/baz';
+#
+def select_filerecords(**kwargs) :
+	cursor = conn.cursor()
+	sel = "SELECT * FROM FileRecord WHERE "
+	more = False
+	vlist = []
+	for k,v in kwargs.items():
+		if more :
+			sel += " AND "
+		sel += k + " =? "
+		more = True;
+		vlist.append(v)
+	sel += ";"
+	return cursor.execute(sel, vlist)
+
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
