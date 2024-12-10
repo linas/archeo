@@ -4,11 +4,13 @@
 # Do flask rendering to show directory contents.
 #
 
-from .query import select_filerecords
-from .utils import prthash, to_sint64, to_uint64
+from datetime import datetime
 
 from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
+
+from .query import select_filerecords
+from .utils import prthash, to_sint64, to_uint64
 
 # General plan:
 # -- If we are here, assume that the hash appears in only *one*
@@ -90,11 +92,13 @@ def show_single_dir(sxhash, dirinfo) :
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
 
+	ftime = datetime.fromtimestamp(dirinfo['filecreate'])
 	finfolist = []
 	finfolist.append({'prop': "Domain:", 'val': dirinfo['domain']})
 	finfolist.append({'prop': "Path:", 'val': dirinfo['filepath']})
+	finfolist.append({'prop': "File name:", 'val': dirinfo['filename']})
 	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
-	finfolist.append({'prop': "Last modified:", 'val': dirinfo['filecreate']})
+	finfolist.append({'prop': "Last modified:", 'val': str(ftime)})
 	file_table = FileTable(finfolist)
 
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
