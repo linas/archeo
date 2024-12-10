@@ -20,11 +20,11 @@ class DupeHashTable(Table):
 	hash = LinkCol('xxHash', attr='hashstr', endpoint='path_similarity',
       url_kwargs=dict(signedhash='xxhash'))
 	count = Col('Count')
-	host = Col('Domain')
-	path = Col('Path')
-	name = Col('Name')
-	size = Col('Size (bytes)')
-	date = DatetimeCol('Last modified')
+	domain = Col('Domain')
+	filepath = Col('Path')
+	filename = Col('Name')
+	filesize = Col('Size (bytes)')
+	filecreate = DatetimeCol('Last modified')
 
 # Find duplicated filenames
 def show_dup_hashes():
@@ -43,25 +43,27 @@ def show_dup_hashes():
 		fresult = select_filerecords(filexxh=rec['filexxh'])
 		for fi in fresult:
 			itemcount += 1
+			frow = dict(fi)
+			frow['row'] = itemcount
 			if first:
 				first = False
-				rowlist.append(dict(row=itemcount,
-					# prthash is used for display on the web page and is
-					# subject to change. The hex conversion is used in the
-					# link URL GET method and must be decodable at the other
-					# end, and thus must not change on a whim.
-					xxhash = hex(to_uint64(rec[0])),
-					hashstr=prthash(rec[0]), count=rec[1],
-					host=fi['domain'], path=fi['filepath'], name=fi['filename'],
-					size=fi['filesize'], date=fi['filecreate']))
+				# prthash is used for display on the web page and is
+				# subject to change. The hex conversion is used in the
+				# link URL GET method and must be decodable at the other
+				# end, and thus must not change on a whim.
+				frow['xxhash'] = hex(to_uint64(rec[0]))
+				frow['hashstr'] = prthash(rec[0])
+				frow['count'] = rec[1]
 			else :
-				rowlist.append(dict(row=itemcount, xxhash = '', hashstr='', count='',
-					host=fi['domain'], path=fi['filepath'], name=fi['filename'],
-					size=fi['filesize'], date=fi['filecreate']))
+				frow['xxhash'] = ''
+				frow['hashstr'] = ''
+				frow['count'] = ''
 
-		# Blank line. Maybe there's some prettier way; I cna't be bothered.
+			rowlist.append(frow)
+
+		# Blank line. Maybe there's some prettier way; I can't be bothered.
 		rowlist.append(dict(row='', xxhash = '', hashstr='', count='',
-			host='', path='', name='', size='', date=''))
+			domain='', filepath='', filename='', filesize='', filecreate=''))
 
 
 	ftable = DupeHashTable(rowlist)

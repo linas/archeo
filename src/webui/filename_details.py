@@ -14,12 +14,14 @@ from .query import select_filerecords
 # ---------------------------------------------------------------------
 
 # Declare table header
+# SQL table column names are
+# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 class FilenameDetailsTable(Table):
 	row = Col('')
-	host = Col('Domain')
-	path = Col('File path')
-	size = Col('Size (bytes)')
-	date = DatetimeCol('Last modified')
+	domain = Col('Domain')
+	filepath = Col('File path')
+	filesize = Col('Size (bytes)')
+	filecreate = DatetimeCol('Last modified')
 	frecid = Col('Record ID')
 	hash = Col('xxHash')
 
@@ -27,15 +29,14 @@ class FilenameDetailsTable(Table):
 def show_filename_details(filename):
 	qresult = select_filerecords(filename=filename)
 
-	# Available columns are
-	# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 	rowcount = 0
 	filelist = []
 	for rec in qresult:
+		row = dict(rec)
 		rowcount += 1
-		filelist.append(dict(row=rowcount, host=rec['domain'], path=rec['filepath'],
-			size=rec['filesize'], date=rec['filecreate'], hash=prthash(rec['filexxh']),
-			frecid=rec['frecid']))
+		row['row'] = rowcount
+		row['hash'] = prthash(rec['filexxh'])
+		filelist.append(row)
 
 	ftable = FilenameDetailsTable(filelist)
 	return render_template("filename-details.html", filename=filename,
