@@ -61,7 +61,15 @@ def show_dir_listing(filehash) :
 	totcount = 0;
 	for hash in hashset:
 		totcount += 1
-		difro = {}
+
+		% Get the file(s) with this hash.
+		dentry = select_filerecords(filepath=dirinfo['filepath'],
+			domain=dirinfo['domain'], filexxh=hash)
+
+		allfiles = dentry.fetchall()
+		nfiles = len(allfiles)
+
+		difro = dict(allfiles[0])
 		difro['row'] = totcount
 
 		# prthash is used for display on the web page and is
@@ -73,37 +81,16 @@ def show_dir_listing(filehash) :
 		difro['hashstr'] = prthash(hash)
 		difro['xxhash'] = hex(to_uint64(hash))
 
-		dentry = select_filerecords(filepath=dirinfo['filepath'],
-			domain=dirinfo['domain'], filexxh=hash)
-		allfiles = dentry.fetchall()
-		nfiles = len(allfiles)
-
 		filist.append(difro)
 
-		# The hash may appear more than once in the directory.
+		# The hash may appear more than once in this directory.
 		# That is, there may be more than one file, having a different
 		# name, but with the same contents. Group these together.
 		# Blank out the hash to avoid clutter.
 		for idx in range (1, nfiles) :
-			difro = {}
+			difro = dict(allfiles[id])
 			difro['row'] = ''
 			difro['hashstr'] = ''
-
-			# We could save the query results above, or we can just
-			# rerun the query. I'm lazy, the performance hit is tiny.
-			# Just rerun the query. Pick up where we left off.
-			for pa in dirlist:
-				dentry = select_filerecords(filepath=pa['filepath'],
-					domain=pa['domain'], filexxh=hash)
-				allfiles = dentry.fetchall()
-				nfiles = len(allfiles)
-				key = 'filename' + pa['row']
-				if idx < nfiles :
-					difro[key] = allfiles[idx]['filename']
-				else :
-					difro[key] = '-'
-
-			# Add this to the list
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
