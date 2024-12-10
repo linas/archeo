@@ -20,14 +20,13 @@ from .utils import prthash, to_sint64, to_uint64
 # Declare table header
 class DirListTable(Table):
 	row = Col('')
-	hashstr = Col('Hash')
+	hashstr = LinkCol('xxHash', attr='hashstr',
+		endpoint='directory_detail',
+		url_kwargs=dict(signedhash='filexxh'))
 	filename = Col('Name')
 	filesize = Col('Size (bytes)')
 	filecreate = DatetimeCol('Last modified')
 
-#	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
-#		endpoint='directory_detail',
-#      url_kwargs=dict(signedhash='xxhash')))
 
 class FileTable(Table):
 	prop = Col('')
