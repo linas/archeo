@@ -17,8 +17,8 @@ from .query import find_duplicated_hashes, find_filehash_details
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	hash = LinkCol('xxHash', attr='hash', endpoint='path_similarity',
-      url_kwargs=dict(signedhash='hash'))
+	hash = LinkCol('xxHash', attr='hashstr', endpoint='path_similarity',
+      url_kwargs=dict(signedhash='xxhash'))
 	count = Col('Count')
 	host = Col('Domain')
 	path = Col('Path')
@@ -45,14 +45,14 @@ def show_dup_hashes():
 			if first:
 				first = False
 				# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-				rowlist.append(dict(row=itemcount, hash=prthash(rec[0]), count=rec[1],
+				rowlist.append(dict(row=itemcount, xxhash = rec[0], hashstr=prthash(rec[0]), count=rec[1],
 					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 			else :
-				rowlist.append(dict(row=itemcount, hash='', count='',
+				rowlist.append(dict(row=itemcount, xxhash = '', hashstr='', count='',
 					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
 		# Blank line. Maybe there's some prettier way; I cna't be bothered.
-		rowlist.append(dict(row='', hash='', count='',
+		rowlist.append(dict(row='', xxhash = '', hashstr='', count='',
 			host='', path='', name='', size='', date=''))
 
 
