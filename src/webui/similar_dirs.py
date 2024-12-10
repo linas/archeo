@@ -12,7 +12,6 @@ from flask_table import Table, Col
 
 # ---------------------------------------------------------------------
 
-# Find duplicated filenames
+# Find directories with similar content.
 def show_similar_dirs():
-
-	return "You thought you'd find something here? Hah!"
+	return render_template("similar-dirs.html")
