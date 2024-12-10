@@ -22,7 +22,7 @@ class DirListTable(Table):
 	row = Col('')
 	hashstr = LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
-		url_kwargs=dict(signedhash='filexxh'))
+		url_kwargs=dict(signedhash='xxhash'))
 	filename = Col('Name')
 	filesize = Col('Size (bytes)')
 	filecreate = DatetimeCol('Last modified')
@@ -86,6 +86,7 @@ def show_single_dir(sxhash, dirinfo) :
 			difro = dict(allfiles[idx])
 			difro['row'] = ''
 			difro['hashstr'] = ''
+			difro['xxhash'] = ''
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
