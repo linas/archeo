@@ -50,6 +50,10 @@ def show_dup_hashes():
 				rowlist.append(dict(row=itemcount, hash='', count='',
 					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
+		# Blank line. Maybe there's some prettier way; I cna't be bothered.
+		rowlist.append(dict(row='', hash='', count='',
+			host='', path='', name='', size='', date=''))
+
 
 	ftable = DupeHashTable(rowlist)
 	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)
