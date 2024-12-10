@@ -24,13 +24,21 @@ def query_db_close():
 
 # -------------------------------------------------------------------------
 
-# Return a list of duplicted filenames.
+# Return a list of duplicated filenames.
 # This is fairly normal: the same filename may be used in many places
 def find_duplicated_names() :
-
-	# Create a new cursor. Not very efficient but so what.
 	cursor = conn.cursor()
 	sel = "SELECT filename, frecid, COUNT(*) FROM FileRecord GROUP BY filename HAVING COUNT(*) > 1;"
+	return cursor.execute(sel)
+
+# -------------------------------------------------------------------------
+
+# Return a list of duplicated hashes.
+# This is fairly normal: the same file contents, different locations/names
+def find_duplicated_hashes() :
+	cursor = conn.cursor()
+	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, "
+	sel += "frecid, COUNT(*) FROM FileRecord GROUP BY filexxh HAVING COUNT(*) > 1;"
 	return cursor.execute(sel)
 
 # -------------------------------------------------------------------------
@@ -39,5 +47,5 @@ def find_duplicated_names() :
 def find_filename_details(filename) :
 	cursor = conn.cursor()
 	sel = "SELECT domain, filepath, filesize, filecreate, filexxh, frecid, protocol "
-	sel += "FROM FileRecord WHERE filename='" + filename + "';"
-	return cursor.execute(sel)
+	sel += "FROM FileRecord WHERE filename=?;"
+	return cursor.execute(sel, (filename,))

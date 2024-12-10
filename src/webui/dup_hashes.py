@@ -9,7 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, LinkCol
 
 # The dot in front of the name searches the current dir.
-# from .query import find_duplicated_hashes
+from .query import find_duplicated_hashes
 
 # ---------------------------------------------------------------------
 
@@ -27,17 +27,16 @@ class DupeHashTable(Table):
 
 # Find duplicated filenames
 def show_dup_hashes():
-	return "howdy doodey!"
-#	qresult = find_duplicated_names()
-#
-#	# filecount = len(qresult.fetchall())
-#	filecount = 0
-#	filelist = []
-#	for rec in qresult:
-#		filecount += 1
-#		# Ugly API: columns according to SQL query.
-#		fname = rec[0]
-#		filelist.append(dict(row=filecount, name=fname, count=rec[2]))
-#
-#	ftable = DupeTable(filelist)
-#	return render_template("file-list.html", filecount=filecount, filetable=ftable)
+	qresult = find_duplicated_hashes()
+
+	itemcount = 0
+	filelist = []
+	for rec in qresult:
+		item += 1
+		# Ugly API: columns according to SQL query.  The columns are:
+		# protocol, domain, filepath, filename, filesize, filecreate, frecid, COUNT(*)
+		fname = rec[3]
+		filelist.append(dict(row=itemcount, name=fname, count=rec[7]))
+
+	ftable = DupeHashTable(filelist)
+	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)
