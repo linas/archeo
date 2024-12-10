@@ -21,14 +21,12 @@ from flask_table import Table, Col, LinkCol
 # Compare contents of filepaths having at least one file with shared
 # content.
 #
-# As always, the argument is assumed to be a file hash, encoded as a
-# 64-bit signed int, previously returned by sqlite3, so that no further
-# conversion/massaging is required.
+# The argument is the string that came on the URL GET. It is the hash
+# to explore, printed with a leading 0x and is unsigned.
 def compare_contents(filehash) :
 
-	print("look for has ", filehash)
+	# Convert string hash to what sqlite wants.
 	uxhash = int(filehash, 16)
-	print("look ux ", uxhash)
 	sxhash = to_sint64(uxhash)
 	qpaths = find_filehash_details(sxhash)
 

@@ -45,7 +45,12 @@ def show_dup_hashes():
 			if first:
 				first = False
 				# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-				rowlist.append(dict(row=itemcount, xxhash = hex(to_uint64(rec[0])),
+				rowlist.append(dict(row=itemcount,
+					# prthash is used for display on the web page and is
+					# subject to change. The hex conversion is used in the
+					# link URL GET method and must be decodable at the other
+					# end, and thus must not change on a whim.
+					xxhash = hex(to_uint64(rec[0])),
 					hashstr=prthash(rec[0]), count=rec[1],
 					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 			else :
