@@ -75,16 +75,16 @@ def show_single_dir(sxhash, dirinfo) :
 		# name, but with the same contents. Group these together.
 		# Blank out the hash to avoid clutter.
 		for idx in range (1, nfiles) :
-			difro = dict(allfiles[id])
+			difro = dict(allfiles[idx])
 			difro['row'] = ''
 			difro['hashstr'] = ''
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
-	diff_table = DiffTable(filist)
+	dir_list_table = DirListTable(filist)
 
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
-		dirtable=dirtable, difftable=diff_table, summarytable=summary_table)
+		dirlisttable=dir_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------

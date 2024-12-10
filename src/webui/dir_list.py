@@ -29,7 +29,7 @@ def show_dir_listing(filehash) :
 	if 1 < len(qdir) :
 		return show_multi_dir(sxhash, qdir)
 	else :
-		return show_single_dir(sxhash, qir[0])
+		return show_single_dir(sxhash, qdir[0])
 
 
 # ------------------ End of File. That's all, folks! ----------------------
