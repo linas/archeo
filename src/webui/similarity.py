@@ -58,7 +58,9 @@ def compare_contents(filehash) :
 	SummaryTable = create_table('boffa')
 	SummaryTable.add_column('domain', Col('Domain'))
 	SummaryTable.add_column('filepath', Col('Path'))
-	SummaryTable.add_column('numfiles', Col('Number of files'))
+	SummaryTable.add_column('numfiles', Col('Num files'))
+	SummaryTable.add_column('common', Col('Num in common'))
+	SummaryTable.add_column('overlap', Col('Percent in common'))
 
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
@@ -80,6 +82,7 @@ def compare_contents(filehash) :
 
 	# Gather names of the files for each hash
 	filist = []
+	commoncount = 0;
 	for hash in hashset:
 		difro = {}
 		difro['filexxh'] = hash
@@ -87,6 +90,7 @@ def compare_contents(filehash) :
 
 		# Each dir either has a file with that hash, or not.
 		# If it does, report the filename.
+		same_everywhere = True
 		for pa in dirlist:
 			dentry = select_filerecords(filepath=pa['filepath'],
 				domain=pa['domain'], filexxh=hash)
@@ -96,10 +100,25 @@ def compare_contents(filehash) :
 				difro[key] = defile['filename']
 			else :
 				difro[key] = '-'
+				same_everywhere = False
+
+		# Increment commonality count, if the hash is found in all
+		# the different paths
+		if same_everywhere :
+			commoncount += 1
 
 		filist.append(difro)
 
+	# Generate a detailed report of how the directories dffer
 	diff_table = DiffTable(filist)
+
+	# Generate a summary report
+	for pa in dirlist:
+		pa['common'] = commoncount
+		overlap = commoncount / pa['numfiles']
+		overlap = int (1000.0 * overlap)
+		overlap = overlap / 10.0
+		pa['overlap'] = str(overlap) + " %"
 
 	summary_table = SummaryTable(dirlist)
 
