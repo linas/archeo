@@ -37,12 +37,12 @@ def compare_contents(filehash) :
 	# Convert string hash to what sqlite wants.
 	uxhash = int(filehash, 16)
 	sxhash = to_sint64(uxhash)
-	qpaths = select_filerecords(filexxh=sxhash)
 
 	# filerecord column names are
 	# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 
 	# Gather a list of directories in which the hash appears
+	qpaths = select_filerecords(filexxh=sxhash)
 	dircount = 0
 	dirlist = []
 	for pa in qpaths:
@@ -56,8 +56,8 @@ def compare_contents(filehash) :
 	DiffTable = create_table('foobar')
 	DiffTable.add_column('filexxh', Col('Hash'))
 	for pa in dirlist:
-		fname = 'filename' + loc['row']
-		ftitle = 'Name in ' + loc['row']
+		fname = 'filename' + pa['row']
+		ftitle = 'Name in ' + pa['row']
 		DiffTable.add_column(fname, Col(ftitle))
 
 	# Gather a set of all filehashes that appear in all dirs
@@ -69,13 +69,14 @@ def compare_contents(filehash) :
 
 	# Gather names of the files for each hash
 	filist = []
-	for fi in filehash:
+	for hash in hashset:
 		difro = {}
-		difro['filexxh'] = fi
+		difro['filexxh'] = hash
 
-#		for pa in dirlist:
-#			dentry = select_filerecords(filepath=pa['filepath'], domain=pa['domain'], filexxh=pa[fi])
-#			print("yoo ", dentry.fetchone())
+		for pa in dirlist:
+			dentry = select_filerecords(filepath=pa['filepath'],
+				domain=pa['domain'], filexxh=hash)
+			print("yoo ", dentry.fetchone())
 
 		difro['filename1'] = 'asf'
 		difro['filename2'] = 'ert'
