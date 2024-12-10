@@ -9,7 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .utils import prthash
+from .utils import prthash, to_uint64
 from .query import find_duplicated_hashes, find_filehash_details
 
 # ---------------------------------------------------------------------
@@ -45,7 +45,8 @@ def show_dup_hashes():
 			if first:
 				first = False
 				# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-				rowlist.append(dict(row=itemcount, xxhash = rec[0], hashstr=prthash(rec[0]), count=rec[1],
+				rowlist.append(dict(row=itemcount, xxhash = hex(to_uint64(rec[0])),
+					hashstr=prthash(rec[0]), count=rec[1],
 					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 			else :
 				rowlist.append(dict(row=itemcount, xxhash = '', hashstr='', count='',

@@ -5,7 +5,7 @@
 
 import sqlite3
 from .query import find_filehash_details
-from .utils import prthash
+from .utils import prthash, to_sint64
 
 from flask import render_template
 from flask_table import Table, Col, LinkCol
@@ -26,8 +26,11 @@ from flask_table import Table, Col, LinkCol
 # conversion/massaging is required.
 def compare_contents(filehash) :
 
-	print("look for has ", prthash(filehash))
-	qpaths = find_filehash_details(filehash)
+	print("look for has ", filehash)
+	uxhash = int(filehash, 16)
+	print("look ux ", uxhash)
+	sxhash = to_sint64(uxhash)
+	qpaths = find_filehash_details(sxhash)
 
 	itemcount = 0
 	for pa in qpaths:
