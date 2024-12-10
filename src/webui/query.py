@@ -4,6 +4,7 @@
 # Database query shim for the webui for Archeo.
 
 import sqlite3
+# from .utils import to_sint64
 
 # -------------------------------------------------------------------------
 #
@@ -51,7 +52,9 @@ def find_filename_details(filename) :
 
 # -------------------------------------------------------------------------
 
-# Return file record details by hash
+# Return file record details by hash. The argument is assumed to
+# be a 64-bit signed int, previously returned by sqlite3, so that
+# no further conversion/massaging is required.
 def find_filehash_details(filehash) :
 	cursor = conn.cursor()
 	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid"
