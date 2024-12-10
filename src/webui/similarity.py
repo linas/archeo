@@ -60,7 +60,7 @@ def compare_contents(filehash) :
 	SummaryTable.add_column('domain', Col('Domain'))
 	SummaryTable.add_column('filepath', Col('Path'))
 	# SummaryTable.add_column('common', Col('Files in common'))
-	# SummaryTable.add_column('numfiles', Col('Tot files'))
+	# SummaryTable.add_column('numunique', Col('Tot unique hashes'))
 	# SummaryTable.add_column('overlapstr', Col('% common'))
 	SummaryTable.add_column('ratio', Col('Common ratio'))
 
@@ -77,11 +77,13 @@ def compare_contents(filehash) :
 	hashset = set()
 	for pa in dirlist:
 		dentries = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
-		filecount = 0;
+		hlocal = set()
 		for dentry in dentries:
-			filecount += 1
 			hashset.add(dentry['filexxh'])
-		pa['numfiles'] = filecount
+			hlocal.add(dentry['filexxh'])
+
+		# How many of these files are unique?
+		pa['numunique'] = len(hlocal)
 
 	# Gather names of the files for each hash
 	filist = []
@@ -124,9 +126,8 @@ def compare_contents(filehash) :
 		# file with the given hash. Report these on distinct rows.
 		# Blank out the hash to avoid clutter.
 		for idx in range (1, maxfiles) :
-			totcount += 1
 			difro = {}
-			difro['row'] = totcount
+			difro['row'] = ''
 			difro['hashstr'] = ''
 
 			# We could save the query results above, or we can just
@@ -152,11 +153,11 @@ def compare_contents(filehash) :
 	# Generate a summary report
 	for pa in dirlist:
 		pa['common'] = commoncount
-		overlap = commoncount / pa['numfiles']
+		overlap = commoncount / pa['numunique']
 		pa['overlap'] = overlap
 		overlapstr = str(int (1000.0 * overlap) / 10.0) + " %"
 		pa['overlapstr'] = overlapstr
-		pa['ratio'] = str(commoncount) + " / " + str(pa['numfiles']) \
+		pa['ratio'] = str(commoncount) + " / " + str(pa['numunique']) \
 			+ " = " + overlapstr
 
 	summary_table = SummaryTable(dirlist)
