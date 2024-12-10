@@ -6,7 +6,7 @@
 #
 
 from flask import render_template
-from flask_table import Table, Col, LinkCol
+from flask_table import Table, Col, DatetimeCol
 
 # The dot in front of the name searches the current dir.
 from .utils import prthash
@@ -19,7 +19,11 @@ class DupeHashTable(Table):
 	row = Col('')
 	hash = Col('xxHash')
 	count = Col('Count')
+	host = Col('Domain')
+	path = Col('Path')
 	name = Col('Name')
+	size = Col('Size (bytes)')
+	date = DatetimeCol('Last modified')
 
 # Find duplicated filenames
 def show_dup_hashes():
@@ -40,9 +44,11 @@ def show_dup_hashes():
 			if first:
 				first = False
 				# columns are protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-				rowlist.append(dict(row=itemcount, hash=prthash(rec[0]), count=rec[1], name=fi[3]))
+				rowlist.append(dict(row=itemcount, hash=prthash(rec[0]), count=rec[1],
+					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 			else :
-				rowlist.append(dict(row=itemcount, hash='', count='', name=fi[3]))
+				rowlist.append(dict(row=itemcount, hash='', count='',
+					host=fi[1], path=fi[2], name=fi[3], size=fi[4], date=fi[5]))
 
 
 	ftable = DupeHashTable(rowlist)

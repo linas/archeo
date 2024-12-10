@@ -9,6 +9,10 @@
 Found {{ itemcount }} file records that have identical hashes.
 These are files, having different names or locations, that have
 the same hash, and thus almost surely have the same file contents.
+<p>
+Even if the file contents are the same, the timestamps may differ,
+because different files might have been touched at various times
+in the past. However, file sizes should be identical.
 
 <p>
 {{ filetable }}
