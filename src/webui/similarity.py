@@ -60,15 +60,19 @@ def compare_contents(filehash) :
 	dircount = 0
 	fileset = set()
 	hashset = set()
-	for pa in qpaths:
+	for pa in dirlist:
 		dircount += 1
-		dentry = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
-		fileset.add(dentry['filename'])
+		dentries = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
+		print("sup ", dentries)
+		for dentry in dentries:
+			print("yo", dentry['filename'])
+			fileset.add(dentry['filename'])
 
 	filist = []
 	for fi in fileset:
+		ro = {}
 		ro['filename'] = fi
-		filist.append[ro]
+		filist.append(ro)
 
 	diff_table = DiffTable(filist)
 
