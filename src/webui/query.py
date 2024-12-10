@@ -45,6 +45,18 @@ def find_duplicated_hashes() :
 # Return filename details
 def find_filename_details(filename) :
 	cursor = conn.cursor()
-	sel = "SELECT domain, filepath, filesize, filecreate, filexxh, frecid, protocol "
+	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid "
 	sel += "FROM FileRecord WHERE filename=?;"
 	return cursor.execute(sel, (filename,))
+
+# -------------------------------------------------------------------------
+
+# Return file record details by hash
+def find_filehash_details(filehash) :
+	cursor = conn.cursor()
+	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid"
+	sel += "FROM FileRecord WHERE filexxh=?;"
+	return cursor.execute(sel, (filehash,))
+
+# ------------------ End of File. That's all, folks! ----------------------
+# -------------------------------------------------------------------------
