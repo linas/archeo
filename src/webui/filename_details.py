@@ -8,6 +8,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol
 
 # The dot in front of the name searches the current dir.
+from .utils import prthash
 from .query import find_filename_details
 
 # ---------------------------------------------------------------------
@@ -33,7 +34,7 @@ def show_filename_details(filename):
 		# qresult columns are
 		# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
 		filelist.append(dict(row=rowcount, host=rec[1], path=rec[2],
-			size=rec[4], date=rec[5], hash=hex(rec[6]), frecid=rec[7]))
+			size=rec[4], date=rec[5], hash=prthash(rec[6]), frecid=rec[7]))
 
 	ftable = FilenameDetailsTable(filelist)
 	return render_template("filename-details.html", filename=filename,

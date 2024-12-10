@@ -9,6 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, LinkCol
 
 # The dot in front of the name searches the current dir.
+from .utils import prthash
 from .query import find_duplicated_hashes
 
 # ---------------------------------------------------------------------
@@ -29,8 +30,7 @@ def show_dup_hashes():
 		itemcount += 1
 		# Ugly API: columns according to SQL query.  The columns are:
 		# filexxh, COUNT(*)
-		hexhash = hex(rec[0])
-		filelist.append(dict(row=itemcount, hash=hexhash, count=rec[1]))
+		filelist.append(dict(row=itemcount, hash=prthash(rec[0]), count=rec[1]))
 
 	ftable = DupeHashTable(filelist)
 	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)
