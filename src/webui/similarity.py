@@ -5,10 +5,10 @@
 #
 
 from .query import select_filerecords
-from .utils import prthash, to_sint64
+from .utils import prthash, to_sint64, to_uint64
 
 from flask import render_template
-from flask_table import Table, Col, DatetimeCol, create_table
+from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
 
 # General plan:
 # -- Given a hash, find all files having that hash.
@@ -67,7 +67,10 @@ def compare_contents(filehash) :
 	# Create a variable-width table.
 	DiffTable = create_table('foobar')
 	DiffTable.add_column('row', Col(''))
-	DiffTable.add_column('hashstr', Col('Hash'))
+	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
+		endpoint='path_similarity',
+      url_kwargs=dict(signedhash='xxhash')))
+
 	for pa in dirlist:
 		fname = 'filename' + pa['row']
 		ftitle = 'Name in ' + pa['row']
@@ -93,8 +96,15 @@ def compare_contents(filehash) :
 		totcount += 1
 		difro = {}
 		difro['row'] = totcount
+
+		# prthash is used for display on the web page and is
+		# subject to change. The hex conversion is used in the
+		# link URL GET method and must be decodable at the other
+		# end, and thus must not change on a whim. And the
+		# straight-up hash is needed for SQL queries.
 		difro['filexxh'] = hash
 		difro['hashstr'] = prthash(hash)
+		difro['xxhash'] = hex(to_uint64(hash))
 
 		# Each dir either has one or more files with that hash,
 		# or none. Report all files having the same hash.
