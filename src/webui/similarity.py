@@ -172,7 +172,7 @@ def compare_contents(filehash) :
 
 	summary_table = SummaryTable(dirlist)
 
-	return render_template("similar-dirs.html", xxhash=filehash,
+	return render_template("similar-dirs.html", hashstr=prthash(sxhash),
 		dirtable=dirtable, difftable=diff_table, summarytable=summary_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
