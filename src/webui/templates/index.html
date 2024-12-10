@@ -16,8 +16,10 @@ This panel could look a lot nicer, right? Someone should CSS it.
     </form>
   </td>
   <td>
+<p>
     Search for files with identical filenames, but different
     directories or hashes.
+<p>
   </td>
 </tr>
 <tr>
@@ -27,9 +29,28 @@ This panel could look a lot nicer, right? Someone should CSS it.
     </form>
   </td>
   <td>
+<p>
     Search for files with identical content hashes (but different
     directories or filenames). Files with the same hash are almost
     surely identical, just differing in name and/or location.
+<p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <form action="similar-dirs" method="POST">
+        <input type="submit" name="sim-dirs" value="Similar directories">
+    </form>
+  </td>
+  <td>
+<p>
+    <b>UNDER CONSTRUCTION</b>
+    Search for similar directories. These are directories which have
+    many identical files, mostly having the same filenames, mostly
+    having the same directory hierarchy. Such directories typically
+    arise as the result of bulk copies, possibly because they are
+    meant to be backups.
+<p>
   </td>
 </tr>
 </tbody>

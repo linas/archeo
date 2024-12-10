@@ -25,6 +25,7 @@ from .query import query_db_open, query_db_close
 from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
+from .similar_dirs import show_similar_dirs
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -71,11 +72,20 @@ def dupe_files():
 def dupe_hashes():
 	return show_dup_hashes()
 
+# Find similar dirs.
+@app.route('/similar-dirs', methods=['POST'])
+def sim_dirs():
+	return show_similar_dirs()
+
+# ----------------------------------------------------------------------
+# File-detail sub-page
 # Display details for a given filename.
 @app.route('/filename.detail', methods=['GET'])
 def filename_detail():
 	return show_filename_details(request.args['filename'])
 
+# ----------------------------------------------------------------------
+# Testing
 @app.route('/', methods=['POST'])
 def blarg_post():
 
