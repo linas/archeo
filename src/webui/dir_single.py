@@ -48,7 +48,7 @@ def show_single_dir(dirinfo) :
 	for hash in hashset:
 		totcount += 1
 
-		% Get the file(s) with this hash.
+		# Get the file(s) with this hash.
 		dentry = select_filerecords(filepath=dirinfo['filepath'],
 			domain=dirinfo['domain'], filexxh=hash)
 

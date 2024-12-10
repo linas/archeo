@@ -33,7 +33,7 @@ class DirTable(Table):
 #
 # The argument is the string that came on the URL GET. It is the hash
 # to explore, printed with a leading 0x and is unsigned.
-def show_mult_dir(qpaths) :
+def show_multi_dir(qpaths) :
 
 	# Stash the list of directories. We'll walk this list repeatedly.
 	dircount = 0
