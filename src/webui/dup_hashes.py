@@ -32,7 +32,7 @@ def show_dup_hashes():
 	itemcount = 0
 	filelist = []
 	for rec in qresult:
-		item += 1
+		itemcount += 1
 		# Ugly API: columns according to SQL query.  The columns are:
 		# protocol, domain, filepath, filename, filesize, filecreate, frecid, COUNT(*)
 		fname = rec[3]
