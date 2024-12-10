@@ -37,13 +37,23 @@ class FileTable(Table):
 # Print a directory listing.
 #
 # The first argument is a signed int content hash (of some file).
-# The second argument is the FileRecord query result of length one.
-# It will be used to display all other files having the same
-# domain and filepath.
-def show_single_dir(sxhash, dirinfo) :
+# The second argument is a FileRecord query result. If it has a length
+# of more than one, then all of these should have the same domain and
+# filepath. That is, the content might be appearing multiple times in
+# just one directory.
+def show_single_dir(sxhash, dirlist) :
 
-	dirinfo = dict(dirinfo)
+	dirinfo = dict(dirlist[0])
 	dirinfo['hashstr'] = prthash(sxhash)
+
+	ftime = datetime.fromtimestamp(dirinfo['filecreate'])
+	finfolist = []
+	finfolist.append({'prop': "Domain:", 'val': dirinfo['domain']})
+	finfolist.append({'prop': "Path:", 'val': dirinfo['filepath']})
+	finfolist.append({'prop': "File name:", 'val': dirinfo['filename']})
+	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
+	finfolist.append({'prop': "Last modified:", 'val': str(ftime)})
+	file_table = FileTable(finfolist)
 
 	# Get a list of all distinct hashes in this directory
 	dentries = select_filerecords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
@@ -91,15 +101,6 @@ def show_single_dir(sxhash, dirinfo) :
 
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
-
-	ftime = datetime.fromtimestamp(dirinfo['filecreate'])
-	finfolist = []
-	finfolist.append({'prop': "Domain:", 'val': dirinfo['domain']})
-	finfolist.append({'prop': "Path:", 'val': dirinfo['filepath']})
-	finfolist.append({'prop': "File name:", 'val': dirinfo['filename']})
-	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
-	finfolist.append({'prop': "Last modified:", 'val': str(ftime)})
-	file_table = FileTable(finfolist)
 
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
 		fileinfo=file_table, dirlisttable=dir_list_table)
