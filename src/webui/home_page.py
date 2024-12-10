@@ -25,8 +25,8 @@ from .query import query_db_open, query_db_close
 from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
+from .dir_list import show_dir_listing
 from .similar_summary import show_similar_summary
-from .similarity import compare_contents
 
 # Read config file to discover DB location.
 def config_db(conffile) :
@@ -86,11 +86,11 @@ def filename_detail():
 	return show_filename_details(request.args['filename'])
 
 # ----------------------------------------------------------------------
-# Hash-path similarity
-# Display similarity of parent dirs containing identical files.
-@app.route('/parent.similarity', methods=['GET'])
-def path_similarity():
-	return compare_contents(request.args['signedhash'])
+# Directory-listing sub-page
+# Display all directories that might hold a given hash.
+@app.route('/directory.detail', methods=['GET'])
+def directory_detail():
+	return show_dir_listing(request.args['signedhash'])
 
 # ----------------------------------------------------------------------
 # Testing

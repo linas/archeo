@@ -1,7 +1,8 @@
 #
-# similarity.py
+# dir_multi.py
 #
-# Do flask rendering to show directories with similar content.
+# Do flask rendering to show multiple directories, each having
+# at least one file in common.
 #
 
 from .query import select_filerecords
@@ -32,17 +33,9 @@ class DirTable(Table):
 #
 # The argument is the string that came on the URL GET. It is the hash
 # to explore, printed with a leading 0x and is unsigned.
-def compare_contents(filehash) :
+def show_mult_dir(qpaths) :
 
-	# Convert string hash to what sqlite wants.
-	uxhash = int(filehash, 16)
-	sxhash = to_sint64(uxhash)
-
-	# filerecord column names are
-	# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
-
-	# Gather a list of directories in which the hash appears
-	qpaths = select_filerecords(filexxh=sxhash)
+	# Stash the list of directories. We'll walk this list repeatedly.
 	dircount = 0
 	dirlist = []
 	for pa in qpaths:

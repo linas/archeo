@@ -6,6 +6,7 @@
 
 from .query import select_filerecords
 from .dir_single import show_single_dir
+from .dir_multi import show_multi_dir
 
 # General plan:
 # -- Look to see if the provided hash appears in one, or more than one
@@ -25,6 +26,7 @@ def show_dir_listing(filehash) :
 	qpath = select_filerecords(filexxh=sxhash)
 	qdir = qpath.fetchall()
 	if 1 < len(qdir) :
+		return show_multi_dir(qdir)
 	else :
 		return show_single_dir(qir[0])
 
