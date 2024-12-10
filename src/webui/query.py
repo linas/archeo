@@ -37,8 +37,7 @@ def find_duplicated_names() :
 # This is fairly normal: the same file contents, different locations/names
 def find_duplicated_hashes() :
 	cursor = conn.cursor()
-	sel = "SELECT protocol, domain, filepath, filename, filesize, filecreate, "
-	sel += "frecid, COUNT(*) FROM FileRecord GROUP BY filexxh HAVING COUNT(*) > 1;"
+	sel = "SELECT filexxh, COUNT(*) FROM FileRecord GROUP BY filexxh HAVING COUNT(*) > 1;"
 	return cursor.execute(sel)
 
 # -------------------------------------------------------------------------

@@ -16,13 +16,7 @@ from .query import find_duplicated_hashes
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	# endpoint must be the name of a flask function that already exists
-	# and is associated to a given URL. The kwargs are passed as a GET
-	# param (which just repeats the filename). The attr MUST name an
-	# item in the row dictionary. It is the string that will be displayed
-	# in the generated `a href` link.
-	name = LinkCol('File Name', attr='name', endpoint='filename_detail',
-		url_kwargs=dict(filename='name'))
+	hash = Col('xxHash')
 	count = Col('Count')
 
 # Find duplicated filenames
@@ -34,9 +28,9 @@ def show_dup_hashes():
 	for rec in qresult:
 		itemcount += 1
 		# Ugly API: columns according to SQL query.  The columns are:
-		# protocol, domain, filepath, filename, filesize, filecreate, frecid, COUNT(*)
-		fname = rec[3]
-		filelist.append(dict(row=itemcount, name=fname, count=rec[7]))
+		# filexxh, COUNT(*)
+		hexhash = hex(rec[0])
+		filelist.append(dict(row=itemcount, hash=hexhash, count=rec[1]))
 
 	ftable = DupeHashTable(filelist)
 	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)
