@@ -46,10 +46,14 @@ def show_single_dir(sxhash, dirlist) :
 	dirinfo = dict(dirlist[0])
 	dirinfo['hashstr'] = prthash(sxhash)
 
+	ntimes = "once"
+	if 1 < len(dirlist) :
+		ntimes = "several times"
+
+	location = dirinfo['domain'] + ":" + dirinfo['filepath']
+
 	ftime = datetime.fromtimestamp(dirinfo['filecreate'])
 	finfolist = []
-	finfolist.append({'prop': "Domain:", 'val': dirinfo['domain']})
-	finfolist.append({'prop': "Path:", 'val': dirinfo['filepath']})
 	finfolist.append({'prop': "File name:", 'val': dirinfo['filename']})
 	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
 	finfolist.append({'prop': "Last modified:", 'val': str(ftime)})
@@ -103,6 +107,7 @@ def show_single_dir(sxhash, dirlist) :
 	dir_list_table = DirListTable(filist)
 
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
+		ntimes=ntimes, location=location,
 		fileinfo=file_table, dirlisttable=dir_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
