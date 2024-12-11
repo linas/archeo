@@ -4,8 +4,6 @@
 # Do flask rendering to show directory contents.
 #
 
-from datetime import datetime
-
 from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
 
@@ -29,8 +27,9 @@ class DirListTable(Table):
 
 
 class FileTable(Table):
-	prop = Col('')
-	val = Col('')
+	filename = Col('Name')
+	filesize = Col('Size (bytes)')
+	filecreate = DatetimeCol('Last modified')
 
 # -------------------------------------------------------------------------
 
@@ -46,18 +45,19 @@ def show_single_dir(sxhash, dirlist) :
 	dirinfo = dict(dirlist[0])
 	dirinfo['hashstr'] = prthash(sxhash)
 
-	ntimes = "once"
-	if 1 < len(dirlist) :
-		ntimes = "several times"
-
+	# Where is this content located?
 	location = dirinfo['domain'] + ":" + dirinfo['filepath']
 
-	ftime = datetime.fromtimestamp(dirinfo['filecreate'])
-	finfolist = []
-	finfolist.append({'prop': "File name:", 'val': dirinfo['filename']})
-	finfolist.append({'prop': "Size:", 'val': dirinfo['filesize']})
-	finfolist.append({'prop': "Last modified:", 'val': str(ftime)})
-	file_table = FileTable(finfolist)
+	# How many times does it appear there?
+	if 1 == len(dirlist) :
+		ntimes = "once"
+		ess = ''
+	else :
+		ntimes = "several times"
+		ess = 's'
+
+	# List the one or more names under which it appears.
+	file_table = FileTable(dirlist)
 
 	# Get a list of all distinct hashes in this directory
 	dentries = select_filerecords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
@@ -107,7 +107,7 @@ def show_single_dir(sxhash, dirlist) :
 	dir_list_table = DirListTable(filist)
 
 	return render_template("dir-list.html", hashstr=prthash(sxhash),
-		ntimes=ntimes, location=location,
+		ntimes=ntimes, location=location, ess=ess,
 		fileinfo=file_table, dirlisttable=dir_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
