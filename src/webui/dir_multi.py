@@ -69,7 +69,9 @@ def show_multi_dir(sxhash, qpaths) :
 	for pa in dirlist:
 		fname = 'filename' + pa['row']
 		ftitle = 'Name in ' + pa['row']
-		DiffTable.add_column(fname, Col(ftitle))
+		DiffTable.add_column(fname,
+			LinkCol(ftitle, attr=fname, endpoint='filename_detail',
+				url_kwargs=dict(filename=fname)))
 
 	# Gather a set of all filehashes that appear in all dirs
 	hashset = set()
@@ -117,7 +119,7 @@ def show_multi_dir(sxhash, qpaths) :
 			if 0 < nfiles :
 				difro[key] = allfiles[0]['filename']
 			else :
-				difro[key] = '-'
+				difro[key] = ''
 				same_everywhere = False
 
 		# Increment commonality count, if the hash is found in all
