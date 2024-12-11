@@ -16,18 +16,19 @@ from .utils import prthash, to_sint64, to_uint64
 # -- Print the directory contents.
 
 # Declare table header
+class FileTable(Table):
+	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
+		url_kwargs=dict(filename='filename'))
+	filesize = Col('Size (bytes)')
+	filecreate = DatetimeCol('Last modified')
+
 class DirListTable(Table):
 	row = Col('')
 	hashstr = LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
 		url_kwargs=dict(signedhash='xxhash'))
-	filename = Col('Name')
-	filesize = Col('Size (bytes)')
-	filecreate = DatetimeCol('Last modified')
-
-
-class FileTable(Table):
-	filename = Col('Name')
+	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
+		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
 	filecreate = DatetimeCol('Last modified')
 
