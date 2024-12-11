@@ -18,7 +18,7 @@ Some specfic coding tasks:
   the DB) and it should allow browsing by similar/identical names
   and browsing by content hash (showing other files, file locations,
   with the same hash.)  So, a regular file browser, but with some
-  extra super-powers.
+  extra super-powers.  This is already half-way done; but only half-way.
 
 Some general ideas.
 * If a directory has files with hash miscompares, and that directory
