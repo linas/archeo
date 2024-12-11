@@ -61,6 +61,8 @@ CREATE TABLE FileRecord (
 	frecid INTEGER PRIMARY KEY
 );
 
+CREATE INDEX record_hash_idx ON FileRecord (filexxh);
+
 -- Record of when a file with the indicated FileRecord was last seen
 -- and validated as having the metadata as recorded in the FileRecord
 CREATE TABLE RecordWitness (
