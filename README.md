@@ -126,7 +126,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.4
+Version 0.0.5
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -135,7 +135,7 @@ migrating data from here to there, and specifically, from off my raid
 arrays and onto Ceph.
 
 The current system architecture is imaginary, and the implementation
-was started only two days ago. A basic filesystem crawler/cataloger has
+was started only a few days ago. A basic filesystem crawler/cataloger has
 been set up, and it works. A web UI has been prototyped.  See the
 *HOWTO* below.
 
@@ -229,7 +229,7 @@ Tech selection
 
 HOWTO
 -----
-This is version 0.0.4 Not much here yet.
+This is version 0.0.5 Not much here yet.
 
 As root:
 ```
