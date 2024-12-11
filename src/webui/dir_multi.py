@@ -22,7 +22,8 @@ class DirTable(Table):
 	row = Col('')
 	domain = Col('Domain')
 	filepath = Col('Path')
-	filename = Col('Name')
+	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
+		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
 	filecreate = DatetimeCol('Last modified')
 
