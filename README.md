@@ -1,9 +1,9 @@
 
 Archeo -- Data Recovery
 =======================
-Repairing lost, corrupted, damaged data. The Archivist's Friend.
-Data Hoarders Welcome.  Data Archeology. Forensics. Longevity.
-A Unified View of Data.
+Finding and repairing lost, corrupted, damaged data. The Archivist's
+Friend.  Data Hoarders Welcome.  Data Archeology. Forensics. Longevity.
+A Unified View of File System Data.
 
 A Humble Start
 --------------
@@ -20,7 +20,7 @@ files have fairly long stretches of zero bytes: file data which is zero,
 for a bunch of bytes in a row. Is this normal?
 
 This ain't good. I have maybe 1.5 million files. Not sure, haven't
-finished counting. Wife & kids have more. I panicked. My panick is
+finished counting. Wife & kids have more. I panicked. My panic is
 justified. Out of those 1.5 million files, 1440 of them consist of
 nothing but zeros (they shouldn't; they're photos, tar files...)
 
@@ -46,11 +46,11 @@ inspires developers and sustains users. So here:
   tools that fix MP3's, and other tools that fix photos. Use those.
 * Use copies, when available. Figure out if one of the copies is good,
   and use that. But if there are two broken copies, maybe a single good
-  version can be created.
+  version can be created by splicing these together.
 * Search my old backups and archives for a good copy.
 * Consolidate all my old archives and copies. They are everywhere,
-  I don't even know what I have, if its any good, and its all taking up
-  disk space. Where is it? What is it? Is it rotten? Is it good?
+  I don't even know what I have, or if its any good, and its all taking
+  up disk space. Where is it? What is it? Is it rotten? Is it good?
 * Provide "some level of" content integrity assurances.
 * Start small, for home users. Expand to archives, libraries. Support
   databases and complex data. Allow data forensics and data recovery.
@@ -69,7 +69,8 @@ The Process of Living
 Living organisms heal themselves. A collection of data should be
 self-healing. Living organisms know things and remember things.
 A collection of data should know what's in it, what it's made out
-of, when some blob of data was last seen online, or in cold storage.
+of. It should know when some blob of data was last seen online,
+or whether its now in cold storage.
 
 There should be ways of exploring, finding, searching, discovering.
 Knowing who you are, by knowing what you remember. Living organisms
@@ -103,7 +104,9 @@ like some way of double-checking.
 This project is for the finicky and technically sophisticated user
 (hobbyist?) who runs a Linux desktop or three at home, and worries about
 their data. Perhaps one day, this project will be useful to archivists
-or librarians. Maybe even scientists or business owners. But lets not
+or librarians. Maybe housewives and pensioners wih family photo albums
+and geneology trees that they are safe-guarding. Perhaps even scientists
+protecting their data, or business owners, who ... ???. But lets not
 get ahead of ourselves. Let's take a closer look.
 
 
@@ -126,18 +129,29 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.5
+Version 0.0.6
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
-writing a system. That is because this is kind of a blocker for my
-migrating data from here to there, and specifically, from off my raid
+writing a system. I've done this because this is kind of a blocker for
+my migrating data from here to there, and specifically, from off my RAID
 arrays and onto Ceph.
 
-The current system architecture is imaginary, and the implementation
-was started only a few days ago. A basic filesystem crawler/cataloger has
-been set up, and it works. A web UI has been prototyped.  See the
+The current system architecture is minimal, and the implementation
+was started less than a week ago. A basic filesystem crawler/cataloger
+has been set up, and it works. A web UI has been prototyped.  See the
 *HOWTO* below.
+
+The prototype is written in highly conventional SQL plus Python plus
+Flask for the Web UI. It was easy. It's not complicated. Any ordinary
+developer can read and understand this code, and hack on it.
+
+As I contemplate moving out of the prototype stage, and into production,
+I realize that perhaps I should use the AtomSpace instead. You have
+two questions: (1) "what the heck is the
+[AtomSpace](https://github.com/opencog/atomspace)?" and (2) "Good God,
+why?" The answer to the second question is in the
+[similarity README](src/similarity/README.md) file. Read it.
 
 Systems Survey
 --------------
@@ -196,6 +210,7 @@ can make use of existing frameworks. How would this work?
   is to blame.  Maybe a cosmic ray hit the system during file copy. Ceph
   is aimed at large clusters, not small users. Fully debugged if you have
   1000 OSD's on 100 hosts. But not so much if you have 3 OSD's on two hosts.
+  There's no home-user Ceph community. There should be.
 
 Design requirements
 -------------------
@@ -227,19 +242,46 @@ Tech selection
   two feel like overkill. SQLite seems small, simple, easy for now.
 * High performance is not a requirement. High usability is.
 
+Tech re-selection
+-----------------
+The prototype version 0.0.5 was written in a very conventional stack
+of sqlite3 for the SQL db, python for the programming language, and
+python flask for the web ui. This stuff is widely used, widely
+understood, and quite easy for ordinary developers to get into and use.
+
+The prototype consists of a crawler that create a file catalog, and
+a web UI that can walk directories and explore the locations of similar
+files. It works just fine.
+
+For version 0.2, I want to add some rather sophisticated similarity
+detection tools, described in the [similarity README](src/similarity/README.md).
+While designing that, I realized that my sqlite3+python+flask stack is
+not going to cut it, and that I already have much better tools: namely,
+the [AtomSpace](https://github.com/opencog/atomspace).
+
+The problem is that almost no one has heard of the AtomSpace, almost
+no one uses it, and its a strange weird beast for ordinary programmers.
+However, I've also decided that the number of ordinary programmers who
+are going to join this project is approximately zero. So why should I
+cate to them, when there is something way more fun and useful to work
+with? So I'm restarting this project on the OpenCog AtomSpace.
+
 HOWTO
 -----
-This is version 0.0.5 Not much here yet.
+6he version 0.0.6 sqlite3+python+flask prototype is in the [`src`](src)
+directory. It has two parts:
+* The cataloger, which runs over file systems, computes file hashes,
+  and logs the resulting filepaths.
+  See the [`src/catalog` README](src/catalog) for more.
+* The Web UI, which can be used to browse the catalog above, find
+  *identical* files, and see where they are located.
+  See the [`src/webui` README](src/webui) for more.
 
-As root:
+Both parts work just fine, and are "done".
+
+Both parts need some basic python infrascture. As root:
 ```
 apt install python3 python3-flask python3-venv python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
-There are two parts to this app: a crawler, with populates a database,
-and a web user interface, which can be used to examine what was found.
-
-Go to [`src/catalog`](src/catalog) and learn how to run the crawler (read the README file).
-
-Go to [`src/webui`](src/webui) and learn how to run the web interface.
