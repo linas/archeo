@@ -11,6 +11,7 @@ shown in this demo. Read this first, if you are new to OpenCog.
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.storage import *
+from opencog.storage_rocks import *
 
 space = AtomSpace()
 set_default_atomspace(space)
@@ -50,4 +51,9 @@ print("Here's your data:", e)
 
 # -------------------------------------------
 
-storage = RocksStorageNode("rocks://tmp/foo")
+storage = RocksStorageNode("rocks:///tmp/foo")
+cog_open(storage)
+
+cog_close(storage)
+print("Closed the connection to storage")
+print("Good bye!")
