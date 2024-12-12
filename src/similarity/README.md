@@ -1,5 +1,5 @@
 Directory Similarity
---------------------
+====================
 
 Deleted, missing or corrupted files can be detected by comparing logs
 of directories that are copies of one-another. That is, If two directories
@@ -16,3 +16,21 @@ Archives, collections and backups should not be changing.
 Thus, measuring the similarity of directories seems like a good way of
 detecting unwanted changes. Some infrastructure to accomplish this is
 located here.
+
+Design
+------
+Change detection is done after there is a file catalog to examine.
+The file cataloging tracks file hashes; it does NOT explictly track
+directory structure, althought that structure is inplicit in the file
+paths.
+
+Change detection can be automated by doing an inverse search: Starting
+with a file that is in two places, look at the parent dirs, and compare
+those. This is to be done hierarchically, but going "backwards" from the
+usual unix tree: subtrees may be identical, but are anchored at different
+roots, where they diverged.
+
+This can be computed "live" from the crawl log, but it seems wiser to
+compute this off-line, and save (log) the results. Put timestamps on the
+log and make it browable from the UI.
+
