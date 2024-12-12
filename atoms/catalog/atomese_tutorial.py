@@ -1,10 +1,11 @@
 #! /usr/bin/env python3
 #
-# hello_world.py
+# atomese_tutorial.py
 #
 """
-A basic demo for how to use the OpenCog AtomSpace together with python,
-to store and retreive data. A great place to start for beginners.
+A basic tutorial showing some of the basic concepts from the OpenCog
+AtomSpace. The final implementation is an expansion of the basic idea
+shown in this demo. Read this first, if you are new to OpenCog.
 """
 
 from opencog.atomspace import AtomSpace
@@ -14,7 +15,8 @@ from opencog.type_constructors import *
 space = AtomSpace()
 set_default_atomspace(space)
 
-# Record a phototgraph stored in a directory.
+# Record a photograph stored in a directory.
+#
 # This has the form of a labelled directed graph edge.
 # In ASCII graphics:
 #
@@ -31,13 +33,15 @@ set_default_atomspace(space)
 #    Edge (Predicate ("some edge label"),
 #          List (Item ("from vertex"), Item ("to vertex")))
 #
+# Photographs are "stored" (or can be found at) URL locations.
+# The relationship between the URL location and the file name can
+# be indicated with an arrow. (This is one of many ways.)
 e = EdgeLink(
-	# The relationship between the directory and the file:
-	# the file is a "direntry" in the directory.
-	PredicateNode("direntry"),
+	# Here, "URL" is just some string. Any string will do.
+	PredicateNode("URL"),
 	ListLink(
 		# The name of the directory with photos in it.
-		ItemNode("my photo album"),
+		ItemNode("file:///Home Computer/folders/My photo album"),
 
 		# The photo itself.
 		ItemNode("Fantastic Sunset on Sunday.jpg")))
