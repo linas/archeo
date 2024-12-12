@@ -9,8 +9,8 @@ shown in this demo. Read this first, if you are new to OpenCog.
 """
 
 from opencog.atomspace import AtomSpace
-from opencog.atomspace import types
 from opencog.type_constructors import *
+from opencog.storage import *
 
 space = AtomSpace()
 set_default_atomspace(space)
@@ -48,3 +48,6 @@ e = EdgeLink(
 
 print("Here's your data:", e)
 
+# -------------------------------------------
+
+storage = RocksStorageNode("rocks://tmp/foo")
