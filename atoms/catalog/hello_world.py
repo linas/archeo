@@ -11,21 +11,36 @@ from opencog.atomspace import AtomSpace
 from opencog.atomspace import types
 from opencog.type_constructors import *
 
-
 space = AtomSpace()
 set_default_atomspace(space)
 
-# Record a phototgraph stored in a directory
-s = Section(
+# Record a phototgraph stored in a directory.
+# This has the form of a labelled directed graph edge.
+# In ASCII graphics:
+#
+#                      "some edge label"
+#    "from vertex" ------------------------> "to vertex"
+#
+# which in Atomese, becomes
+#
+#    (Edge (Predicate "some edge label")
+#            (List (Item "from vertex") (Item "to vertex")))
+#
+# and for python, the parens get re-arranged and commas are inserted:
+#
+#    Edge (Predicate ("some edge label"),
+#          List (Item ("from vertex"), Item ("to vertex")))
+#
+e = EdgeLink(
 	# The relationship between the directory and the file:
 	# the file is a "direntry" in the directory.
 	PredicateNode("direntry"),
-	Link(
+	ListLink(
 		# The name of the directory with photos in it.
 		ItemNode("my photo album"),
 
 		# The photo itself.
 		ItemNode("Fantastic Sunset on Sunday.jpg")))
 
-print("Hey yo its", s)
+print("Here's your data:", e)
 
