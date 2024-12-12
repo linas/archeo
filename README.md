@@ -104,8 +104,8 @@ like some way of double-checking.
 This project is for the finicky and technically sophisticated user
 (hobbyist?) who runs a Linux desktop or three at home, and worries about
 their data. Perhaps one day, this project will be useful to archivists
-or librarians. Maybe housewives and pensioners wih family photo albums
-and geneology trees that they are safe-guarding. Perhaps even scientists
+or librarians. Maybe housewives and pensioners with family photo albums
+and genealogy trees that they are safe-guarding. Perhaps even scientists
 protecting their data, or business owners, who ... ???. But lets not
 get ahead of ourselves. Let's take a closer look.
 
@@ -266,9 +266,9 @@ are going to join this project is approximately zero. So why should I
 cate to them, when there is something way more fun and useful to work
 with? So I'm restarting this project on the OpenCog AtomSpace.
 
-HOWTO
------
-6he version 0.0.6 sqlite3+python+flask prototype is in the [`src`](src)
+HOWTO (Prototype)
+-----------------
+The version 0.0.6 sqlite3+python+flask prototype is in the [`src`](src)
 directory. It has two parts:
 * The cataloger, which runs over file systems, computes file hashes,
   and logs the resulting filepaths.
@@ -285,3 +285,13 @@ apt install python3 python3-flask python3-venv python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
+
+HOWTO (AtomSpace)
+-----------------
+The next version will use the OpenCog AtomSpace instead of sqlite3.
+It will stick to python and flask, though. It has not been started,
+yet, so read about the AtomSpace, instead.
+
+The AtomSpace is harder to install than python, and so maybe demos
+will be made available in docker containers, to make it easy for
+y'all. Stay tuned. *That's right folks, don't touch that dial!*
