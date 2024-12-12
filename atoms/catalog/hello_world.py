@@ -15,8 +15,17 @@ from opencog.type_constructors import *
 space = AtomSpace()
 set_default_atomspace(space)
 
-f = ConceptNode("myfile")
-n = NumberNode("42")
+# Record a phototgraph stored in a directory
+s = Section(
+	# The relationship between the directory and the file:
+	# the file is a "direntry" in the directory.
+	PredicateNode("direntry"),
+	Link(
+		# The name of the directory with photos in it.
+		ItemNode("my photo album"),
 
-print("Hey yo its", Link(f,n))
+		# The photo itself.
+		ItemNode("Fantastic Sunset on Sunday.jpg")))
+
+print("Hey yo its", s)
 
