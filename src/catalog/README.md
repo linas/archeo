@@ -77,7 +77,13 @@ Open Questions/Issues
 
 * Should there be a log of a file being searched for, and not found?
 
-* Currently, links are never followed. SHould this be configurable?
+* Currently, links are never followed. Should this be configurable?
+
+* It would be nice to use the web GUI to manage the config files...
+  I'm doing it by hand and its not fun.
+
+* There should be a way of marking a file as having been deeleted.
+  i.e. we've got a record of it, but its now gone.
 
 
 HOWTO

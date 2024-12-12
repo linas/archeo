@@ -4,6 +4,7 @@ Not much here yet. Directories:
 
 * `catalog`: the crawler, for populating the initial database.
 * `webui`: the main control panel.
+* `similarity`: infrstructure for finding similar directories.
 
 TODO
 ----
@@ -19,6 +20,11 @@ Some specfic coding tasks:
   and browsing by content hash (showing other files, file locations,
   with the same hash.)  So, a regular file browser, but with some
   extra super-powers.  This is already half-way done; but only half-way.
+
+* Utility to mark a file that disappeared: was present in earlier scans
+  but is now gone.
+
+* There are more TODO items scattered about in other README's.
 
 Some general ideas.
 * If a directory has files with hash miscompares, and that directory
