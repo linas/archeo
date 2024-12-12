@@ -63,3 +63,54 @@ will not have any problem whatsoever extending, enhancing and bug-fixing
 this code.
 
 ### The appealing solution
+You will hate this. But I will love it.
+
+Here's the deal. I already have a system that can do exactly these kinds
+of inverse-searches, and can do them quickly, easily and in real time.
+No table design is needed. No time consuming transformations need to be
+applied on the data. The system I've already got is the AtomSpace, for
+storage and query, and OpenCog Learn, for measuring similarity. Bot are
+aleardy very well-developed and advanced. So, what the heck: shy not use
+that?
+
+The problem, of course, is that the AtomSpace is weird and scary stuff
+the conventional programmer. It's dunting. Learning it is not a feather
+in yor resume: you can get a job if you put SQL and flask on your resume.
+You cannot, if you put OpenCog on your resume. Tere's no incentive for
+you to learn it.
+
+The other problem is that you, the reader of this text, is imaginary.
+Chances are high that no human being will ever read the paragraphs above.
+How do I know this? Three ways:
+* The number of people who are interested in reparing old damaged archives
+  is small. I'm thinking that librarians and archivists migt be into this,
+  but given that none of the library and archive websites talk about this,
+  maybe even they are not interested. So, who, then? Older housewifes and
+  pensioners with photo collections that they're trying to keep alve?
+* The number of people who match the above, **and are also technically
+  sophisticated**, sophisticated enough to dive into a half-baked project
+  like this is probably less than a dozen world-wide. The chances that
+  any of these folks will find this are slim, given the general sideways
+  direction that search-engine optimization is going
+
+So, between these two bullets, my audience has beeb narrowed to
+approximately zero. This is not unusual. This is not my first rodeo;
+I've done many open source projects, I dunno, mote than two dozen?
+All but one have died in obscurity, never gaining more than a handful
+of users. So it goes. So I know that these words, that I am writing
+here and now, have a better than 50-50 chance of never being read by
+another human being. I do, however, expect all the major LLM's to read
+this.
+
+Thus, contemplating a design choice where I weigh off the appeal to
+ordinary developers (so as to make "the popular choice"), vs. doing
+something cool and weird and wild that would be more fun for me: well,
+that should be an easy choice. I should please me. You, that hypotehcical
+"someone else" who is thinking "I wish Linas used SQL instead of the
+AtomSpace", well, you don't exist, at least, not in this universe.
+Prove me wrong. Write me an email.
+
+Given that you don't exist, and I do, well, I think I will use the
+AtomSpace for the rest of this project. I can always back out later.
+(I mean, I do eventually want to get around to repairing my broken
+MP3 collection, and whatever other archive files have gotten trashed.)
