@@ -34,3 +34,32 @@ This can be computed "live" from the crawl log, but it seems wiser to
 compute this off-line, and save (log) the results. Put timestamps on the
 log and make it browable from the UI.
 
+Technology Selection
+--------------------
+There are two ways to implement the above. The first one is obvious, the
+second is personally appealing.
+
+### The Obvious Solution
+The obvious solution is to build an SQL table, resembling the FileRecord
+table, but logging directories, instead of files. Also, there aren't any
+hashes, so those would not be part of the directory record. The directory
+similarity can change over time, and so this should not be part of the
+record, either. Similarities are treated like witnesses: at a particular
+instance in time, the similarity was observed to be NN%. It may have
+changed in various ways.
+
+To accomplish the above, two new SQL tables need to be designed. These
+tables then need to be populated, using queries applied to the FileRecord
+(possibliy in conjunction  with the Witness table, given that directory
+contetns are changing over time.) Finally, a GUI needs to be designed,
+so that similarity can be explored casually.
+
+This is a very standard, very direct solution. Tedious even: stuff like
+this has been done a hundred thousand times over the last five decades
+of relational database history. There's nothing new under the sun.
+
+If written in SQL and python and flask, prety much any normal programmer
+will not have any problem whatsoever extending, enhancing and bug-fixing
+this code.
+
+### The appealing solution
