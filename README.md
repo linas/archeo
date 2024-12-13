@@ -138,9 +138,9 @@ my migrating data from here to there, and specifically, from off my RAID
 arrays and onto Ceph.
 
 The current system architecture is minimal, and the implementation
-was started less than a week ago. A basic filesystem crawler/cataloger
-has been set up, and it works. A web UI has been prototyped.  See the
-*HOWTO* below.
+was started a week ago. A basic filesystem crawler/cataloger has been
+set up, and it works. A web UI has been prototyped.  See the *HOWTO*
+below.
 
 The prototype is written in highly conventional SQL plus Python plus
 Flask for the Web UI. It was easy. It's not complicated. Any ordinary
@@ -155,10 +155,10 @@ why?" The answer to the second question is in the
 
 Systems Survey
 --------------
-The [Systems Survey](Systems-Survey.md) is an attempt to list and review
-related systems, or systems that could provide tools, or a framework, or
-otherwise be deployed. Anyone out there care to move this page to the
-project wiki?
+The [Systems Survey](Systems-Survey.md) is a lame attempt to list and
+review related systems, or systems that could provide tools, or a
+framework, or otherwise be deployed. Anyone out there care to move
+this page to the project wiki?
 
 Questions and Ideas
 -------------------
@@ -249,7 +249,7 @@ of sqlite3 for the SQL db, python for the programming language, and
 python flask for the web ui. This stuff is widely used, widely
 understood, and quite easy for ordinary developers to get into and use.
 
-The prototype consists of a crawler that create a file catalog, and
+The prototype consists of a crawler that creates a file catalog, and
 a web UI that can walk directories and explore the locations of similar
 files. It works just fine.
 
@@ -261,10 +261,11 @@ the [AtomSpace](https://github.com/opencog/atomspace).
 
 The problem is that almost no one has heard of the AtomSpace, almost
 no one uses it, and its a strange weird beast for ordinary programmers.
-However, I've also decided that the number of ordinary programmers who
+However, I've also realized that the number of ordinary programmers who
 are going to join this project is approximately zero. So why should I
-cate to them, when there is something way more fun and useful to work
-with? So I'm restarting this project on the OpenCog AtomSpace.
+cater to them, these people who will never arriv and assist, anyway,
+when there is something way more fun and useful to work with? So I'm
+restarting this project on the OpenCog AtomSpace.
 
 HOWTO (Prototype)
 -----------------
@@ -279,7 +280,7 @@ directory. It has two parts:
 
 Both parts work just fine, and are "done".
 
-Both parts need some basic python infrascture. As root:
+Both parts need some basic python infrastructure. As root:
 ```
 apt install python3 python3-flask python3-venv python3-xxhash
 apt install sqlite3
@@ -290,7 +291,8 @@ HOWTO (AtomSpace)
 -----------------
 The next version will use the OpenCog AtomSpace instead of sqlite3.
 It will stick to python and flask, though. It has not been started,
-yet, so read about the AtomSpace, instead.
+but you can read about the proposed design [here](atoms/catalog/)
+and study the [Atomese tutorial](atoms/catalog/atomese_tutorial.py).
 
 The AtomSpace is harder to install than python, and so maybe demos
 will be made available in docker containers, to make it easy for
