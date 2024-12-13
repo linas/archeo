@@ -94,4 +94,34 @@ or DAG. Sounds great! What can go wrong?
 Plenty. Imagine the DAG for `/usr/lib/X11` and `/var/lib/ceph`. These
 are obviously different and unrelated directories in a file system,
 but if we try to draw an arrow from `usr` to `lib` and from `var` to
-`lib` ... uh-oh. The two `lib`s are not the same. 
+`lib` ... uh-oh. The two `lib`s are not the same. If a string name is
+used, there's trouble.
+
+### Inodes
+One way to get around this is to issue a unique ID number for each
+directory. This number is conventionally called an
+[i-number](https://en.wikipedia.org/wiki/inode) One way to issue
+i-numbers is to simply count up. Thise causes problems in
+multi-threaded, distributed (decentralized) apps: the `i++`
+must be performed atomically, under a lock, in exactly one place
+in the entire universe.
+
+### Decent
+A different idea is to generate a strong cryptographic hash, say SHA-256,
+and use that to uniquely identify every directory. The large hash is
+needed to avoid the birthday paradox. Sounds good, but storing 256 bytes
+for ever directory is ... not efficient.
+
+### URL's
+There's a fourth way. It's comical, its stupid, its clever, its deranged,
+its magic, its obvious, its efficient and easy and compact and it works.
+Use a URL.
+
+You read that right. The U in URL stands for Unique, and that's exactly
+what is needed. We can know that the `lib` in `/usr/lib/X11` is a
+***different*** `lib` from the one in `/var/lib/ceph` because everything
+in the `string` that came before `lib` is ... different. Unique. Also
+its compact, only 4 bytes in this example, human-readable (unlike SHA-256)
+and, uhhh, heh, "decentralized": any thread or process can easily (trivially)
+and uniqely compute it in parallel, without any collisions. Quite remarkable.
+That's
