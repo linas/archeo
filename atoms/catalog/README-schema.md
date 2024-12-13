@@ -58,3 +58,25 @@ A file URI is labelled with its hash:
    (Edge (Predicate "content xxhash-64")
       (List (Item "URI...") (Item "abcdef")))
 ```
+
+#### Content witness
+The key functional activity is to create a record or "witness" the
+existence of a file with some specific metadata at some specific point
+in time. This is record can be used to establish a time-line of the
+changes seen in a file.  The witness applies a time-stamp to a particular
+collection of data (such as file metadata). The prototypical example
+would be to witness the file content hash. This would have the form
+```
+   (Edge (Predicate "witness")
+      (Unordered
+         (Edge (Predicate "content xxhash-64")
+         (List (Item "URI...") (Item "abcdef")))))
+```
+The use of the `UnorderedLink` allows an arbitrary collection of data
+to be wrapped up. If this were SQL, then the witness would be recording
+the primary key of the SQL table record it was witnessing. But in
+Atomese, the simplest way to do this is as above. Of course, a
+"primary key" or index could be added into the above, but this kind
+of defeats the whole point of hypergraphs: hypergraphs allow you to avoid
+the hassle and overhead of maintaining keys in all of your records.
+
