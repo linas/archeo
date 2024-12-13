@@ -63,7 +63,7 @@ written out as an s-expression:
 
 Representing Directory Trees
 ----------------------------
-The obvious hierarcical structure suggests an easy, simple and poor
+The obvious hierarchical structure suggests an easy, simple and poor
 idea for representing a filepath. For example, the path `/usr/lib/X11`
 can be represented as
 ```
@@ -78,7 +78,7 @@ can be represented as
                       (Item "/lib")
                       (Item "/X11")))))
 ```
-Perhasp a bit verbose, but having an obvious structure. The flaw with
+Perhaps a bit verbose, but having an obvious structure. The flaw with
 this design becomes evident when contemplating a directory `/usr/lib`
 with a thousand entries. It would require a thousand of the above
 s-expressions. Now, s-expressions can be represented fairly compactly,
@@ -101,7 +101,7 @@ used, there's trouble.
 One way to get around this is to issue a unique ID number for each
 directory. This number is conventionally called an
 [i-number](https://en.wikipedia.org/wiki/inode) One way to issue
-i-numbers is to simply count up. Thise causes problems in
+i-numbers is to simply count up. This causes problems in
 multi-threaded, distributed (decentralized) apps: the `i++`
 must be performed atomically, under a lock, in exactly one place
 in the entire universe.
@@ -146,7 +146,7 @@ instances if `file.mp3`, we need the following representation:
          (Item "file.mp3")))
 ```
 The AtomSpace in-RAM representation of the above two hypergraphs are
-such tht if yu have the node `(Item "file.mp3")`, you can trivially and
+such that if you have the node `(Item "file.mp3")`, you can trivially and
 immediately find *everything* pointing it it, such as the two paths
 shown. The Atomese query for this is trivial. (This is why Atomese
 beats the pants off of SQL, at least for usability.)
@@ -155,8 +155,8 @@ In the above example, there's a common subdirectory: `/to/the/file.mp3`
 appears under distinct roots. This happened presumably because one
 location is the "original", and the other is a "backup copy" that
 someone made sometime in the past. The goal of the Archeo project is
-to find not just common files, but commmon subdirectories. This
-suggests that the hypergraph representation chould also include the
+to find not just common files, but common subdirectories. This
+suggests that the hypergraph representation should also include the
 following:
 ```
    (Edge (Predicate "dirpath")
