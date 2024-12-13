@@ -95,8 +95,11 @@ storage = RocksStorageNode("rocks:///tmp/foo")
 cog_open(storage)
 
 print("Restore one atom: the file, whose name we magically know already.")
-fetch_atom(ItemNode("Fantastic Sunset on Sunday.jpg"))
+fetch_atom(PredicateNode("URL"))
 prt_atomspace_contents(space)
+
+print("Restore all Edges in storage.")
+fetch_incoming_set(PredicateNode("URL"))
 
 # Close the connection to storage.
 cog_close(storage)
