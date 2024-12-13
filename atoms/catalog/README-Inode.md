@@ -124,4 +124,29 @@ in the `string` that came before `lib` is ... different. Unique. Also
 its compact, only 4 bytes in this example, human-readable (unlike SHA-256)
 and, uhhh, heh, "decentralized": any thread or process can easily (trivially)
 and uniqely compute it in parallel, without any collisions. Quite remarkable.
-That's
+
+Hypergraph representation of URL's
+----------------------------------
+The above states that the best hypergraph representation for a file is
+the trivial one, as a single node:
+```
+         (Item "/string/path/to/with/slashes/to/the/file.mp3")
+```
+The issue with this representation is searchability. To fine all
+instances if `file.mp3`, we need the following representation:
+```
+   (Edge (Predicate "dirpath")
+      (List
+         (Item "/string/path/to/with/slashes/to/the/")
+         (Item "file.mp3")))
+
+   (Edge (Predicate "dirpath")
+      (List
+         (Item "/a/different/path/to/the/")
+         (Item "file.mp3")))
+```
+The AtomSpace in-RAM representation of the above two hypergraphs are
+such tht if yu have the node `(Item "file.mp3")`, you can trivially and
+immediately find *everything* pointing it it, such as the two paths
+shown. The Atomese query for this is trivial. (This is why Atomese
+beats the pants off of SQL, at least for usability.)
