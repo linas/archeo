@@ -51,9 +51,32 @@ print("Here's your data:", e)
 
 # -------------------------------------------
 
+# AtomSpace contents can be loaded, stored and send over the net.
+# Below, a StorageNode is used save selected AtomSpace contents
+# to a RocksDB database. Rocks is nice, because it requires no
+# config to use.
+
+# Create a RocksDB StorageNode, and open a connection to it.
+# The rocks:// URL specifies a directory in the local filesystem.
 storage = RocksStorageNode("rocks:///tmp/foo")
 cog_open(storage)
 
+# Store the one and only edge created above.
+store_atom(e)
+
+# Close the connection to storage.
 cog_close(storage)
 print("Closed the connection to storage")
+
+print("\nWill now clear the AtomSpace.")
+print("Before clearing, it contains a total of " + str(len(space)) + " atoms")
+print("These are:")
+
+for atom in space:
+	print(atom)
+
+space.clear()
+print("The AtomSpace after clearing: ", len(space))
+
+
 print("Good bye!")
