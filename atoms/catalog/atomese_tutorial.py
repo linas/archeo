@@ -71,35 +71,37 @@ print("Closed the connection to storage")
 # The rest of this demo is about restoring the Atom that was just saved.
 # To prove that this works, the AtomSpace will be cleared. To prove that
 # it was cleared, look at the contents before and after.
+
+# Define a utility printer
+def prt_atomspace_contents(asp) :
+	print("AtomSpace contains a total of " + str(len(space)) + " Atoms")
+	if 0 < len(asp) :
+		print("These are:")
+	count = 0
+	for atom in asp:
+		count += 1
+		print("Atom " + str(count) + ".... " + str(atom))
+
+print("The AtomSpace before clearing:")
+prt_atomspace_contents(space)
+
 print("\nWill now clear the AtomSpace.")
-print("Before clearing, it contains a total of " + str(len(space)) + " atoms")
-print("These are:")
-
-count = 0
-for atom in space:
-	count += 1
-	print("Atom " + str(count) + ".... " + str(atom))
-
-print("\nWill now clear the AtomSpace, for real this time.")
 space.clear()
 print("The AtomSpace size after clearing: ", len(space))
-print("")
+prt_atomspace_contents(space)
 
 # The clear clobbers the StorageNode; create it again.
 storage = RocksStorageNode("rocks:///tmp/foo")
 cog_open(storage)
 
-# Restore everything.
+print("Restore one atom: the file, whose name we magically know already.")
+fetch_atom(ItemNode("Fantastic Sunset on Sunday.jpg"))
+prt_atomspace_contents(space)
 
 # Close the connection to storage.
 cog_close(storage)
 
 print("After restoring, the AtomSpace size is " + str(len(space)))
-print("The contents are:")
-
-count = 0
-for atom in space:
-	count += 1
-	print("Atom " + str(count) + ".... " + str(atom))
+prt_atomspace_contents(space)
 
 print("Good bye!")
