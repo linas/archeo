@@ -44,16 +44,54 @@ A hyper-edge has the clunky ascii-art:
                                  |                        |
                                  +------------------------+
 ```
-The box is meant to show a hierarchical arrangement. This is much much
-more obvious when written out as an s-expression:
+The box is meant to show a hierarchical arrangement. The arrow to the
+left is pointing to the box and everything in it. This arrow is called
+a hyperedge, only ecause the box is not a simple vertex, but a compound
+object.  The hierarchical structure is much much more obvious when
+written out as an s-expression:
 ```
     (Edge
        (Predicate "link-label")
        (List
            (Item "tail-node")
            (Edge
-               (Predicate "link"),
+               (Predicate "link")
                (List
                    (Item "anode")
                    (Item "bnode")))))
 ```
+
+Representing Directory Trees
+----------------------------
+The obvious hierarcical structure suggests an easy, simple and poor
+idea for representing a filepath. For example, the path `/usr/lib/X11`
+can be represented as
+```
+   (Edge (Predicate "dirent")
+      (List
+         (Item "/")
+         (Edge (Predicate "dirent")
+             (List
+                (Item "/usr")
+                (Edge (Predicate "dirent")
+                   (List
+                      (Item "/lib")
+                      (Item "/X11")))))
+```
+Perhasp a bit verbose, but having an obvious structure. The flaw with
+this design becomes evident when contemplating a directory `/usr/lib`
+with a thousand entries. It would require a thousand of the above
+s-expressions. Now, s-expressions can be represented fairly compactly,
+but still, each Atom in the s-expression does use RAM. (An Atom is an
+s-expression with balanced parenthesis, where the name immediately
+following an open-paren is a type, the Atom type.)
+
+### DAGs
+One can simplify the above by just using ordinary arrows (and not
+hyperedges), and creating a graph that way: a directed acyclic graph
+or DAG. Sounds great! What can go wrong?
+
+Plenty. Imagine the DAG for `/usr/lib/X11` and `/var/lib/ceph`. These
+are obviously different and unrelated directories in a file system,
+but if we try to draw an arrow from `usr` to `lib` and from `var` to
+`lib` ... uh-oh. The two `lib`s are not the same. 
