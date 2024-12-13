@@ -68,15 +68,38 @@ store_atom(e)
 cog_close(storage)
 print("Closed the connection to storage")
 
+# The rest of this demo is about restoring the Atom that was just saved.
+# To prove that this works, the AtomSpace will be cleared. To prove that
+# it was cleared, look at the contents before and after.
 print("\nWill now clear the AtomSpace.")
 print("Before clearing, it contains a total of " + str(len(space)) + " atoms")
 print("These are:")
 
+count = 0
 for atom in space:
-	print(atom)
+	count += 1
+	print("Atom " + str(count) + ".... " + str(atom))
 
+print("\nWill now clear the AtomSpace, for real this time.")
 space.clear()
-print("The AtomSpace after clearing: ", len(space))
+print("The AtomSpace size after clearing: ", len(space))
+print("")
 
+# The clear clobbers the StorageNode; create it again.
+storage = RocksStorageNode("rocks:///tmp/foo")
+cog_open(storage)
+
+# Restore everything.
+
+# Close the connection to storage.
+cog_close(storage)
+
+print("After restoring, the AtomSpace size is " + str(len(space)))
+print("The contents are:")
+
+count = 0
+for atom in space:
+	count += 1
+	print("Atom " + str(count) + ".... " + str(atom))
 
 print("Good bye!")
