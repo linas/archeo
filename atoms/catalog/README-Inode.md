@@ -150,3 +150,49 @@ such tht if yu have the node `(Item "file.mp3")`, you can trivially and
 immediately find *everything* pointing it it, such as the two paths
 shown. The Atomese query for this is trivial. (This is why Atomese
 beats the pants off of SQL, at least for usability.)
+
+In the above example, there's a common subdirectory: `/to/the/file.mp3`
+appears under distinct roots. This happened presumably because one
+location is the "original", and the other is a "backup copy" that
+someone made sometime in the past. The goal of the Archeo project is
+to find not just common files, but commmon subdirectories. This
+suggests that the hypergraph representation chould also include the
+following:
+```
+   (Edge (Predicate "dirpath")
+      (List
+         (Item "/string/path/to/with/slashes/")
+         (Item "/to/the/file.mp3")))
+
+   (Edge (Predicate "dirpath")
+      (List
+         (Item "/a/different/path/")
+         (Item "/to/the/file.mp3")))
+```
+As before, the query to find all parent dirs for
+`(Item "/to/the/file.mp3")` is trivial and extremely fast. The price for
+this is more memory usage. A file listed N directories deep requires N
+different splits, if all possible subdirectories are to be found. This
+is somewhat wasteful of space, but perhaps not all that bad.
+
+To save space (and trade it for time), these multiple splits of a path
+do not need to be permanently stored in the file records. Just one split
+(or the unsplit version) needs to be stored; all the others can be
+generated as needed, on the fly. The algo to generate them is effectively
+trivial. All metadata (timestamps, content hashes, witnesses, etc.) can
+be stored with the one copy.
+
+Conclusion
+----------
+The final proposal, discussed at the end, seems to provide the best
+hypergraph representation that fits the needs of the Archeo project.
+Its easy, its fast, its obvious. We'll see how well it works.
+
+Of course, now that we've discovered a simple and magical representation,
+there's no particulare reason to use the Atomspace for this. The
+representation is so simple that it could easily be implemented in SQL,
+and would probably be more compact. Atomese was designed for complex,
+mutable and rapidly changing graphs. This is not not complex, and is
+effectively static, completely unchanging. Statically-defined SQL tables
+set up at the dawn of time would probably work just fine. I guess.
+Since no one is reading this text anyway, it probably doesn't matter.
