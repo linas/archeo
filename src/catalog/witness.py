@@ -12,7 +12,9 @@ import sqlite3
 import xxhash
 
 # Get the xxhash of a file at the given location.
-# Returns a 64-bit int.
+# Returns a signed 64-bit int. It is expliclitly converted to a python
+# signed int, because unsigned ints will overflow sqlite3, which then
+# silently converts it to a float (which we don't want).
 def get_xxhash(filename):
 
 	# A typical exception is "Access denied". In this case, we return

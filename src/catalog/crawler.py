@@ -88,4 +88,4 @@ def crawl_witness(conffile):
 	# Do the heavy lifting
 	dir_witness(crawl_cfg, rootdir)
 
-# ------------------ Enf of File. That's all, folks! ----------------
+# ------------------ End of File. That's all, folks! ----------------

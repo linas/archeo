@@ -1,12 +1,14 @@
 The File Catalog
 ----------------
-The file catalog creates a searchable index of files,
-organized by filename, content hash and other file data.
+The file catalog creates a searchable index of files, organized by
+filename, content hash and other file data.
 
 The search is controlled by a a configuration file, which can be used
 to exclude specific file-types, directories or file-system types from
 the filesystem crawl. Different config files can be given for differet
 crawls.
+
+This is the sqlite3 version of the indexer.
 
 Issues
 ------

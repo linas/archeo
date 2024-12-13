@@ -6,7 +6,6 @@
 # This crawls a file system specified in the config file,
 # and creates or updates a witness record for each file.
 
-import sqlite3
 from witness import witness_db_open, witness_db_close
 from crawler import crawl_witness
 
