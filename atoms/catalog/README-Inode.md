@@ -16,3 +16,44 @@ simple but inadequate designs.
 
 Edges and hyperedges
 --------------------
+A directed, labelled graph edge can be drawn, using ascii-art, as
+follows:
+```
+                  edge-label
+    named-tail ----------------> head-with-name
+```
+In [Atomese](https://wiki.opencog.org/w/Atomese), this is written as
+```
+    (Edge
+       (Predicate "edge-label")
+       (List (Item "named-tail") (Item "head-with-name")))
+```
+The native form for Atomese is s-expressions, but the above can be
+written in python syntax, simply by rearranging the parenthesis and
+adding some commas in strategic places:
+```
+    Edge (
+       Predicate ("edge-label"),
+       List (Item ("named-tail"), Item ("head-with-name")))
+```
+A hyper-edge has the clunky ascii-art:
+```
+                link-label       +------------------------+
+    tail-node ------------\      |         link           |
+                           \-->  |  anode -------> bnode  |
+                                 |                        |
+                                 +------------------------+
+```
+The box is meant to show a hierarchical arrangement. This is much much
+more obvious when written out as an s-expression:
+```
+    (Edge
+       (Predicate "link-label")
+       (List
+           (Item "tail-node")
+           (Edge
+               (Predicate "link"),
+               (List
+                   (Item "anode")
+                   (Item "bnode")))))
+```
