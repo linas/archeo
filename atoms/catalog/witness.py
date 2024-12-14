@@ -63,7 +63,6 @@ def witness_file(domain, fullname):
 	# Stat the file before touching te atomspace. This might
 	# cause more exceptions to be thrown, I guess.
 	fstat = fh.stat()
-	fsize = fstat.st_size
 
 	# Get the file hash
 	fhash = get_xxhash(fullname)
@@ -73,15 +72,19 @@ def witness_file(domain, fullname):
 
 	# File Atom
 	fa = make_file_url(domain, fullname)
+	w = PredicateNode ("witness")
 
 	fc = EdgeLink (PredicateNode ("content xxhash-64"),
 		ListLink (fa, ItemNode (fhash)))
+	store_atom(EdgeLink (w, ListLink (now, fc)))
 
-	w = PredicateNode ("witness")
+	store_atom(EdgeLink (w, ListLink (now,
+		EdgeLink (PredicateNode ("file size"),
+			ListLink (fa, ItemNode (str(fstat.st_size)))))))
 
-	EdgeLink (w, ListLink (now, fc))
-
-	# cursor.execute(insrec, (fhash, fsize, fstat.st_mtime))
+	store_atom(EdgeLink (w, ListLink (now,
+		EdgeLink (PredicateNode ("last modified"),
+			ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
 
 # Due to a bug in the python bindings for the AtomSpace,
 # the AtomSpace gets deleted when the python pointer goes out of scope.
