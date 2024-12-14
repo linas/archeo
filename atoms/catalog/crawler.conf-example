@@ -22,6 +22,7 @@ Description=Witnessing crawler
 
 [Crawler]
 Description=Phony etc crawler
+Storage=rocks:///path/to/atomspace/store
 Domain=foony
 RootDir=/etc
 PruneBindMounts=yes

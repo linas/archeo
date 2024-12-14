@@ -56,13 +56,11 @@ def dir_witness(config, dirpath):
 				print("skip dir ", fob.path)
 
 # Perform a crawl, as specified in the config file.
-# The storage_url is an Atomese storage URL, such as
-# "rocks:///some/file/system/path"
-def walk_witness(storage_url, conffile):
+def walk_witness(conffile):
 	config = ConfigParser()
 	config.readfp(open(conffile))
 
-	# Prit info about the crawl
+	# Print info about the crawl
 	unit_descr = config.get('Unit', 'Description')
 
 	crawl_stanza = 'Crawler';
@@ -87,7 +85,14 @@ def walk_witness(storage_url, conffile):
 	rootdir = crawl_cfg['RootDir']
 	print("Root dir: ", rootdir)
 
+	# Where to record results
+	storage_url = crawl_cfg['Storage']
+	print("Storage: ", storage_url)
+	witness_store_open(storage_url)
+
 	# Do the heavy lifting
 	dir_witness(crawl_cfg, rootdir)
+
+	witness_store_close()
 
 # ------------------ End of File. That's all, folks! ----------------

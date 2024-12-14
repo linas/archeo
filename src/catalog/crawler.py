@@ -60,7 +60,7 @@ def crawl_witness(conffile):
 	config = ConfigParser()
 	config.readfp(open(conffile))
 
-	# Prit info about the crawl
+	# Print info about the crawl
 	unit_descr = config.get('Unit', 'Description')
 
 	crawl_stanza = 'Crawler';

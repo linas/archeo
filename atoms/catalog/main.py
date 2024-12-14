@@ -8,5 +8,5 @@
 
 from walker import walk_witness
 
-walk_witness("rocks:///tmp/foo", "crawler.conf")
+walk_witness("crawler.conf")
 
