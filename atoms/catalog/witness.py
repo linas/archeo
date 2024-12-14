@@ -39,10 +39,14 @@ def get_xxhash(filename):
 # Build the desired ItemNode for a file
 def make_file_url(domain, fullname):
 	url = "file://" + domain + fullname
-	print("rl is", url)
 	return ItemNode(url)
 
-# Witness data about a file. This includes the content hash and the size.
+# functions above are "private" to this module
+# -------------------------------------------------------------------------
+#
+
+# Be a witness to the existence of a file.
+# This is the primary, main public API implemented in this file.
 #
 # Arguments:
 #   fullname: the full file pathname
@@ -79,16 +83,18 @@ def witness_file(domain, fullname):
 
 	# cursor.execute(insrec, (fhash, fsize, fstat.st_mtime))
 
-
-# functions above are "private" to this module
-# -------------------------------------------------------------------------
-#
-
+# Due to a bug in the python bindings for the AtomSpace,
+# the AtomSpace gets deleted when the python pointer goes out of scope.
+# Tried to fix this in pull req #3077 but honestly, I hate cython.
+# Big time-sink, no reward. Work around this by making the AtomSpace
+# a python global.
+space = False
 storage = False
 
 # Create a default AtomSpace, and open a connection to storage.
 # the storage_url must be "rocks:///some/path/to/location"
 def witness_store_open(storage_url):
+	global space
 	space = AtomSpace()
 	set_default_atomspace(space)
 
@@ -101,17 +107,10 @@ def witness_store_close():
 	cog_close(storage)
 	storage = False
 
-# Be a witness to the existence of a file.
-# This is the primary, main public API implemented in this file.
-# Return the id number of the witnessed object
-#
-# Arguments:
-#   fullname: the full file pathname
-#   domain: the hostname
-def file_witness(domain, fullname):
-	global con
-	frecid = get_file_record(domain, fullname)
-	witness_date(conn, frecid)
-	return frecid
+	# Avoid nasty core dump in the shared library dtor.
+	# This should not be needed, its a python bindings bug
+	# that needs to be fixed.
+	global space
+	space = False
 
 # ------------------- That's all! End of file! ------------------
