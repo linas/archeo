@@ -73,7 +73,7 @@ existence of a file with some specific metadata at some specific point
 in time. This is record can be used to establish a time-line of the
 changes seen in a file.  The witness applies a time-stamp to a particular
 collection of data (such as file metadata). The prototypical example
-would be to witness the file content hash. This would have the form
+would be to witness the file content hash. This could have the form
 ```
    (Edge (Predicate "witness")
       (List
@@ -109,4 +109,57 @@ The way to get around this is to use set membership links instead:
          (Edge (Predicate "content xxhash-64")
             (List (Item "URI...") (Item "abcdef"))))))
 ```
-This looks a lot like the above, except the `UnorderedLink` is gone.
+This looks a lot like the above, except the `SetLink` is gone.
+
+Tags are non-centralized, in that one thread (process) can be adding
+one tag at the same time that another process is adding another: there
+is no need to pull all set members into a centralized location before
+the set can be minted. Tags can be added in a decentralized fashion.
+
+The downside to this is that tags can also be removed at any time; thus
+they are not secure. For the present use-cases, this means that witnesses
+can be tampered with. This is far out of bounds, but collections of Atoms
+can be cryptographically signed, and the signatures be built into a block
+chain.
+
+Meta issues
+-----------
+The engineering/design meta-issue rises again.  How do I know that it is
+important to have file witnesses? How do I know that file content hashes
+are the things that need to be recorded? How do I know that the objects
+I'm dealing with are files? How do I know what a file system is, and how
+do I know the characteristics that it has? How do I know that these
+abstractions are the appropriate ones to make, and that this is the
+correct design?
+
+The answers to these questions are all obvious to the (software) engineer,
+because the creation of software designs are the primary activity that
+software engineers engage in. But how does the engineer "do" these things?
+How does the engineer accomplish them?
+
+The obvious answer is that the engineer goes to school, gets trained and
+learns from experience on how to convert verbal descriptions of software
+artifacts into functional computer code. The engineer reads lots of specs,
+remembers how things work. The engnieer measures performance, and thus
+knows what designs are performant. The engineer factors and refactors code,
+and thus develops a taste for what things "go together", what a module
+should be like, and what a good API is. These are all learned from
+experience.
+
+It is perhaps incorrect to think that there is some simple magic wand to
+be waved around, thus obtaining modular design and API wisdom. It is
+tempting to think that perhaps there is some Bayesian similarity factor,
+or perhaps some Ising model that can be applied to software systems, and
+that by letting this model percolate, an ideal module and API pops out.
+Perhaps there is such a system. It would be very un-human-like in how it
+arrives at optimal solutions.
+
+Perhaps I could even design an Ising-model-inspired lambda-calculus
+combinator and optimizer. But this just shifts the location of the
+problem: how do I know that Ising models and lambda calculus are the
+appropriate abstractions?
+
+
+The End
+-------
+That's it. I think I'm done. What else is there?
