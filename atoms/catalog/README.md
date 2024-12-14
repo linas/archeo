@@ -62,6 +62,12 @@ The implementation consists of teh following files:
 * The `crawler.py` file that does the walking.
 * The `main.py` file.
 
+TODO
+----
+* Maybe record the config file in the database. Maybe suck the config
+  info out of the database. Buid infrastructure to manage multiple
+  crawls.
+
 HOWTO
 -----
 The use of this code is made difficult by the fact that there are no

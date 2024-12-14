@@ -1,12 +1,12 @@
 #
-# crawler.py
+# walker.py
 #
-# Crawl a file system, creating witness records for the files that are found.
-# Adhere to crawl guidelines while scanning.
+# Walk over a file system, creating witness records for the files that
+# are found. Adhere to crawl guidelines while scanning.
 
 from configparser import ConfigParser
 import os
-from witness import file_witness, witness_db_open, witness_db_close
+from witness import file_witness, witness_store_open, witness_store_close
 
 # Crawl the indicated directory
 def dir_witness(config, dirpath):
@@ -56,7 +56,9 @@ def dir_witness(config, dirpath):
 				print("skip dir ", fob.path)
 
 # Perform a crawl, as specified in the config file.
-def crawl_witness(conffile):
+# The storage_url is an Atomese storage URL, such as
+# "rocks:///some/file/system/path"
+def walk_witness(storage_url, conffile):
 	config = ConfigParser()
 	config.readfp(open(conffile))
 

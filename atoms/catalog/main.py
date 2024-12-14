@@ -6,12 +6,7 @@
 # This crawls a file system specified in the config file,
 # and creates or updates a witness record for each file.
 
-from witness import witness_db_open, witness_db_close
-from crawler import crawl_witness
+from walker import walk_witness
 
-witness_db_open('file-witness.db')
+walk_witness("rocks:///tmp/foo", "crawler.conf")
 
-crawl_witness("crawler.conf")
-
-# Close the connection
-witness_db_close()
