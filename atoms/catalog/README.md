@@ -54,6 +54,14 @@ is a (hyper-)graph.
 A detailed design discussion is given in the
 [README-Inodes](README-Inodes.md) file.
 
+Implementation Overview
+-----------------------
+The implementation consists of teh following files:
+* The `crawler.conf-example`, which is identical to the one in
+  [src/catalog](../../src/catalog).
+* The `crawler.py` file that does the walking.
+* The `main.py` file.
+
 HOWTO
 -----
 The use of this code is made difficult by the fact that there are no

@@ -1,0 +1,30 @@
+;
+; crawler.conf-example
+;
+; This is an example crawler config file. Edit as desired to configure
+; the file crawl. Notable config parameters:
+;    Domain -- The domain that will be recorded in the crawl records.
+;              Typically this is the hostname, but it may also be any
+;              custom name, used to identify cold storage, limited
+;              subdir crawls, or network file systems.
+;              If not specified, the hostname is used.
+;    RootDir -- Directory in which to start the crawl.
+;              For this demo, /etc is used. This is a decent-sized
+;              directory, usually containing a few thousand files.
+;              Crawling this won't sprial out of control, while still
+;              offering a non-trivial demo. Anyway, you might want to
+;              track files in your /etc, looking for corruption.
+;
+; The various Prune directives have the same meaning as in `/etc/updatedbconf`
+;
+[Unit]
+Description=Witnessing crawler
+
+[Crawler]
+Description=Phony etc crawler
+Domain=foony
+RootDir=/etc
+PruneBindMounts=yes
+PruneNames=.git .bzr .hg .svn
+PrunePaths=/tmp /var/spool /media /var/lib/os-prober /var/lib/ceph /home/.ecryptfs /var/lib/schroot
+PruneFS=NFS afs autofs binfmt_misc ceph cgroup cgroup2 cifs coda configfs curlftpfs debugfs devfs devpts devtmpfs ecryptfs ftpfs fuse.ceph fuse.glusterfs fuse.gvfsd-fuse fuse.mfs fuse.rclone fuse.rozofs fuse.sshfs fusectl fusesmb hugetlbfs iso9660 lustre lustre_lite mfs mqueue ncpfs nfs nfs4 ocfs ocfs2 proc pstore rpc_pipefs securityfs shfs smbfs sysfs tmpfs tracefs udev udf usbfs
