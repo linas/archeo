@@ -59,6 +59,14 @@ A file URI is labelled with its hash:
       (List (Item "URI...") (Item "abcdef")))
 ```
 
+#### Other predicates
+Other predicates that record file meta-data are:
+* `(Predicate "file size")`
+* `(Predicate "last modified date")`
+These are self-explanatory. Yes, I suppose file UID, GID, attrs
+(`ugo+rwxt`) and xattrs should be recorded. And also the file type:
+pipe, char device, block device, etc. Disinteresting at the moment.
+
 #### Content witness
 The key functional activity is to create a record or "witness" the
 existence of a file with some specific metadata at some specific point
@@ -68,15 +76,37 @@ collection of data (such as file metadata). The prototypical example
 would be to witness the file content hash. This would have the form
 ```
    (Edge (Predicate "witness")
-      (Unordered
-         (Edge (Predicate "content xxhash-64")
-         (List (Item "URI...") (Item "abcdef")))))
+      (List
+         (Item "Jan 1, 1970 00:00:00 UTC")
+         (Set
+            (Edge (Predicate "content xxhash-64")
+               (List (Item "URI...") (Item "abcdef"))))))
 ```
-The use of the `UnorderedLink` allows an arbitrary collection of data
-to be wrapped up. If this were SQL, then the witness would be recording
-the primary key of the SQL table record it was witnessing. But in
-Atomese, the simplest way to do this is as above. Of course, a
-"primary key" or index could be added into the above, but this kind
-of defeats the whole point of hypergraphs: hypergraphs allow you to avoid
-the hassle and overhead of maintaining keys in all of your records.
+The use of the `SetLink` allows an arbitrary collection of data to be
+wrapped up. If this were SQL, then the witness would be recording the
+primary key of the SQL table record it was witnessing. But in Atomese,
+the simplest way to do this is as above. Of course, a "primary key" or
+index could be added into the above, but this kind of defeats the whole
+point of hypergraphs: hypergraphs allow you to avoid the hassle and
+overhead of maintaining keys in all of your records.
 
+There is a design problem with `SetLink` in the Atomese. Sets don't
+scale. It's effectively impossible to add a member to, or remove a
+member from a set. To do this, the set needs to be dissolved and
+reconstructed.  Dissolution is impossible, if that set is inside of
+another `Link`, because Atoms are immutable.
+
+The other issue is searchability and pattern-matching.  Unordered
+matching of N items requires N-factorial permutations, and this becomes
+unacceptable even at modest values of N.
+
+The way to get around this is to use set membership links instead:
+```
+   (TagLink
+      (TagNode "witness")
+      (List
+         (Item "Jan 1, 1970 00:00:00 UTC")
+         (Edge (Predicate "content xxhash-64")
+            (List (Item "URI...") (Item "abcdef"))))))
+```
+This looks a lot like the above, except the `UnorderedLink` is gone.
