@@ -6,7 +6,7 @@
 
 from configparser import ConfigParser
 import os
-from witness import file_witness, witness_store_open, witness_store_close
+from witness import witness_file, witness_store_open, witness_store_close
 
 # Crawl the indicated directory
 def dir_witness(config, dirpath):
@@ -24,7 +24,7 @@ def dir_witness(config, dirpath):
 	# Files first.
 	for fob in dgen :
 		if fob.is_file(follow_symlinks=False) :
-			fid = file_witness(hostname, fob.path)
+			fid = witness_file(hostname, fob.path)
 			# Debug print. The print throws an error when the filename
 			# has non-UTF-8 chars in it. Typically because the file was
 			# originally created on MS-Windows. Catch and release.

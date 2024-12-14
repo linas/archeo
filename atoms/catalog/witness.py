@@ -39,7 +39,7 @@ def get_xxhash(filename):
 # Build the desired ItemNode for a file
 def make_file_url(domain, fullname):
 	url = "file://" + domain + fullname
-	return Item(url)
+	return ItemNode(url)
 
 # Witness data about a file. This includes the content hash and the size.
 #
@@ -64,19 +64,18 @@ def witness_file(domain, fullname):
 	fhash = get_xxhash(fullname)
 
 	# Get the current time, right now.
-	now = Item(str(datetime.now()))
-
-	print("its now", now)
+	now = ItemNode(str(datetime.now()))
 
 	# File Atom
 	fa = make_file_url(domain, fullname)
+	print("its now", now, fa)
 
 	fc = Edge (Predicate ("content xxhash-64"),
-		List (fa, Item (fhash)))
+		List (fa, ItemNode (fhash)))
 
 	w = Predicate ("witness")
 
-   Edge (w, List (now, fc))
+	Edge (w, List (now, fc))
 
 	# cursor.execute(insrec, (fhash, fsize, fstat.st_mtime))
 
