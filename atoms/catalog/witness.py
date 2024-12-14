@@ -26,7 +26,7 @@ def get_xxhash(filename):
 	try:
 		f = open(filename, "rb")
 	except:
-		return 0
+		return '0'
 
 	hasher = xxhash.xxh64()
 	while True:
@@ -34,11 +34,12 @@ def get_xxhash(filename):
 		if not chunk:
 			break
 		hasher.update(chunk)
-	return hasher.hexdigest()
+	return str(hasher.hexdigest())
 
 # Build the desired ItemNode for a file
 def make_file_url(domain, fullname):
 	url = "file://" + domain + fullname
+	print("rl is", url)
 	return ItemNode(url)
 
 # Witness data about a file. This includes the content hash and the size.
@@ -68,14 +69,13 @@ def witness_file(domain, fullname):
 
 	# File Atom
 	fa = make_file_url(domain, fullname)
-	print("its now", now, fa)
 
-	fc = Edge (Predicate ("content xxhash-64"),
-		List (fa, ItemNode (fhash)))
+	fc = EdgeLink (PredicateNode ("content xxhash-64"),
+		ListLink (fa, ItemNode (fhash)))
 
-	w = Predicate ("witness")
+	w = PredicateNode ("witness")
 
-	Edge (w, List (now, fc))
+	EdgeLink (w, ListLink (now, fc))
 
 	# cursor.execute(insrec, (fhash, fsize, fstat.st_mtime))
 
