@@ -10,6 +10,11 @@ import os
 import pathlib
 import xxhash
 
+from opencog.atomspace import AtomSpace
+from opencog.type_constructors import *
+from opencog.storage import *
+from opencog.storage_rocks import *
+
 # Get the xxhash of a file at the given location.
 # Returns a hash, encoded as a hex string.
 def get_xxhash(filename):
@@ -95,13 +100,22 @@ def witness_date(conn, fileid) :
 # -------------------------------------------------------------------------
 #
 
-def witness_db_open(dbname):
-	global conn
-	conn = sqlite3.connect(dbname)
+storage = False
 
-def witness_db_close():
-	global conn
-	conn.close()
+# Create a default AtomSpace, and open a connection to storage.
+# the storage_url must be "rocks:///some/path/to/location"
+def witness_store_open(storage_url):
+	space = AtomSpace()
+	set_default_atomspace(space)
+
+	global storage
+	storage = RocksStorageNode(storage_url)
+	cog_open(storage)
+
+def witness_store_close():
+	global storage
+	cog_close(storage)
+	storage = False
 
 # Be a witness to the existence of a file.
 # This is the primary, main public API implemented in this file.
