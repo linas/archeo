@@ -36,27 +36,17 @@ def get_xxhash(filename):
 		hasher.update(chunk)
 	return hasher.hexdigest()
 
-# Attempt to locate a known file record, based on the filename, filepath
-# size and hash. This does not guarantee that its "really the same file".
-# because there could be hash collisions, because we're not using crypto-
-# strong hashes. But I think that's OK, for present purposes.
-#
-# This is meant to be a "private routine only", a helper for the internal
-# use of the witness, below. Thus, it has a "hard to use" but more(?)
-# efficient API
-def find_file_record(conn, domain, filepath, filename, fhash, fsize) :
+# Build the desired ItemNode for a file
+def make_file_url(domain, fullname):
+	url = "file://" + domain + fullname
+	return Item(url)
 
-	return False
-
-
-# Find or create a file record. This is not the same as "witnessing"
-# the file; a witness also records the date when the file was seen.
-# This, by contrast, merely creates a tracking id for a file.
+# Witness data about a file. This includes the content hash and the size.
 #
 # Arguments:
 #   fullname: the full file pathname
 #   domain: the hostname
-def get_file_record(domain, fullname):
+def witness_file(domain, fullname):
 
 	# Try to find the file in the filesystem
 	fh = pathlib.Path(fullname, follow_symlinks=False)
@@ -65,36 +55,31 @@ def get_file_record(domain, fullname):
 	if not fh.is_file():
 		raise ValueError("No such file")
 
-	# Split the full filepathname into a filepath and the filename
-	(filepath, filename) = os.path.split(fullname)
-
+	# Stat the file before touching te atomspace. This might
+	# cause more exceptions to be thrown, I guess.
 	fstat = fh.stat()
 	fsize = fstat.st_size
 
 	# Get the file hash
 	fhash = get_xxhash(fullname)
 
-	# Do we already have a witness for this file? If so, return that
-	frecid = find_file_record(conn, domain, filepath, filename, fhash, fsize)
-	if frecid:
-		return frecid
-
-	insrec = "INSERT INTO FileRecord "
-	cursor.execute(insrec, (filename, filepath, domain, fhash, fsize, fstat.st_mtime))
-
-	return rowid
-
-# Record date of witnessing
-def witness_date(conn, fileid) :
 	# Get the current time, right now.
-	now = datetime.now()
+	now = Item(str(datetime.now()))
 
-	# Stuff a bunch of data into the DB
-	insrec = "INSERT INTO RecordWitness(frecid, witnessdate) VALUES (?, ?);"
-	cursor.execute(insrec, (fileid, now.timestamp()))
+	print("its now", now)
 
-	# Save (commit) the changes
-	conn.commit()
+	# File Atom
+	fa = make_file_url(domain, fullname)
+
+	fc = Edge (Predicate ("content xxhash-64"),
+		List (fa, Item (fhash)))
+
+	w = Predicate ("witness")
+
+   Edge (w, List (now, fc))
+
+	# cursor.execute(insrec, (fhash, fsize, fstat.st_mtime))
+
 
 # functions above are "private" to this module
 # -------------------------------------------------------------------------
@@ -126,7 +111,7 @@ def witness_store_close():
 #   domain: the hostname
 def file_witness(domain, fullname):
 	global con
-	frecid = get_file_record(conn, domain, fullname)
+	frecid = get_file_record(domain, fullname)
 	witness_date(conn, frecid)
 	return frecid
 
