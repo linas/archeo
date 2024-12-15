@@ -86,18 +86,11 @@ def witness_file(domain, fullname):
 		EdgeLink (PredicateNode ("last modified"),
 			ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
 
-# Due to a bug in the python bindings for the AtomSpace,
-# the AtomSpace gets deleted when the python pointer goes out of scope.
-# Tried to fix this in pull req #3077 but honestly, I hate cython.
-# Big time-sink, no reward. Work around this by making the AtomSpace
-# a python global.
-space = False
 storage = False
 
 # Create a default AtomSpace, and open a connection to storage.
 # the storage_url must be "rocks:///some/path/to/location"
 def witness_store_open(storage_url):
-	global space
 	space = AtomSpace()
 	push_default_atomspace(space)
 
@@ -109,12 +102,6 @@ def witness_store_close():
 	global storage
 	cog_close(storage)
 	storage = False
-
-	# Avoid nasty core dump in the shared library dtor.
-	# This should not be needed, its a python bindings bug
-	# that needs to be fixed.
 	pop_default_atomspace()
-	#global space
-	#space = False
 
 # ------------------- That's all! End of file! ------------------
