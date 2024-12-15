@@ -99,7 +99,7 @@ storage = False
 def witness_store_open(storage_url):
 	global space
 	space = AtomSpace()
-	set_default_atomspace(space)
+	push_default_atomspace(space)
 
 	global storage
 	storage = RocksStorageNode(storage_url)
@@ -113,7 +113,8 @@ def witness_store_close():
 	# Avoid nasty core dump in the shared library dtor.
 	# This should not be needed, its a python bindings bug
 	# that needs to be fixed.
-	global space
-	space = False
+	pop_default_atomspace()
+	#global space
+	#space = False
 
 # ------------------- That's all! End of file! ------------------
