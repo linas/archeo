@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Archeo Similar Directories</title>
+</head>
+<body>
+<h1>Similar Directories</h1>
+<p>
+The file content hash {{ hashstr }} appears in the following locations,
+with the given name and timestamp:
+<p>
+{{ dirtable }}
+<p>
+These directories may have other files in common. This is summarized
+below, as a ratio: the number of <i>unique</i> files in common, divided
+by the total number of <i>unique</i> files in that directory. Any given
+directory may have files with the same content, but different names;
+these are <i>not</i> counted as being distinct (even though they have
+different names).
+<p>
+{{ summarytable }}
+<p>
+The different directories may have the same file, but appearing under
+a different name; or a matching file may be absent. This is shown in the
+detailed directoroy difference below. Note also that a directory might
+have multiple files with exactly the same content in each: these will
+have the same hash, but different names. These are also listed.
+<p>
+{{ difftable }}
+
+<hr>
+<a href="/">Return to the main control panel</a>
+</body>
+</html>

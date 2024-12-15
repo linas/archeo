@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Archeo Control Panel</title>
+</head>
+<body>
+<h1>Archeo Control Panel</h1>
+This panel could look a lot nicer, right? Someone should CSS it.
+<hr>
+<table>
+<tbody>
+<tr>
+  <td>
+    <form action="dup-filenames" method="POST">
+        <input type="submit" name="dupe-names" value="Files with same name">
+    </form>
+  </td>
+  <td>
+<p>
+    Search for files with identical filenames, but different
+    directories or hashes.
+<p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <form action="dup-hashes" method="POST">
+        <input type="submit" name="dupe-hashes" value="Files with same hash">
+    </form>
+  </td>
+  <td>
+<p>
+    Search for files with identical content hashes (but different
+    directories or filenames). Files with the same hash are almost
+    surely identical, just differing in name and/or location.
+<p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <form action="similar-dirs" method="POST">
+        <input type="submit" name="sim-dirs" value="Similar directories">
+    </form>
+  </td>
+  <td>
+<p>
+    <b>UNDER CONSTRUCTION</b>
+    Show summary information for all similar dirs.
+    Search for similar directories. These are directories which have
+    many identical files, mostly having the same filenames, mostly
+    having the same directory hierarchy. Such directories typically
+    arise as the result of bulk copies, possibly because they are
+    meant to be backups.
+<p>
+  </td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>
+    <h1>Testing, testing, 1,2,3 ...</h1>
+    Enter stuffs:
+    <form action="." method="POST">
+        <input type="text" name="foo">
+        <input type="text" name="bar">
+        <input type="submit" name="do-stuff" value="Ho-aa !">
+    </form>
+</body>
+</html>
+

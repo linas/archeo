@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Archeo Files with Same Hash</title>
+</head>
+<body>
+<h1>Likely Identical Files</h1>
+<p>
+Found {{ itemcount }} file records that have identical hashes.
+These are files, having different names or locations, that have
+the same hash, and thus almost surely have the same file contents.
+Here, "almost surely" means that the odds are astronomical that
+they are not. Accidental file-hash collisions are extremely rare.
+Actual byte-by-byte equivalence of the file contents was not checked.
+<p>
+Even if the file contents are the same, the timestamps may differ,
+because different files might have been touched at various times
+in the past. However, file sizes should be identical.
+<p>
+Files with a hash of zero are files that the cataloger did not have
+permissions to read. Perhaps the cataloger was not run as the root
+user, and perhaps there were other security measures that prevented
+file access.
+
+<p>
+{{ filetable }}
+<hr>
+<a href="/">Return to the main control panel</a>
+</body>
+</html>
