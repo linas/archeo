@@ -1,14 +1,13 @@
 Catalog Agent
 -------------
 The catalog agent is a file system crawler that will walk over assorted
-filesystems, and catalog what it finds there. See the older
-[catalog README](../../src/catalog/) for a better, more comprehensive
-description.
+filesystems, and catalog what it finds there.
 
-In short, the goal is to log the hostname, the filepath, the content
-hash and the crawl date.
-* The hostname allows the system to look at data scattered over many
-  computers. Together with the filepath, this is more or less a URL.
+The goal is to log the hostname, the filepath, the content hash and the
+date of the crawl.
+* The hostname allows the system to look at files scattered over many
+  computers. Together with the filepath, this is recorded as a single
+  URL.
 * The content hash is a file "fingerprint": two files with the same
   content hash are almost surely identical. The hash is not meant to
   be crypto-secure; its meant only to make it easy to find files with
@@ -19,10 +18,9 @@ hash and the crawl date.
   when a file was last seen, where it might be now, whether it got
   corrupted or changed along the way.
 
-By using the AtomSpace instead of sqlite3, the pain of designing good
-SQL tables, creating indexes, designing queries, and worrying about
-future expansions and data migrations can be avoided. Less hassle,
-more fun.
+This is a rework of an older sqlite3 implementation, to be found in
+[src/catalog](../../src/catalog). This version is 10x faster.
+Also more flexible and easier to code. And more fun.
 
 Design and Implementation
 -------------------------
@@ -56,11 +54,13 @@ A detailed design discussion is given in the
 
 Implementation Overview
 -----------------------
-The implementation consists of teh following files:
-* The `crawler.conf-example`, which is identical to the one in
-  [src/catalog](../../src/catalog).
-* The `crawler.py` file that does the walking.
-* The `main.py` file.
+The implementation consists of the following files:
+* The `crawler.conf-example`, which configures the directory tree
+  to make a record of.
+* The `main.py` file, which creates a catalog of a directory tree.
+* The `walker.py` file that walks over a directory tree.
+* The `witness.py` file that witnesses individual files, and stuffs
+  a record of that into the AtomSpace.
 
 TODO
 ----
@@ -70,14 +70,18 @@ TODO
 
 HOWTO
 -----
-The use of this code is made difficult by the fact that there are no
-up-to-date, easily-to-install packages for the AtomSpace. It must be
-installed by hand, from source. The git README's provide details.
-Install both the [AtomSpace](https://github.com/opencog/atomspace)
-and [AtomSpace-Rocks](http://github.com/opencog/atomspace-rocks),
-which provides  an on-disk storage method backed by RockDB. In
-addition to Rocks, there is an entire distributed storage and
-communications architecture. That is, you can do more, than just
-store to disk.
+Only three steps:
+* Install the AtomSpace. This is tedious, as there are no up-to-date,
+  easily-to-install packages for the AtomSpace. It must be installed
+  by hand, from source. The git README's provide details.  Install
+  both the [AtomSpace](https://github.com/opencog/atomspace)
+  and [AtomSpace-Rocks](http://github.com/opencog/atomspace-rocks),
+  which provides an on-disk storage method backed by RockDB.
+
+* Copy `crawler.conf-example` to `crawler.conf`, and edit to specify
+  the directories you want crawled.
+
+* Run `main.py`. It can index ballpark dozens of files per second,
+  depending on a variety of factors.
 
 
