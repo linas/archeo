@@ -2,11 +2,12 @@
 ; webui.conf-example
 ;
 ; This is an example web-ui config file. Edit as desired to configure
-; the location of the witness database.
+; the location of the witness database. Currently only RocksDB storage
+; nodes are supported.
 ;
 [Unit]
 Description=Archeo Web UI
 
-[WitnessDB]
-Description=Archeo crawler DB location
-Location=./src/catalog/file-witness.db
+[Storage]
+Description=Archeo crawler AtomSpace location
+Storage=rocks:///tmp/foo

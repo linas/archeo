@@ -21,7 +21,7 @@ import sys
 sys.path.append('./.venv/lib/python3.11/site-packages')
 
 # The dot in front of the name searches the current dir.
-from .query import query_db_open, query_db_close
+from .query import storage_open, storage_close
 from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
@@ -42,16 +42,16 @@ def config_db(conffile) :
 		sys.exit(errno.EINTR);
 
 	db_stanza = config['WitnessDB']
-	dbfile = db_stanza['Location']
-	print("Will use db located at: " + dbfile)
-	query_db_open(dbfile)
+	storage = db_stanza['Storage']
+	print("Will use StorageNode located at: " + storage)
+	storage_open(storage)
 
 # Perform initialization. This is called once per worker thread.
 # Some of the init does not require per-worker config
 def create_app() :
 	app = Flask(__name__)
 
-	config_db("./src/webui/webui.conf")
+	config_db("./atoms/webui/webui.conf")
 	return app
 
 app = create_app()
