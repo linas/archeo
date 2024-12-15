@@ -24,14 +24,14 @@ def dir_witness(config, dirpath):
 	# Files first.
 	for fob in dgen :
 		if fob.is_file(follow_symlinks=False) :
-			fid = witness_file(hostname, fob.path)
+			witness_file(hostname, fob.path)
 			# Debug print. The print throws an error when the filename
 			# has non-UTF-8 chars in it. Typically because the file was
 			# originally created on MS-Windows. Catch and release.
 			try:
-				print("reco", fid, fob.path)
+				print("witness", fob.path)
 			except:
-				print("reco", fid, fob.path.encode('utf8', 'surrogateescape'))
+				print("witness", fob.path.encode('utf8', 'surrogateescape'))
 
 	# Directories next. Handle this with a recursive call.
 	# Prune directory name patterns. Yes, someday this could
