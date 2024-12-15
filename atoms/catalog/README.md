@@ -62,6 +62,11 @@ The implementation consists of the following files:
 * The `witness.py` file that witnesses individual files, and stuffs
   a record of that into the AtomSpace.
 
+Status
+------
+Design complete (barring TODO list below). Implementation complete.
+Works.
+
 TODO
 ----
 * Maybe record the config file in the database. Maybe suck the config

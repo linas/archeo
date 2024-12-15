@@ -129,7 +129,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.6
+Version 0.0.7
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -138,20 +138,23 @@ my migrating data from here to there, and specifically, from off my RAID
 arrays and onto Ceph.
 
 The current system architecture is minimal, and the implementation
-was started a week ago. A basic filesystem crawler/cataloger has been
+was started two weeks ago. A basic filesystem crawler/cataloger has been
 set up, and it works. A web UI has been prototyped.  See the *HOWTO*
 below.
 
-The prototype is written in highly conventional SQL plus Python plus
-Flask for the Web UI. It was easy. It's not complicated. Any ordinary
-developer can read and understand this code, and hack on it.
+There are two prototypes. The first was written in highly conventional
+SQL plus Python plus Flask for the Web UI. It was easy. It's not
+complicated. Any ordinary developer can read and understand this code,
+and hack on it.
 
-As I contemplate moving out of the prototype stage, and into production,
-I realize that perhaps I should use the AtomSpace instead. You have
-two questions: (1) "what the heck is the
-[AtomSpace](https://github.com/opencog/atomspace)?" and (2) "Good God,
-why?" The answer to the second question is in the
-[similarity README](src/similarity/README.md) file. Read it.
+The second is the same as the first, but replaces sqlite3 by the
+[AtomSpace](https://github.com/opencog/atomspace). This was forced by
+the general systemic shortcomings of SQL: its just not really the
+appropriate tool for this particular job. The AtomSpace is much faster,
+and much easier to use, and much more flexible. However, it took the
+first prototype to (re-)discover this. The design decisions that lead
+to this are reviewed in the
+[similarity README](src/similarity/README.md) file.
 
 Systems Survey
 --------------
@@ -267,10 +270,26 @@ cater to them, these people who will never arriv and assist, anyway,
 when there is something way more fun and useful to work with? So I'm
 restarting this project on the OpenCog AtomSpace.
 
+HOWTO (AtomSpace)
+-----------------
+The current version 0.0.7 AtomSpace+python+flask code is in the
+[`atoms`](atoms) directory. It has two parts:
+
+* The cataloger, which runs over file systems, computes file hashes,
+  and logs the resulting filepaths.
+  See the [`atoms/catalog` README](atoms/catalog) for more.
+* The Web UI, which can be used to browse the catalog above, find
+  *identical* files, and see where they are located.
+  Its currently under construction.
+  See the [`atoms/webui` README](atoms/webui) for more.
+
+The AtomSpace install is ... not "hard", but it is long and tedious.
+The README's explain more.
+
 HOWTO (Prototype)
 -----------------
-The version 0.0.6 sqlite3+python+flask prototype is in the [`src`](src)
-directory. It has two parts:
+The earlier version 0.0.6 sqlite3+python+flask prototype is in the
+[`src`](src) directory. It has two parts:
 * The cataloger, which runs over file systems, computes file hashes,
   and logs the resulting filepaths.
   See the [`src/catalog` README](src/catalog) for more.
@@ -286,14 +305,3 @@ apt install python3 python3-flask python3-venv python3-xxhash
 apt install sqlite3
 apt install gunicorn
 ```
-
-HOWTO (AtomSpace)
------------------
-The next version will use the OpenCog AtomSpace instead of sqlite3.
-It will stick to python and flask, though. It has not been started,
-but you can read about the proposed design [here](atoms/catalog/)
-and study the [Atomese tutorial](atoms/catalog/atomese_tutorial.py).
-
-The AtomSpace is harder to install than python, and so maybe demos
-will be made available in docker containers, to make it easy for
-y'all. Stay tuned. *That's right folks, don't touch that dial!*
