@@ -7,6 +7,7 @@ import threading
 
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
+from opencog.exec import execute_atom
 from opencog.storage import *
 from opencog.storage_rocks import *
 
@@ -53,6 +54,13 @@ def find_duplicated_names() :
 # Return a list of duplicated hashes.
 # This is fairly normal: the same file contents, different locations/names
 def find_duplicated_hashes() :
+
+	q = QueryLink(EdgeLink(PredicateNode("content xxhash-64"),
+			ListLink(VariableNode ("$URL"), VariableNode("$hash"))))
+	r = execute_atom(get_default_atomspace(), q)
+	print("got this back". r)
+
+	# (Query (Edge (Predicate "hash") (List (Variable URL) (Variable hash))))
 	#sel = "SELECT filexxh, COUNT(*) FROM FileRecord GROUP BY filexxh HAVING COUNT(*) > 1;"
 	#return cursor.execute(sel)
 	return {}

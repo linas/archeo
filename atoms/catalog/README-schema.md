@@ -122,6 +122,26 @@ can be tampered with. This is far out of bounds, but collections of Atoms
 can be cryptographically signed, and the signatures be built into a block
 chain.
 
+Query
+-----
+OK, so the above are the stored data format. How do we actually find
+stuff?
+
+We can find all URL's and their hashes with
+```
+   (Query (Edge (Predicate "hash") (List (Variable $URL) (Variable $hash))))
+```
+but will typically be interested only in duplicates. There are several
+ways to do this. The generic way would be to look for hashes that have
+an incoming set greater than one. This requires
+```
+   (Query (And
+       (Edge (Predicate "hash") (List (Variable $URL) (Variable $hash)))
+       (GreaterThan (Number 1) (IncomingSize (Variable $hash)))))
+```
+
+
+
 Meta issues
 -----------
 The engineering/design meta-issue rises again.  How do I know that it is
