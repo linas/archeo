@@ -28,6 +28,11 @@ def storage_open(storage_url):
 	storage = RocksStorageNode(storage_url)
 	cog_open(storage)
 
+	# We're just going to bulk-load everything. This won't scale
+	# for large DB's, but its OK for now.
+	load_atomspace()
+	print("Done loading AtomSpace. Size=", len(space))
+
 def storage_close():
 	global storage
 	cog_close(storage)

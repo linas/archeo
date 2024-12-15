@@ -33,6 +33,9 @@ Different ways to serve python apps:
 * `mod_wsgi` -- Web Server Gateway Interface. (?)
 * `mod_python` -- Apache module (?)
 
+AtomSpace
+---------
+If in doubt, consult the [Atomese tutorial](../catalog/atomese_tutorial.py).
 
 HOWTO
 -----
