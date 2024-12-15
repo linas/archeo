@@ -64,6 +64,33 @@ def witness_file(domain, fullname):
 	# cause more exceptions to be thrown, I guess.
 	fstat = fh.stat()
 
+	# On Linux, filenames are just "a bunch of bytes", maybe
+	# an iso8859 encoding, maybe utf8, maybe microsoft-crazy.
+	# The database can only deal with strings that are taken to be
+	# bytestrings of valid utf8 chars. Meanwhile, in python3,
+	# strings are strings of chars, which may or may not be
+	# representable (or "encodable") as utf8.
+	#
+	# Thus, we test. If the filename can be "encoded" into utf8,
+	# *then* just pass the python string to other systems. Those
+	# systems will call encode() on it, if needed. In practice, this
+	# does happen, and exceptions are thrown.
+	#
+	# We want to anticipate this exception, before it happens, and
+	# avoid it. We want to avoid it because its nasty to handle at
+	# that point; its too late.
+	#
+	# So we test by trying the encode ourselves. If no error, then
+	# do nothing, and pass the python string to sqlite as-is. But if
+	# it throws, then we encode ourselves, using the 'surrogateescape'
+	# option. This gives us a byte string, which opencog can deal with.
+	#
+	# We don't want to do this for all strings, because ... ?
+	try:
+		fullname.encode('utf8')
+	except:
+		fullname = fullname.encode('utf8', 'surrogateescape')
+
 	# Get the file hash
 	fhash = get_xxhash(fullname)
 
