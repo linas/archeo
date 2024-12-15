@@ -58,7 +58,7 @@ to indicate the location of the file catalog. Then start the webserver.
 ```
 cd /this/project/home/dir
 . .venv/bin/activate  # Not needed, if you already did it above
-gunicorn -w 4 -b 0.0.0.0:5080 atoms.webui.home_page:app
+gunicorn -w 1 -b 0.0.0.0:5080 atoms.webui.home_page:app
 ```
 The above creates a python "virtual environment" (providing a degree
 of isolation from the rest of the operating system) It then starts a

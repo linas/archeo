@@ -3,6 +3,8 @@
 #
 # Database query shim for the webui for Archeo.
 
+import threading
+
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.storage import *
@@ -13,10 +15,16 @@ from opencog.storage_rocks import *
 storage = False
 
 def storage_open(storage_url):
+	global storage
+
+	# If already open, do nothing.
+	threading.Lock()
+	if storage :
+		return
+
 	space = AtomSpace()
 	push_default_atomspace(space)
 
-	global storage
 	storage = RocksStorageNode(storage_url)
 	cog_open(storage)
 
