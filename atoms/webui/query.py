@@ -55,12 +55,16 @@ def find_duplicated_names() :
 # This is fairly normal: the same file contents, different locations/names
 def find_duplicated_hashes() :
 
-	q = QueryLink(AndLink(
+	q = QueryLink(
+			AndLink(
 				EdgeLink(PredicateNode("content xxhash-64"),
 					ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
-				GreaterThanLink (NumberNode ("1"),
-					SizeOfLink (IncomingOfLink(VariableNode("$hash"))))),
-			VariableNode("$hash"))
+				GroupLink(
+					VariableNode("$hash"),
+					IntervalLink(NumberNode ("2"), NumberNode("100")))),
+			EdgeLink(PredicateNode("content xxhash-64"),
+				ListLink(VariableNode ("$URL"), VariableNode("$hash"))))
+
 	r = execute_atom(get_default_atomspace(), q)
 	print("got this back", r)
 
