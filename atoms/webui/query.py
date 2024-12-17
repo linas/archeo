@@ -42,11 +42,6 @@ def storage_close():
 
 # -------------------------------------------------------------------------
 
-predmap = {}
-predmap['filexxh'] = "content xxhash-64"
-
-# -------------------------------------------------------------------------
-
 # Return a list of duplicated filenames.
 # This is fairly normal: the same filename may be used in many places
 def find_duplicated_names() :
@@ -73,7 +68,7 @@ def find_duplicated_hashes(min_num_dups) :
 
 	r = execute_atom(get_default_atomspace(), q)
 
-	# Unpack the listing, convet it to a python list
+	# Unpack the listing, convert it to a python list
 	hashlist = []
 	for hi in r.to_list() :
 		itemnode = hi.to_list()[0]
@@ -84,26 +79,29 @@ def find_duplicated_hashes(min_num_dups) :
 
 # -------------------------------------------------------------------------
 
-# Generic select on the FileRecord table.
-# Example usage:
-#   select_filerecords(domain='foo', filepath='/bar/baz')
-# Creates query
-#   SELECT * FROM FileRecord WHERE domain='foo' AND filepath='/bar/baz';
-#
+# Given the filehash, return a list of dicts describing the files
+# having that hash.
+def get_fileinfo_from_hash(hashstr) :
+
+	q = QueryLink(
+			EdgeLink(PredicateNode("content xxhash-64"),
+				ListLink(VariableNode ("$URL"), ItemNode(hashstr))),
+			VariableNode("$URL"))
+
+	r = execute_atom(get_default_atomspace(), q)
+	infolist = []
+	for url in r.to_list() :
+		fileinfo = {}
+		fileinfo['url'] = url.name
+		fileinfo['hashstr'] = hashstr
+		infolist.append(fileinfo)
+
+	return infolist
+
+# -------------------------------------------------------------------------
+
 def select_filerecords(**kwargs) :
-	for k,v in kwargs.items():
-		print("duuude k,v is", k, v)
-
-		q = QueryLink(
-				EdgeLink(PredicateNode(predmap[k]),
-					ListLink(VariableNode ("$URL"), ItemNode(v))),
-				VariableNode("$URL"))
-
-		r = execute_atom(get_default_atomspace(), q)
-		print("r=", r)
-
-#	return cursor.execute(sel, vlist)
-	return {}
+	return []
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
