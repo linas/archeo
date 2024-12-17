@@ -26,8 +26,7 @@ class DupeHashTable(Table):
 #	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 #		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
-	filedate = Col('Last modified')
-	#filedate = DatetimeCol('Last modified')
+	filedate = DatetimeCol('Last modified')
 
 # Find duplicated filenames
 def show_dup_hashes():
@@ -47,9 +46,9 @@ def show_dup_hashes():
 		for frow in fresult:
 			itemcount += 1
 			frow['row'] = itemcount
+			frow['filedate'] = float(frow['filedate'])
 			if first:
 				first = False
-				frow['count'] = 42
 			else :
 				frow['hashstr'] = ''
 				frow['count'] = ''
