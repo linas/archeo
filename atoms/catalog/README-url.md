@@ -44,6 +44,7 @@ the `ExecutionOutputLink` replaces the `Predicate` by at
 generated. The `ExecutionOutputLink` is specified in detail and strongly
 implemented in the AtomSpace. It's used in many places for many things.
 
+### RuleLink, LambdaLink
 Another way of thinking about the ExecutionLink is as a rewrite rule.
 For this, Atomese specifies a `RuleLink`, along with helper links so
 that the RuleLink can be used for term rewriting, forward and backward
@@ -51,3 +52,28 @@ chaining, etc. It has the `LambdaLink` as a base class, with lambdas
 meant to correspond to conventional lambda-calculus lambdas. The
 implementation includes niceties like automatic alpha-conversion and
 automatic prenex ordering.
+
+### Jigsaw pieces
+The jigsaw-piece and connector concept is similar, but it attempts to
+explictly eliminate the directionality of input/output, and replace
+that with a generalized conception of mating rules specified by
+`SexNode`s. The `SexNode` allows for more than just the binary types
+(input/output, read/write, true/false, plus/minus) and their
+conventional heterosexual mating rules.
+
+URL encoding/decoding would be bi-directional (input and output are
+flipped for encoding vs. decoding) but is still otherwise heterosexual
+(there is a producer and a consumer).
+
+### Unix open/close
+Finally, there is the unix convetion of open, close, read, write. Unix
+objects cannot be read or written until after they are opened. The open
+and close functions can be interpreted ("given a semantics") of
+establishing a connection, and then, once that connection is established,
+data can flow across it. Atomese does not currently have a strongly
+specified open/close semantics.
+
+Another way to think of open/close is as a chance to run pre- and
+post-operation hooks. Pre and post processing is generic in computer
+science; this suggests that Atomese should have some semantic conception
+for this.
