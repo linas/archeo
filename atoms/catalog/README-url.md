@@ -131,3 +131,26 @@ to be explcitly searcahble during similarity calculations. That is,
 it must be possible to write a query that asks for all URL's that have
 "example.com" as the domain name. Such queries are not possible if the
 key-value pairs are stored as Values.
+
+The primary issue with the above design is that URL's need to be split
+before the query is performed. That means that there must be a preliminary
+step that loops over *all* URL's in the AtomSpace, and splits them.
+Splitting generrates about ten atoms for each URL, (ignoring overhead
+associated with incoming sets, etc.) Thus, this splitting step risks
+blowing up the size of the AtomSpace. Storing the splits as Values
+doesn't really help; it shaves off the incoming sets, but that's all)
+
+To add injury to insult, sloppy use of Storage risks saving this redundant
+data to the database. So we blew up RAM usage, and risk blowing up storage,
+just because the query engine cannot perform searches on "compactified" URL's.
+Can we redisng the query engine to do better?
+
+### String Regex
+The query engine performs matching based on Node type and Node string,
+and that's it. Given that we know that the Node name is a string, perhaps
+we could do some sort of regex string compare?  The regex is a very compact
+notation for specifying complex string patterns. It is certainly far more
+compact than Atomese (and this has benefits for RAM and storage). There
+are well-developed and well-maintained regex libraries out there, so having
+a regex compare on the Node name during the pattern query is not an
+outrageous ask. How might this look?
