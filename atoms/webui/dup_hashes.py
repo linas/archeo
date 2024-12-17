@@ -47,20 +47,18 @@ def show_dup_hashes():
 			frow['row'] = itemcount
 			if first:
 				first = False
-				# prthash is used for display on the web page and is
-				# subject to change. The hex conversion is used in the
-				# link URL GET method and must be decodable at the other
-				# end, and thus must not change on a whim.
 				frow['hashstr'] = hashstr
-				#frow['count'] = rec[1]
+				frow['count'] = 42
+				frow['xxhash'] = 123
 			else :
 				frow['hashstr'] = ''
 				frow['count'] = ''
+				frow['xxhash'] = ''
 
 			rowlist.append(frow)
 
 		# Blank line. Maybe there's some prettier way; I can't be bothered.
-		rowlist.append(dict(row='', xxhash = '', hashstr='', count='',
+		rowlist.append(dict(row='', hashstr='', count='', xxhash='',
 			domain='', filepath='', filename='', filesize='', filecreate=''))
 
 

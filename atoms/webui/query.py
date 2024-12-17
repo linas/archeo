@@ -42,6 +42,11 @@ def storage_close():
 
 # -------------------------------------------------------------------------
 
+predmap = {}
+predmap['filexxh'] = "content xxhash-64"
+
+# -------------------------------------------------------------------------
+
 # Return a list of duplicated filenames.
 # This is fairly normal: the same filename may be used in many places
 def find_duplicated_names() :
@@ -89,14 +94,13 @@ def select_filerecords(**kwargs) :
 	for k,v in kwargs.items():
 		print("duuude k,v is", k, v)
 
-#		q = QueryLink(
-#			AndLink(
-#				EdgeLink(PredicateNode("content xxhash-64"),
-#					ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
-#				VariableNode("$hash"))
-#
-#	r = execute_atom(get_default_atomspace(), q)
+		q = QueryLink(
+				EdgeLink(PredicateNode(predmap[k]),
+					ListLink(VariableNode ("$URL"), ItemNode(v))),
+				VariableNode("$URL"))
 
+		r = execute_atom(get_default_atomspace(), q)
+		print("r=", r)
 
 #	return cursor.execute(sel, vlist)
 	return {}
