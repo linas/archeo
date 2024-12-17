@@ -86,16 +86,18 @@ def find_duplicated_hashes(min_num_dups) :
 #   SELECT * FROM FileRecord WHERE domain='foo' AND filepath='/bar/baz';
 #
 def select_filerecords(**kwargs) :
-#	sel = "SELECT * FROM FileRecord WHERE "
-#	more = False
-#	vlist = []
-#	for k,v in kwargs.items():
-#		if more :
-#			sel += " AND "
-#		sel += k + " =? "
-#		more = True;
-#		vlist.append(v)
-#	sel += ";"
+	for k,v in kwargs.items():
+		print("duuude k,v is", k, v)
+
+#		q = QueryLink(
+#			AndLink(
+#				EdgeLink(PredicateNode("content xxhash-64"),
+#					ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
+#				VariableNode("$hash"))
+#
+#	r = execute_atom(get_default_atomspace(), q)
+
+
 #	return cursor.execute(sel, vlist)
 	return {}
 

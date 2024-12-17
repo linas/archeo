@@ -29,22 +29,21 @@ class DupeHashTable(Table):
 
 # Find duplicated filenames
 def show_dup_hashes():
-	qresult = find_duplicated_hashes()
+
+	# argument is min number of dupes.
+	dup_hashes = find_duplicated_hashes(2)
 
 	itemcount = 0
 	rowlist = []
-	for rec in qresult:
-		# Ugly API: columns according to SQL query.  The columns are:
-		# filexxh, COUNT(*)
+	for hashstr in dup_hashes:
 
 		# We use this to construct a second query, for all files with
 		# a given hash. Returned columns are
-		# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
+		# URL, filesize, filecreate
 		first = True
-		fresult = select_filerecords(filexxh=rec['filexxh'])
-		for fi in fresult:
+		fresult = select_filerecords(filexxh=hashstr)
+		for frow in fresult:
 			itemcount += 1
-			frow = dict(fi)
 			frow['row'] = itemcount
 			if first:
 				first = False
@@ -52,11 +51,9 @@ def show_dup_hashes():
 				# subject to change. The hex conversion is used in the
 				# link URL GET method and must be decodable at the other
 				# end, and thus must not change on a whim.
-				frow['xxhash'] = hex(to_uint64(rec[0]))
-				frow['hashstr'] = prthash(rec[0])
-				frow['count'] = rec[1]
+				frow['hashstr'] = hashstr
+				#frow['count'] = rec[1]
 			else :
-				frow['xxhash'] = ''
 				frow['hashstr'] = ''
 				frow['count'] = ''
 
