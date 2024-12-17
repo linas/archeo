@@ -78,6 +78,17 @@ def find_duplicated_hashes(min_num_dups) :
 	return hashlist
 
 # -------------------------------------------------------------------------
+# The WebUI uses (key,value) pairs to display tables. The keys cannot
+# contain spaces, and when used in kwargs, cannot be strings. Meanwhile
+# The AtomSpace names are ... strings with spaces. So build a dictionary
+# converting from the AtomSpace conventions to the WebUI conventions.
+# Do it here, with the off-chance that other subsystems need the restricted
+# naming conventions.
+
+key_from_pred = {}
+key_from_pred["content xxhash-64"] = 'hashstr'
+key_from_pred["file size"] = 'filesize'
+key_from_pred["last modified"] = 'filedate'
 
 # Given the url, return a dict describing the file at that location.
 def get_fileinfo_from_url(url) :
@@ -91,7 +102,8 @@ def get_fileinfo_from_url(url) :
 	fileinfo = {}
 	fileinfo['url'] = url
 	for props in r.to_list() :
-		print("yo", props)
+		# print("property", props.out[0], props.out[1])
+		fileinfo[key_from_pred[props.out[0].name]] = props.out[1].name
 
 	return fileinfo
 
