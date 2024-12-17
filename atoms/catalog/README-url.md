@@ -154,3 +154,37 @@ compact than Atomese (and this has benefits for RAM and storage). There
 are well-developed and well-maintained regex libraries out there, so having
 a regex compare on the Node name during the pattern query is not an
 outrageous ask. How might this look?
+
+The regex to select the domain name is
+```
+.+\:\/\/(:alphanum:+,$1)\/.+
+```
+Or something like that. I might have a bug in the above.  Writing regexes
+is hard. They are often buggy.  There is a risk of accidental matches to
+things that are not URL's.  The biggest issue is that, well, regexes are
+not Atomese! That is, we very much want a unified framework where all
+computation is done in Atomese. Regexes break this, unless a module to
+convert Atomese to regexes and back is provided. Heh. And how should the
+encode/decode of regex to/from Atomese look like? Maybe like a URL
+encode/decode?  See, the problem is generic.
+
+Anyway, lets suppose there was regex support in the query engine. What would
+that look like? It would need to be
+```
+   TypedVariable
+       VariableNode "$X"
+       TyepNode "ItemNode"
+       RegexNode ".+\:\/\/(:alphanum:+,$1)\/.+"
+```
+This would accept as a match any node that was an `ItemNode`, and matched
+the regex. What should the grounding be? It could be either the original
+matched ItemNode, or it could be a new ItemNode that has the matches $1 as
+its string name. i.e. a rewrite is performed upon grounding. Yuck. With
+the query engine, we've been careful to split out term rewriting as a
+distinct step, and backing off on this now seems like a bad idea. Thus,
+the grounding needs to be the original node, with the above being an
+accept/reject pattern, and then a distinct rewrite step at the end.
+
+I don't like where this is going, so I'm going to set this down for now.
+
+### Expansion during query
