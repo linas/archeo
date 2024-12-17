@@ -44,7 +44,6 @@ def show_dup_hashes():
 		first = True
 		fresult = get_fileinfo_from_hash(hashstr)
 		for frow in fresult:
-			print("yo", frow)
 			itemcount += 1
 			frow['row'] = itemcount
 			if first:
@@ -57,7 +56,7 @@ def show_dup_hashes():
 			rowlist.append(frow)
 
 		# Blank line. Maybe there's some prettier way; I can't be bothered.
-		rowlist.append(dict(row='', hashstr='', count='',
+		rowlist.append(dict(row='', hashstr='', count='', url='',
 			domain='', filepath='', filename='', filesize='', filecreate=''))
 
 
