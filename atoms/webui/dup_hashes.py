@@ -17,10 +17,10 @@ from .query import find_duplicated_hashes, get_fileinfo_from_hash
 class DupeHashTable(Table):
 	row = Col('')
 	hashstr = Col('xxHash')
+	count = Col('Count')
 	url = Col('URL')
 #	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
 #      url_kwargs=dict(signedhash='xxhash'))
-#	count = Col('Count')
 #	domain = Col('Domain')
 #	filepath = Col('Path')
 #	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',

@@ -119,10 +119,12 @@ def get_fileinfo_from_hash(hashstr) :
 			VariableNode("$URL"))
 
 	r = execute_atom(get_default_atomspace(), q)
+	ndupes = len(r.to_list())
 	infolist = []
 	for url in r.to_list() :
 		fileinfo = get_fileinfo_from_url(url.name)
 		fileinfo['hashstr'] = hashstr
+		fileinfo['count'] = ndupes
 		infolist.append(fileinfo)
 
 	return infolist
