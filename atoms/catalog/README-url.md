@@ -77,3 +77,57 @@ Another way to think of open/close is as a chance to run pre- and
 post-operation hooks. Pre and post processing is generic in computer
 science; this suggests that Atomese should have some semantic conception
 for this.
+
+Practical Examples
+------------------
+Lets try these, each in turn, and see what happens. The starting point
+is a single node:
+```
+   (ItemNode "file://example.com/etc/X11/Xsession")
+```
+Note that `ItemNode` is used, and not `URLNode`, so the type is not known
+a priori. The AtomSpace will contain  ItemNodes that are not URL's. This
+creates problems with type identification and type matching that could be
+avoided by using `URLNode`. For this text, its better to do things "the
+hard way", because having explict type encodings is a luxury that perhaps
+we can live without.
+
+The below looks at the execution-style, the jigsaw-style, and the unix-style
+for decoding this URL.
+
+### ExecutionLink
+The conventional Atomese for decoding would be to construct
+```
+   ExecutionOutput
+      GroundedPredicate "py:decode_a_url"
+      List
+         Item "file://example.com/etc/X11/Xsession"
+```
+where "py:decode_a_url" calls some blob of python code that imports
+some off-the-shelf python URL decoding library to split the URL.
+Calling `cog-execute!` on the above would return
+```
+   ExecutionLink
+      Predicate "decoded URL"
+      List
+         Item "file://example.com/etc/X11/Xsession"
+      List
+         List
+            Predicate "protocol"
+            Item "file"
+         List
+            Predicate "domain"
+            Item "example.com"
+         List
+            Predicate "path"
+            Item "/etc/X11"
+         List
+            Predicate "filename"
+            Item "Xsession"
+```
+The output is a collection of key-value pairs. These are explicitly
+written out as Atoms, as opposed to Values, because we want these
+to be explcitly searcahble during similarity calculations. That is,
+it must be possible to write a query that asks for all URL's that have
+"example.com" as the domain name. Such queries are not possible if the
+key-value pairs are stored as Values.
