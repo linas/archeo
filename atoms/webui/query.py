@@ -53,7 +53,9 @@ def find_duplicated_names() :
 
 # Return a list of duplicated hashes.
 # This is fairly normal: the same file contents, different locations/names
-def find_duplicated_hashes() :
+# Argument is a minimum number of duplicates that need to be found,
+# in order to make it to the cut.
+def find_duplicated_hashes(min_num_dups) :
 
 	q = QueryLink(
 			AndLink(
@@ -61,20 +63,19 @@ def find_duplicated_hashes() :
 					ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
 				GroupLink(
 					VariableNode("$hash"),
-					IntervalLink(NumberNode ("2"), NumberNode("100")))),
-			EdgeLink(PredicateNode("content xxhash-64"),
-				ListLink(VariableNode ("$URL"), VariableNode("$hash"))))
+					IntervalLink(NumberNode (str(min_num_dups)), NumberNode("-1")))),
+				VariableNode("$hash"))
 
 	r = execute_atom(get_default_atomspace(), q)
-	print("got this back", r)
 
-	#
-	# IncomingOfLink  SizeOfLink
+	# Unpack the listing, convet it to a python list
+	hashlist = []
+	for hi in r.to_list() :
+		itemnode = hi.to_list()[0]
+		itemname = itemnode.name
+		hashlist.append(itemname)
 
-	# (Query (Edge (Predicate "hash") (List (Variable URL) (Variable hash))))
-	#sel = "SELECT filexxh, COUNT(*) FROM FileRecord GROUP BY filexxh HAVING COUNT(*) > 1;"
-	#return cursor.execute(sel)
-	return {}
+	return hashlist
 
 # -------------------------------------------------------------------------
 
