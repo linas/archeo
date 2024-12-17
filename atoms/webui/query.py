@@ -79,6 +79,24 @@ def find_duplicated_hashes(min_num_dups) :
 
 # -------------------------------------------------------------------------
 
+# Given the url, return a dict describing the file at that location.
+def get_fileinfo_from_url(url) :
+
+	q = QueryLink(
+			EdgeLink(VariableNode("$predicate"),
+				ListLink(ItemNode (url), VariableNode("$property"))),
+			ListLink(VariableNode("$predicate"), VariableNode("$property")))
+
+	r = execute_atom(get_default_atomspace(), q)
+	fileinfo = {}
+	fileinfo['url'] = url
+	for props in r.to_list() :
+		print("yo", props)
+
+	return fileinfo
+
+# -------------------------------------------------------------------------
+
 # Given the filehash, return a list of dicts describing the files
 # having that hash.
 def get_fileinfo_from_hash(hashstr) :
@@ -91,8 +109,7 @@ def get_fileinfo_from_hash(hashstr) :
 	r = execute_atom(get_default_atomspace(), q)
 	infolist = []
 	for url in r.to_list() :
-		fileinfo = {}
-		fileinfo['url'] = url.name
+		fileinfo = get_fileinfo_from_url(url.name)
 		fileinfo['hashstr'] = hashstr
 		infolist.append(fileinfo)
 
