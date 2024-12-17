@@ -49,8 +49,10 @@ conventional programming constructs like lists, arrays, structures,
 pointers or even basic concepts like integers. In Atomese, everything
 is a (hyper-)graph.
 
-A detailed design discussion is given in the
-[README-Inodes](README-Inodes.md) file.
+A detailed design discussion is given in the following files:
+* [README-Inodes](README-Inodes.md)
+* [README-schema](README-schema.md)
+* [README-url](README-url.md)
 
 Implementation Overview
 -----------------------
