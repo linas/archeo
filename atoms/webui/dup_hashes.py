@@ -16,8 +16,8 @@ from .query import find_duplicated_hashes, get_fileinfo_from_hash
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	url = Col('URL')
 	hashstr = Col('xxHash')
+	url = Col('URL')
 #	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
 #      url_kwargs=dict(signedhash='xxhash'))
 #	count = Col('Count')
@@ -25,8 +25,9 @@ class DupeHashTable(Table):
 #	filepath = Col('Path')
 #	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 #		url_kwargs=dict(filename='filename'))
-#	filesize = Col('Size (bytes)')
-#	filecreate = DatetimeCol('Last modified')
+	filesize = Col('Size (bytes)')
+	filedate = Col('Last modified')
+	#filedate = DatetimeCol('Last modified')
 
 # Find duplicated filenames
 def show_dup_hashes():
@@ -57,7 +58,7 @@ def show_dup_hashes():
 
 		# Blank line. Maybe there's some prettier way; I can't be bothered.
 		rowlist.append(dict(row='', hashstr='', count='', url='',
-			domain='', filepath='', filename='', filesize='', filecreate=''))
+			domain='', filepath='', filename='', filesize='', filedate=''))
 
 
 	ftable = DupeHashTable(rowlist)
