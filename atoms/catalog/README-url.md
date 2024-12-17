@@ -188,3 +188,41 @@ accept/reject pattern, and then a distinct rewrite step at the end.
 I don't like where this is going, so I'm going to set this down for now.
 
 ### Expansion during query
+The current query engine uses two types of predicates to determine
+matches: concrete Atoms, using the `PresentLink` and virtual Atoms,
+which come in two types: the built-in virtuals, such as `GreaterThanLink`
+and the `EvaulationLink` used in combination with the `GroundedPredicate`.
+
+How might this look, if we wanted to search only for those URL's that
+had "example.com" as the domain name?  The following would work:
+
+```
+   EvaluationLink
+      GroundedPredicate "py:url_decoder"
+      List
+         Variable "$url"
+         Predicate "domain"
+         Item "example.com"
+```
+Perhaps better would be this:
+```
+   EqualLink
+      Item "example.com"
+      ExecutionOutputLink
+         GroundedPredicate "py:url_decoder"
+         List
+            Variable "$url"
+            Predicate "domain"
+```
+The above is nice, because it explicitly exposes the equality compare
+to where it can be seen by other algos (and thus manipulated by any
+algos that know what equality actually means.)
+
+If the predicate was built in, it would have the compact form
+```
+   EqualLink
+      Item "example.com"
+      UrlDecoderLink
+         Variable "$url"
+         Predicate "domain"
+```
