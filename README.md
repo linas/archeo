@@ -272,19 +272,9 @@ restarting this project on the OpenCog AtomSpace.
 
 HOWTO (AtomSpace)
 -----------------
-The current version 0.0.7 AtomSpace+python+flask code is in the
-[`atoms`](atoms) directory. It has two parts:
-
-* The cataloger, which runs over file systems, computes file hashes,
-  and logs the resulting filepaths.
-  See the [`atoms/catalog` README](atoms/catalog) for more.
-* The Web UI, which can be used to browse the catalog above, find
-  *identical* files, and see where they are located.
-  Its currently under construction.
-  See the [`atoms/webui` README](atoms/webui) for more.
-
-The AtomSpace install is ... not "hard", but it is long and tedious.
-The README's explain more.
+The current version AtomSpace+python+flask code is in the
+[`atoms`](atoms) directory.  Refer to the README there for how to
+set up and operate.
 
 HOWTO (Prototype)
 -----------------
