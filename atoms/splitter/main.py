@@ -7,6 +7,7 @@
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.exec import execute_atom
+from opencog.storage import store_atom
 
 from split_url import split_url
 
@@ -28,15 +29,17 @@ def bulk_split() :
 
 	r = execute_atom(get_default_atomspace(), q)
 
-	print("got", r)
-	# Unpack the listing, convert it to a python list
-#	for hi in r.to_list() :
-#		print("yooo", hi)
+	# Report on what we've done
+	print("Number of URL's split:", len(r.to_list()))
 
-space = AtomSpace()
-push_default_atomspace(space)
+	# Store into the database
+	for splt in r.to_list() :
+		store_atom(splt)
 
+# Just do it
+storage_open("rocks:///tmp/foo")
 bulk_split()
+storage_close()
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
