@@ -16,16 +16,18 @@ from .query import find_duplicated_hashes, get_fileinfo_from_hash
 # Declare table header
 class DupeHashTable(Table):
 	row = Col('')
-	hashstr = Col('xxHash')
+#	hashstr = Col('xxHash')
+	hashstr = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
+      url_kwargs=dict(hashstr='hashstr'))
 	count = Col('Count')
 #	url = Col('URL')
-#	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
-#      url_kwargs=dict(signedhash='xxhash'))
 #	domain = Col('Domain')
-	filepath = Col('Path')
-	filename = Col('Name')
-#	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
-#		url_kwargs=dict(filename='filename'))
+#	filepath = Col('Path')
+	filepath = LinkCol('Path', attr='filepath', endpoint='directory_detail',
+      url_kwargs=dict(filepath='filepath'))
+#	filename = Col('Name')
+	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
+		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
 	filedate = DatetimeCol('Last modified')
 
