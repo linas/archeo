@@ -8,6 +8,10 @@ to continue the rest of the development using the AtomSpace instead of
 sqlite3, but keeping the python+flask tech stack. The reason for this
 change is given in the [similarity-README](../src/similarity/README.md).
 
+### Status
+Under construction. Still raw, can't yet do what the prototype version
+did.
+
 ### Structure
 There are several parts here:
 
@@ -29,7 +33,9 @@ Do the following:
 * Perform a witnessing run. Run `atoms/catalog/main.py` Wait until done.
 * Prepare indexes. This is currently a manual sep, may go away later.
   Run `atoms/splitter/main.py`
+* Configure the web interface. `cd` to `atoms/webui` and copy
+  `webui.conf-example` to `webui.conf` and edit as appropriate.
+  Mostly this is to specify the database location.
 * Start the web interface. `cd` to the base project directory, and run
   `gunicorn -w 1 -b 0.0.0.0:5080 atoms.webui.home_page:app`
 * Aim your web browser at `http://localhost:5080/` and browse away.
-
