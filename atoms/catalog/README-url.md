@@ -226,3 +226,17 @@ If the predicate was built in, it would have the compact form
          Variable "$url"
          Predicate "domain"
 ```
+
+Expansion during query has a huge performance penalty: to determine
+if some URL contains "example.com", *every* URL must be examined. By
+contrast, the pre-decoded form has a nearly instant, trivial solution:
+just look at the incoming set of `(Item "example.com")` and every such
+URL is instantly available. This is because incoming sets behave as
+de facto built-in indexes, and just like SQL DB's, if you have an index,
+then a lookup in the index is nearly trivial.
+
+The situation is even worse if doing a join through an unknown domain:
+in this case, one risks N-squared decodes to perform the compare, vs.
+a log N index lookup.
+
+### Counting
