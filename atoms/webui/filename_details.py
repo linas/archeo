@@ -14,35 +14,28 @@ from .query import select_filerecords
 # ---------------------------------------------------------------------
 
 # Declare table header
-# SQL table column names are
-# protocol, domain, filepath, filename, filesize, filecreate, filexxh, frecid
+# Available properties:
+# protocol, domain, filepath, filename, filesize, filedate, hashstr
 class FilenameDetailsTable(Table):
 	row = Col('')
 	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
-      url_kwargs=dict(signedhash='xxhash'))
+      url_kwargs=dict(hashstr='hashstr'))
 	domain = Col('Domain')
 	filepath = Col('File path')
 	filesize = Col('Size (bytes)')
-	filecreate = DatetimeCol('Last modified')
-	# frecid = Col('Record ID')
+	filedate = DatetimeCol('Last modified')
 
 # Find duplicated filenames
 def show_filename_details(filename):
 	qresult = select_filerecords(filename=filename)
 
+	print("file sres", qresult)
+
 	rowcount = 0
 	filelist = []
-	for rec in qresult:
-		row = dict(rec)
+	for row in qresult:
 		rowcount += 1
 		row['row'] = rowcount
-
-		# prthash is used for display on the web page and is
-		# subject to change. The hex conversion is used in the
-		# link URL GET method and must be decodable at the other
-		# end, and thus must not change on a whim.
-		row['hashstr'] = prthash(row['filexxh'])
-		row['xxhash'] = hex(to_uint64(row['filexxh']))
 
 		filelist.append(row)
 
