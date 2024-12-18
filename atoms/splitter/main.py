@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 #
 # main.py
 #
@@ -6,20 +7,23 @@
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.exec import execute_atom
-from .webui import storage_open, storage_close
+
+import sys
+sys.path.append("..")
+from webui.query import storage_open, storage_close
 
 # storage_open(storage_url):
 
 # -------------------------------------------------------------------------
 
-def bulk_split()
+def bulk_split() :
 
 #	q = QueryLink(
 #			EdgeLink(PredicateNode("content xxhash-64"),
 #				ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
 
-	e = ExecuttionOutput(
-		GroundedPredicate("py:split_url"),
+	e = ExecutionOutputLink(
+		GroundedPredicateNode("py:split_url"),
 		ListLink(
 			ItemNode("file://localhost/usr/lib/foo/bar")))
 
@@ -29,6 +33,10 @@ def bulk_split()
 	for hi in r.to_list() :
 		print("yooo", hi)
 
+space = AtomSpace()
+push_default_atomspace(space)
+
+bulk_split()
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
