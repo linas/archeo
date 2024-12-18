@@ -8,6 +8,8 @@ from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.exec import execute_atom
 
+from split_url import split_url
+
 import sys
 sys.path.append("..")
 from webui.query import storage_open, storage_close
@@ -23,15 +25,16 @@ def bulk_split() :
 #				ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
 
 	e = ExecutionOutputLink(
-		GroundedPredicateNode("py:split_url"),
+		GroundedSchemaNode("py:split_url"),
 		ListLink(
 			ItemNode("file://localhost/usr/lib/foo/bar")))
 
 	r = execute_atom(get_default_atomspace(), e)
 
+	print("got", r)
 	# Unpack the listing, convert it to a python list
-	for hi in r.to_list() :
-		print("yooo", hi)
+#	for hi in r.to_list() :
+#		print("yooo", hi)
 
 space = AtomSpace()
 push_default_atomspace(space)
