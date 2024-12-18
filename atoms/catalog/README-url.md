@@ -288,3 +288,5 @@ flowing into the system. In this case, the bulk query is to be replaced
 by a stream process. There are multiple demos and explanations of how to
 do streaming in Atomese. Is it worth reviewing these?
 
+Punt. This is explored elsewhere, on work with agency. For now, I just
+want to repair my files and get on with life.

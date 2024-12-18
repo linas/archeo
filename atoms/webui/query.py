@@ -3,8 +3,6 @@
 #
 # Database query shim for the webui for Archeo.
 
-import threading
-
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
 from opencog.exec import execute_atom
