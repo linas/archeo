@@ -133,6 +133,10 @@ key_from_pred["domain"] = 'domain'
 key_from_pred["filepath"] = 'filepath'
 key_from_pred["filename"] = 'filename'
 
+pred_from_key = {}
+for k,v in key_from_pred.items() :
+	pred_from_key[v] = k
+
 # Given a LinkValue containing Atomese edges, convert those
 # edges to a python dictionary.
 def props_to_dict(listatom) :
@@ -146,6 +150,45 @@ def props_to_dict(listatom) :
 			fileinfo[key_from_pred[pred]] = outlist[1].name
 
 	return fileinfo
+
+# -------------------------------------------------------------------------
+
+# Generic query for properties associated with listed keywords
+# Example usage:
+#   get_fileinfo_from_keywords(domain='foo', filepath='/bar/baz')
+# Creates query
+#   SELECT * FROM FileRecord WHERE domain='foo' AND filepath='/bar/baz';
+#
+def get_fileinfo_from_keywords(**kwargs) :
+
+	elist = []
+	for k,v in kwargs.items():
+		p = pred_from_key[k]
+		pn = PredicateNode(p)
+		e = EdgeLink(pn, ListLink(VariableNode ("$URL"), ItemNode(v)))
+		elist.append(e)
+
+	if 1 < len(elist) :
+		pat = AndLink(elist)
+	else :
+		pat = elist[0]
+
+	q = QueryLink(
+		TypedVariableLink(VariableNode("$URL"), TypeNode("ItemNode")),
+		pat, VariableNode("$URL"))
+
+	r = execute_atom(get_default_atomspace(), q)
+	ndupes = len(r.to_list())
+	infolist = []
+	for url in r.to_list() :
+		fileinfo = get_fileinfo_from_url(url.name)
+		fileinfo['filedate'] = float(fileinfo['filedate'])
+		fileinfo['count'] = ndupes
+		for k,v in kwargs.items():
+			fileinfo[k] = v
+		infolist.append(fileinfo)
+
+	return infolist
 
 # -------------------------------------------------------------------------
 
@@ -208,6 +251,8 @@ def get_fileinfo_from_hash(hashstr) :
 # Given the filename, return a list of dicts describing the files
 # having that name.
 def get_fileinfo_from_name(filename) :
+
+	return get_fileinfo_from_keywords(filename=filename)
 
 	q = QueryLink(
 		TypedVariableLink(VariableNode("$URL"), TypeNode("ItemNode")),
