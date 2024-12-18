@@ -112,16 +112,16 @@ Calling `cog-execute!` on the above would return
       List
          Item "file://example.com/etc/X11/Xsession"
       List
-         List
+         Edge
             Predicate "protocol"
             Item "file"
-         List
+         Edge
             Predicate "domain"
             Item "example.com"
-         List
+         Edge
             Predicate "path"
             Item "/etc/X11"
-         List
+         Edge
             Predicate "filename"
             Item "Xsession"
 ```
@@ -239,4 +239,52 @@ The situation is even worse if doing a join through an unknown domain:
 in this case, one risks N-squared decodes to perform the compare, vs.
 a log N index lookup.
 
-### Counting
+Dynamics
+--------
+The above sketches two performance-space tradeoffs; are there other ways
+to split the problem?
+
+One possibility is to create a child AtomSpace (or "frame"), treat this
+as a temporary scratch space, do computations, and discard when done.
+The expansion of URL's into components is done in this scratch space.
+
+How is this expansion done? The conventional answer is blunt-force
+trauma: create a black box that does the expansion, and make yourself
+feel good about this violation by calling it an "agent".
+
+The Atomese way of doing this is to apply a single-pass query and
+rewrite. Best to be explicit. Lets assume all URL's are tagged in some
+way; for example
+```
+   Edge
+      Predicate "URL"
+      Item "file://example.com/etc/X11/Xsession"
+```
+
+The Atomese to apply a rewrite to all URL's in the current AtomSpace
+is
+```
+   Query
+      Present
+         Edge
+            Predicate "URL"
+            Variable "$X"
+      ExecututionOutput
+         GroundedProceedure "py:split_a_url"
+         List
+            Variable "$X"
+```
+That's it. Executing this will traverse all URL's in the current
+AtomSpace and apply the proceedure to the search results, one by one,
+as they are encountered.
+
+The point of writing this as Atomese is that this allows some
+hypothetical meta-level algorithm to perform reasoning on what this
+query does.
+
+The above performs a bulk rewrite. This is fine if the goal is to do it
+once on a static dataset, but is sub-optimal if new URL's are constantly
+flowing into the system. In this case, the bulk query is to be replaced
+by a stream process. There are multiple demos and explanations of how to
+do streaming in Atomese. Is it worth reviewing these?
+
