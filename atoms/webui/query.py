@@ -133,6 +133,22 @@ key_from_pred["domain"] = 'domain'
 key_from_pred["filepath"] = 'filepath'
 key_from_pred["filename"] = 'filename'
 
+# Given a LinkValue containing Atomese edges, convert those
+# edges to a python dictionary.
+def props_to_dict(listatom) :
+	fileinfo = {}
+	for props in listatom.to_list() :
+		# outlist = props.out
+		outlist = props.to_list()
+		#print("property", outlist[0], outlist[1])
+		pred = outlist[0].name
+		if pred in key_from_pred:
+			fileinfo[key_from_pred[pred]] = outlist[1].name
+
+	return fileinfo
+
+# -------------------------------------------------------------------------
+
 # Given the url, return a dict describing the file at that location.
 def get_fileinfo_from_url(url) :
 
@@ -144,18 +160,20 @@ def get_fileinfo_from_url(url) :
 			VariableList(
 				TypedVariableLink(VariableNode("$predicate"), TypeNode("PredicateNode")),
 				TypedVariableLink(VariableNode("$property"), TypeNode("ItemNode"))),
+			# The search pattern
 			EdgeLink(VariableNode("$predicate"),
 				ListLink(ItemNode (url), VariableNode("$property"))),
-			ListLink(VariableNode("$predicate"), VariableNode("$property")))
+
+			# The results. These will arrive wrapped in a LinkValue.
+			VariableNode("$predicate"),
+			VariableNode("$property"))
 
 	r = execute_atom(get_default_atomspace(), q)
-	fileinfo = {}
+
+	# Convert the atomese batch of props hanging off the URL
+	# to a python dict.
+	fileinfo = props_to_dict(r)
 	fileinfo['url'] = url
-	for props in r.to_list() :
-		# print("property", props.out[0], props.out[1])
-		pred = props.out[0].name
-		if pred in key_from_pred:
-			fileinfo[key_from_pred[pred]] = props.out[1].name
 
 	return fileinfo
 
