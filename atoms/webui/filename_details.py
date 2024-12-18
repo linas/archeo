@@ -8,8 +8,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .utils import prthash, to_uint64
-from .query import select_filerecords
+from .query import get_fileinfo_from_name
 
 # ---------------------------------------------------------------------
 
@@ -27,7 +26,8 @@ class FilenameDetailsTable(Table):
 
 # Find duplicated filenames
 def show_filename_details(filename):
-	qresult = select_filerecords(filename=filename)
+	# qresult = get_fileinfo_from_name(filename=filename)
+	qresult = get_fileinfo_from_name(filename)
 
 	print("file sres", qresult)
 

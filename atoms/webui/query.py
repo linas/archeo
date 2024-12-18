@@ -150,6 +150,8 @@ def props_to_dict(listatom) :
 # -------------------------------------------------------------------------
 
 # Given the url, return a dict describing the file at that location.
+# XXX FIXME: Filesize should be part of the witness, because the
+# filesize can change over time..
 def get_fileinfo_from_url(url) :
 
 	flatten_url(url)
@@ -194,6 +196,28 @@ def get_fileinfo_from_hash(hashstr) :
 	for url in r.to_list() :
 		fileinfo = get_fileinfo_from_url(url.name)
 		fileinfo['hashstr'] = hashstr
+		fileinfo['count'] = ndupes
+		infolist.append(fileinfo)
+
+	return infolist
+
+# -------------------------------------------------------------------------
+
+# Given the filename, return a list of dicts describing the files
+# having that name.
+def get_fileinfo_from_name(filename) :
+
+	q = QueryLink(
+			EdgeLink(PredicateNode("filename"),
+				ListLink(VariableNode ("$URL"), ItemNode(filename))),
+			VariableNode("$URL"))
+
+	r = execute_atom(get_default_atomspace(), q)
+	ndupes = len(r.to_list())
+	infolist = []
+	for url in r.to_list() :
+		fileinfo = get_fileinfo_from_url(url.name)
+		fileinfo['filename'] = filename
 		fileinfo['count'] = ndupes
 		infolist.append(fileinfo)
 
