@@ -72,19 +72,28 @@ def witness_file(domain, fullname):
 
 	# File Atom
 	fa = make_file_url(domain, fullname)
-	w = PredicateNode ("witness")
 
-	fc = EdgeLink (PredicateNode ("content xxhash-64"),
-		ListLink (fa, ItemNode (fhash)))
+	# Predicates of all kinds
+	w = PredicateNode ("witness")
+	phash = PredicateNode ("xxhash-64")
+	purl = PredicateNode ("URL")
+	conth = PredicateNode ("content xxhash-64")
+	csize	= PredicateNode ("file size")
+	cmod = PredicateNode ("last modified")
+
+	fh = ItemNode(fhash)
+	store_atom(EdgeLink (phash, fh))   # Type-tag hashes as being hashes
+	store_atom(EdgeLink (purl, fa))    # Type-tag URLS as being URL's
+
+	# Witness
+	fc = EdgeLink (conth, ListLink (fa, fh))
 	store_atom(EdgeLink (w, ListLink (now, fc)))
 
 	store_atom(EdgeLink (w, ListLink (now,
-		EdgeLink (PredicateNode ("file size"),
-			ListLink (fa, ItemNode (str(fstat.st_size)))))))
+		EdgeLink (csize, ListLink (fa, ItemNode (str(fstat.st_size)))))))
 
 	store_atom(EdgeLink (w, ListLink (now,
-		EdgeLink (PredicateNode ("last modified"),
-			ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
+		EdgeLink (cmod, ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
 
 storage = False
 
