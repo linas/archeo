@@ -78,6 +78,42 @@ def find_duplicated_hashes(min_num_dups) :
 	return hashlist
 
 # -------------------------------------------------------------------------
+
+# The split URL does not follow the generic
+#   (Edge (Predicate key (List url property)))
+# structure that the webui expects. This is both good and bad:
+# bad as a local design choice, because it forces me to write this
+# comment, and the extra code below. As a meta-choice, its ... OK,
+# because it forces giving thought to general extra complexity that
+# will appear in real life, in general. So, for now, we suffer and write
+# the extra code below.
+#
+# This function flattens the decoded-URL structure into the simpler
+# generic edge form
+def flatten_url(url) :
+
+	urlnode = ItemNode(url)
+
+	q = QueryLink(
+			ExecutionLink(
+				PredicateNode("decoded URL"),
+				urlnode,
+				ListLink(
+					EdgeLink(PredicateNode("protocol"), VariableNode("$proto")),
+					EdgeLink(PredicateNode("domain"),   VariableNode("$domain")),
+					EdgeLink(PredicateNode("filepath"), VariableNode("$path")),
+					EdgeLink(PredicateNode("filename"), VariableNode("$name")))),
+
+			EdgeLink(PredicateNode("protocol"), ListLink(urlnode, VariableNode("$proto"))),
+			EdgeLink(PredicateNode("domain"),   ListLink(urlnode, VariableNode("$domain"))),
+			EdgeLink(PredicateNode("filepath"), ListLink(urlnode, VariableNode("$path"))),
+			EdgeLink(PredicateNode("filename"), ListLink(urlnode, VariableNode("$name"))))
+
+	r = execute_atom(get_default_atomspace(), q)
+	print("yop got r", r)
+
+
+# -------------------------------------------------------------------------
 # The WebUI uses (key,value) pairs to display tables. The keys cannot
 # contain spaces, and when used in kwargs, cannot be strings. Meanwhile
 # The AtomSpace names are ... strings with spaces. So build a dictionary
@@ -92,6 +128,8 @@ key_from_pred["last modified"] = 'filedate'
 
 # Given the url, return a dict describing the file at that location.
 def get_fileinfo_from_url(url) :
+
+	flatten_url(url)
 
 	# Find all properties hanging off the URL.
 	q = QueryLink(
@@ -108,7 +146,9 @@ def get_fileinfo_from_url(url) :
 	fileinfo['url'] = url
 	for props in r.to_list() :
 		# print("property", props.out[0], props.out[1])
-		fileinfo[key_from_pred[props.out[0].name]] = props.out[1].name
+		pred = props.out[0].name
+		if pred in key_from_pred:
+			fileinfo[key_from_pred[pred]] = props.out[1].name
 
 	return fileinfo
 
