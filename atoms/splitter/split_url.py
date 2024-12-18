@@ -17,9 +17,16 @@ def split_url(itemnode) :
 		raise RuntimeError("Not a node!")
 
 	o = urlparse(itemnode.name)
-	print("hey", o)
+	p = EdgeLink(PredicateNode("protocol"), ItemNode(o.scheme))
+	d = EdgeLink(PredicateNode("domain"), ItemNode(o.netloc))
 
-	rc = Node("asdf")
+	o.path
+
+	rc = ExecutionLink(
+		PredicateNode("decoded URL"),
+		itemnode,
+		ListLink(p, d))
+
 	return rc
 
 
