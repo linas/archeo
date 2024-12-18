@@ -88,8 +88,11 @@ def find_duplicated_hashes(min_num_dups) :
 # will appear in real life, in general. So, for now, we suffer and write
 # the extra code below.
 #
+# Note that this flattening is done on the fly, on a case-by-case basis,
+# and the results are not saved to the storage node.
+#
 # This function flattens the decoded-URL structure into the simpler
-# generic edge form
+# generic edge form.
 def flatten_url(url) :
 
 	urlnode = ItemNode(url)
@@ -104,13 +107,13 @@ def flatten_url(url) :
 					EdgeLink(PredicateNode("filepath"), VariableNode("$path")),
 					EdgeLink(PredicateNode("filename"), VariableNode("$name")))),
 
+			# The rewrites to be done
 			EdgeLink(PredicateNode("protocol"), ListLink(urlnode, VariableNode("$proto"))),
 			EdgeLink(PredicateNode("domain"),   ListLink(urlnode, VariableNode("$domain"))),
 			EdgeLink(PredicateNode("filepath"), ListLink(urlnode, VariableNode("$path"))),
 			EdgeLink(PredicateNode("filename"), ListLink(urlnode, VariableNode("$name"))))
 
-	r = execute_atom(get_default_atomspace(), q)
-	print("yop got r", r)
+	execute_atom(get_default_atomspace(), q)
 
 
 # -------------------------------------------------------------------------
@@ -125,6 +128,10 @@ key_from_pred = {}
 key_from_pred["content xxhash-64"] = 'hashstr'
 key_from_pred["file size"] = 'filesize'
 key_from_pred["last modified"] = 'filedate'
+key_from_pred["protocol"] = 'protocol'
+key_from_pred["domain"] = 'domain'
+key_from_pred["filepath"] = 'filepath'
+key_from_pred["filename"] = 'filename'
 
 # Given the url, return a dict describing the file at that location.
 def get_fileinfo_from_url(url) :

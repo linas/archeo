@@ -18,11 +18,12 @@ class DupeHashTable(Table):
 	row = Col('')
 	hashstr = Col('xxHash')
 	count = Col('Count')
-	url = Col('URL')
+#	url = Col('URL')
 #	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
 #      url_kwargs=dict(signedhash='xxhash'))
 #	domain = Col('Domain')
-#	filepath = Col('Path')
+	filepath = Col('Path')
+	filename = Col('Name')
 #	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 #		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
