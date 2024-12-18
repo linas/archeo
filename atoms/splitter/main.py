@@ -20,16 +20,13 @@ from webui.query import storage_open, storage_close
 
 def bulk_split() :
 
-#	q = QueryLink(
-#			EdgeLink(PredicateNode("content xxhash-64"),
-#				ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
+	q = QueryLink(
+			EdgeLink(PredicateNode("URL"), VariableNode("$URL")),
+			ExecutionOutputLink(
+				GroundedSchemaNode("py:split_url"),
+				ListLink(VariableNode("$URL"))))
 
-	e = ExecutionOutputLink(
-		GroundedSchemaNode("py:split_url"),
-		ListLink(
-			ItemNode("file://localhost/usr/lib/foo/bar")))
-
-	r = execute_atom(get_default_atomspace(), e)
+	r = execute_atom(get_default_atomspace(), q)
 
 	print("got", r)
 	# Unpack the listing, convert it to a python list
