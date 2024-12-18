@@ -59,6 +59,9 @@ def show_dup_hashes():
 		rowlist.append(dict(row='', hashstr='', count='', url='',
 			domain='', filepath='', filename='', filesize='', filedate=''))
 
+	#if 0 == itemcount :
+	#	rowlist.append(dict(row='', hashstr='', count='', url='',
+	#		domain='', filepath='', filename='', filesize='', filedate=''))
 
 	ftable = DupeHashTable(rowlist)
 	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)

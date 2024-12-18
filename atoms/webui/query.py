@@ -93,7 +93,12 @@ key_from_pred["last modified"] = 'filedate'
 # Given the url, return a dict describing the file at that location.
 def get_fileinfo_from_url(url) :
 
+	# Find all properties hanging off the URL.
 	q = QueryLink(
+			# The VariableList declaration is not really needed, but ...
+			VariableList(
+				TypedVariableLink(VariableNode("$predicate"), TypeNode("PredicateNode")),
+				TypedVariableLink(VariableNode("$property"), TypeNode("ItemNode"))),
 			EdgeLink(VariableNode("$predicate"),
 				ListLink(ItemNode (url), VariableNode("$property"))),
 			ListLink(VariableNode("$predicate"), VariableNode("$property")))
