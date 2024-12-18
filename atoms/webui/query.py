@@ -186,15 +186,17 @@ def get_fileinfo_from_url(url) :
 def get_fileinfo_from_hash(hashstr) :
 
 	q = QueryLink(
-			EdgeLink(PredicateNode("content xxhash-64"),
-				ListLink(VariableNode ("$URL"), ItemNode(hashstr))),
-			VariableNode("$URL"))
+		TypedVariableLink(VariableNode("$URL"), TypeNode("ItemNode")),
+		EdgeLink(PredicateNode("content xxhash-64"),
+			ListLink(VariableNode ("$URL"), ItemNode(hashstr))),
+		VariableNode("$URL"))
 
 	r = execute_atom(get_default_atomspace(), q)
 	ndupes = len(r.to_list())
 	infolist = []
 	for url in r.to_list() :
 		fileinfo = get_fileinfo_from_url(url.name)
+		fileinfo['filedate'] = float(fileinfo['filedate'])
 		fileinfo['hashstr'] = hashstr
 		fileinfo['count'] = ndupes
 		infolist.append(fileinfo)
@@ -208,15 +210,19 @@ def get_fileinfo_from_hash(hashstr) :
 def get_fileinfo_from_name(filename) :
 
 	q = QueryLink(
-			EdgeLink(PredicateNode("filename"),
-				ListLink(VariableNode ("$URL"), ItemNode(filename))),
-			VariableNode("$URL"))
+		TypedVariableLink(VariableNode("$URL"), TypeNode("ItemNode")),
+		EdgeLink(PredicateNode("filename"),
+			ListLink(VariableNode ("$URL"), ItemNode(filename))),
+		VariableNode("$URL"))
+	print("query=", q)
 
 	r = execute_atom(get_default_atomspace(), q)
+	print("qres=", q)
 	ndupes = len(r.to_list())
 	infolist = []
 	for url in r.to_list() :
 		fileinfo = get_fileinfo_from_url(url.name)
+		fileinfo['filedate'] = float(fileinfo['filedate'])
 		fileinfo['filename'] = filename
 		fileinfo['count'] = ndupes
 		infolist.append(fileinfo)
