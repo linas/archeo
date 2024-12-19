@@ -79,9 +79,9 @@ class file_witness:
 		store_atom(EdgeLink (pwd, self.now))
 
 	def __enter__(self):
-		return self;
+		return self
 
-	def __exit__(self):
+	def __exit__(self, type, value, traceback):
 		store_atom(
 			EdgeLink (
 				PredicateNode("witnessing interval"),
