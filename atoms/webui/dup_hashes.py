@@ -9,7 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .query import find_duplicated_hashes, get_fileinfo_from_hash
+from .query import find_duplicated_hashes, get_fileinfo_from_keywords
 
 # ---------------------------------------------------------------------
 
@@ -42,10 +42,10 @@ def show_dup_hashes():
 	for hashstr in dup_hashes:
 
 		# We use this to construct a second query, for all files with
-		# a given hash. Returned columns are
-		# URL, filesize, filecreate
+		# a given hash. Returned columns ar properties associated with
+		# that hash, including url, filesize, filedate
 		first = True
-		fresult = get_fileinfo_from_hash(hashstr)
+		fresult = get_fileinfo_from_keywords(hashstr=hashstr)
 		for frow in fresult:
 			itemcount += 1
 			frow['row'] = itemcount
