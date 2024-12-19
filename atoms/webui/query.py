@@ -39,10 +39,12 @@ def storage_open(storage_url):
 	print("Done loading AtomSpace. Loaded", len(space), "atoms in", elapsed, "secs")
 
 	start = end
+	# Size of the incoming set is a quickie indicator of the number of URL's.
+	numurls = len(PredicateNode("decoded URL").incoming)
 	flatten_all_urls()
 	end = datetime.now()
 	elapsed = end - start
-	print("Flattened all URLS in", elapsed, "secs")
+	print("Flattened all ", numurls, "URLS in", elapsed, "secs")
 
 def storage_close():
 	global storage
@@ -128,17 +130,20 @@ def flatten_decoded_urls(urlnode) :
 
 	execute_atom(get_default_atomspace(), q)
 
-# Note that this flattening is done on the fly, on a case-by-case basis,
-# and the results are not saved to the storage node.
+# This function flattens the decoded-URL structure into the simpler
+# generic edge form. It flattens *all* of them, in one go.
+# The results are not saved to the storage node.
+def flatten_all_urls():
+	urlnode = VariableNode("$urvar")
+	flatten_decoded_urls(urlnode)
+
+# Flatten only one URL, the one provided.
 #
 # This function flattens the decoded-URL structure into the simpler
 # generic edge form.
+# The results are not saved to the storage node.
 def flatten_url(url) :
 	urlnode = ItemNode(url)
-	flatten_decoded_urls(urlnode)
-
-def flatten_all_urls():
-	urlnode = VariableNode("$urvar")
 	flatten_decoded_urls(urlnode)
 
 
