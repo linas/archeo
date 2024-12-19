@@ -20,7 +20,9 @@ class FilenameDetailsTable(Table):
 	hash = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
       url_kwargs=dict(hashstr='hashstr'))
 	domain = Col('Domain')
-	filepath = Col('File path')
+	# filepath = Col('File path')
+	filepath = LinkCol('File Path', attr='filepath', endpoint='path_detail',
+		url_kwargs=dict(filepath='filepath'))
 	filesize = Col('Size (bytes)')
 	filedate = DatetimeCol('Last modified')
 
