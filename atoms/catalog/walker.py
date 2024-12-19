@@ -96,10 +96,8 @@ def walk_witness(conffile):
 
 	# Use a crawl witness class. This uses a single, uniform timestamp
 	# so that all observations get tagged with the same timestamp.
-	fkwit = file_witness()
-
-	# Do the heavy lifting
-	dir_witness(fkwit, crawl_cfg, rootdir)
+	with file_witness() as fkwit:
+		dir_witness(fkwit, crawl_cfg, rootdir)
 
 	witness_store_close()
 

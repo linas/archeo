@@ -50,10 +50,11 @@ def make_file_url(domain, fullname):
 # some small amount of python overhead. Another reason is that this gives
 # the same exact timestamp to one observation run. Thus, one run can be
 # thought of as a space-like slice through the environmental data (the
-# filesystem). Of course, if the file data is actively changing while
-# observations are going on, then the timestamps could be off, since the
-# crawls can take seconds, minutes or hours. The goal here is not to have
-# some relativisticly-accurate timestamp, but instead to mark a
+# filesystem). This timestamp is an ID *for the run* and NOT for the
+# specific file data. The goal is to have a single ID for the run. The
+# files themselves might be changing during the run, and crawls might
+# take hours. The elapsed time is recorded with a second timestamp,
+# created at the end of the run.
 #
 # Conceptually, the walker and the storage open-close could also be made
 # a part of this class. But at this time, there is no burning need to
@@ -61,6 +62,7 @@ def make_file_url(domain, fullname):
 # a single setup of the predicates, which is a real benefit.
 class file_witness:
 	def __init__(self):
+
 		# Predicates of all kinds
 		self.w = PredicateNode ("witness")
 		self.phash = PredicateNode ("xxhash-64")
@@ -75,6 +77,15 @@ class file_witness:
 		# Type-tag the date as being a date-dype.
 		pwd = PredicateNode("witness date")
 		store_atom(EdgeLink (pwd, self.now))
+
+	def __enter__(self):
+		return self;
+
+	def __exit__(self):
+		store_atom(
+			EdgeLink (
+				PredicateNode("witnessing interval"),
+				ListLink(self.now, ItemNode(str(datetime.now())))))
 
 	# Be a witness to the existence of a file.
 	# This is the primary, main public API implemented in this file.
