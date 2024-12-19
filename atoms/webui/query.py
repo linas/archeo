@@ -54,14 +54,14 @@ def storage_close():
 
 # -------------------------------------------------------------------------
 
-# Return a list of duplicated hashes.
-# This is fairly normal: the same file contents, different locations/names
-# Argument is a minimum number of duplicates that need to be found,
+# Return a list of files all having the same property (such as the hash,
+# the filename, etc.) Properties include:
+# * `hashstr` -- multiple files having the same content.
+# * `filename` -- multiple files having the same name (but in different locations)
+# * `filepath` -- a listing of all files in a directory.
+#
+# The second argument is a minimum number of duplicates that need to be found,
 # in order to make it to the cut.
-def find_duplicated_hashes(min_num_dups) :
-
-	return find_duplicates('hashstr', min_num_dups)
-
 def find_duplicates(keyword, min_num_dups) :
 
 	q = QueryLink(

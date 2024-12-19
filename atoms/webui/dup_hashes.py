@@ -9,7 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .query import find_duplicated_hashes, get_fileinfo_from_keywords
+from .query import find_duplicates, get_fileinfo_from_keywords
 
 # ---------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ class DupeHashTable(Table):
 def show_dup_hashes():
 
 	# argument is min number of dupes.
-	dup_hashes = find_duplicated_hashes(2)
+	dup_hashes = find_duplicates('hashstr', 2)
 
 	itemcount = 0
 	rowlist = []
