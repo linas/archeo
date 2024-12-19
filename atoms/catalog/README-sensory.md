@@ -63,3 +63,59 @@ Eventually, I hope to have some pearls of wisdom here about neural nets,
 but not yet. I have the vague inkling that neural nets do provide a
 means for building a generic network analyzer, but I don't know anything
 about that, yet.
+
+### Current design
+Some notes about the current design.
+
+* The URL has been selected as the primary, unique coordinate on the
+  abstract space of the network. This is because it really is "unique":
+  at a fixed instance in time, there can only be one "thing" that the
+  URL refers to.
+
+* Items at the endpoint of URL's have "properties": a filesize, a
+  content hash, a date-last-modified. Perhaps more, say, mime-type.
+  The properties appear to be "flat" and unstructured. The filesize
+  and modification time are numeric scalars. A mime-type is a one-of-N
+  selection, but still a scalar. There is no network connectivity
+  encoded in the properties, other than that collections of URL's
+  may have shared properties.
+
+* The primary goal of analysis is to arrive at an understanding of the
+  sets of URL's that have shared properties. What, exactly, does this
+  entail? Lets list some of these.
+
+  -- The sets of URL's all having the same value for some given property
+     (e.g. all URL's having the same filesize)
+  -- The set-theoretic intersection and union of such single-property
+     collections.
+  -- The set of all possible intersections and unions itself forms a
+     network, called a "lattice". The standard math tools for lattices
+     are boolean algebras, frames, locales.
+  -- The measure of similarity of such sets, including simple overlaps,
+     conditional probabilities, mutual information.
+  -- Syntactical structure among these sets. For example, given a clique
+     of N sets, there is a spanning tree that can be deduced by selecting
+     only those links with maximal mutual information.
+  -- Recursive syntactical structure, obtained by re-applying the above
+     segmentation at the next abstraction level.
+  -- Things that LLM's can do. I'm not sure what those things are.
+
+* Time has been selected as the primary, unique linear dimension along
+  which the network can be observed. Observations consist of snapshots
+  of the network at given points in time. The primacy of time seems
+  overwhelming. General relativity aside, time seems to be something
+  that flows, separating past an future. Sensory systems are necessarily
+  in the "here and now". Of course, a sensory system could just analyze
+  a single snapshot of some dataset taken at some point in time. But the
+  overall passage of time is a sensory inevitability.
+
+* The current design captures the passage of time by "witnessing" a
+  set of properties associated to a URL at a given instant in time. This
+  forms a snapshot of the network, from which timelike dynamics can be
+  observed.
+
+### Atomese Technical Issues
+Despite almost a decade of development, atomese still has a variety of
+shortcomings, exposed by the analysis above:
+
+* Lack of generic similarity tools. Yes, the `learn` project
