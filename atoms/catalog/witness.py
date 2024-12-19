@@ -41,60 +41,84 @@ def make_file_url(domain, fullname):
 	url = "file://" + domain + fullname
 	return ItemNode(url)
 
-# functions above are "private" to this module
+# Functions above are "private" to this module
 # -------------------------------------------------------------------------
+# Class below is the public API
+
+# The file witness class. This is implemented as a class for two reasons.
+# One is that it allows a bunch of constant Atoms to be set up; this saves
+# some small amount of python overhead. Another reason is that this gives
+# the same exact timestamp to one observation run. Thus, one run can be
+# thought of as a space-like slice through the environmental data (the
+# filesystem). Of course, if the file data is actively changing while
+# observations are going on, then the timestamps could be off, since the
+# crawls can take seconds, minutes or hours. The goal here is not to have
+# some relativisticly-accurate timestamp, but instead to mark a
 #
+# Conceptually, the walker and the storage open-close could also be made
+# a part of this class. But at this time, there is no burning need to
+# consolidate all these functions under one class. This is in contrast to
+# a single setup of the predicates, which is a real benefit.
+class file_witness:
+	def __init__(self):
+		# Predicates of all kinds
+		self.w = PredicateNode ("witness")
+		self.phash = PredicateNode ("xxhash-64")
+		self.purl = PredicateNode ("URL")
+		self.conth = PredicateNode ("content xxhash-64")
+		self.csize	= PredicateNode ("file size")
+		self.cmod = PredicateNode ("last modified")
 
-# Be a witness to the existence of a file.
-# This is the primary, main public API implemented in this file.
-#
-# Arguments:
-#   fullname: the full file pathname
-#   domain: the hostname
-def witness_file(domain, fullname):
+		# Get the current time, right now.
+		self.now = ItemNode(str(datetime.now()))
 
-	# Try to find the file in the filesystem
-	fh = pathlib.Path(fullname, follow_symlinks=False)
+		# Type-tag the date as being a date-dype.
+		pwd = PredicateNode("witness date")
+		store_atom(EdgeLink (pwd, self.now))
 
-	# Throw an exception if the file doesn't exist.
-	if not fh.is_file():
-		raise ValueError("No such file")
+	# Be a witness to the existence of a file.
+	# This is the primary, main public API implemented in this file.
+	#
+	# Arguments:
+	#   fullname: the full file pathname
+	#   domain: the hostname
+	def witness_file(self, domain, fullname):
 
-	# Stat the file before touching te atomspace. This might
-	# cause more exceptions to be thrown, I guess.
-	fstat = fh.stat()
+		# Try to find the file in the filesystem
+		fh = pathlib.Path(fullname, follow_symlinks=False)
 
-	# Get the file hash
-	fhash = get_xxhash(fullname)
+		# Throw an exception if the file doesn't exist.
+		if not fh.is_file():
+			raise ValueError("No such file")
 
-	# Get the current time, right now.
-	now = ItemNode(str(datetime.now()))
+		# Stat the file before touching te atomspace. This might
+		# cause more exceptions to be thrown, I guess.
+		fstat = fh.stat()
 
-	# File Atom
-	fa = make_file_url(domain, fullname)
+		# Get the file hash
+		fhash = get_xxhash(fullname)
+		fh = ItemNode(fhash)
 
-	# Predicates of all kinds
-	w = PredicateNode ("witness")
-	phash = PredicateNode ("xxhash-64")
-	purl = PredicateNode ("URL")
-	conth = PredicateNode ("content xxhash-64")
-	csize	= PredicateNode ("file size")
-	cmod = PredicateNode ("last modified")
+		# File Atom
+		fa = make_file_url(domain, fullname)
 
-	fh = ItemNode(fhash)
-	store_atom(EdgeLink (phash, fh))   # Type-tag hashes as being hashes
-	store_atom(EdgeLink (purl, fa))    # Type-tag URLS as being URL's
+		store_atom(EdgeLink (self.phash, fh))   # Type-tag hashes as being hashes
+		store_atom(EdgeLink (self.purl, fa))    # Type-tag URLS as being URL's
 
-	# Witness
-	fc = EdgeLink (conth, ListLink (fa, fh))
-	store_atom(EdgeLink (w, ListLink (now, fc)))
+		# Witness
+		fc = EdgeLink (self.conth, ListLink (fa, fh))
+		store_atom(EdgeLink (self.w, ListLink (self.now, fc)))
 
-	store_atom(EdgeLink (w, ListLink (now,
-		EdgeLink (csize, ListLink (fa, ItemNode (str(fstat.st_size)))))))
+		store_atom(EdgeLink (self.w, ListLink (self.now,
+			EdgeLink (self.csize, ListLink (fa, ItemNode (str(fstat.st_size)))))))
 
-	store_atom(EdgeLink (w, ListLink (now,
-		EdgeLink (cmod, ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
+		store_atom(EdgeLink (self.w, ListLink (self.now,
+			EdgeLink (self.cmod, ListLink (fa, ItemNode (str(fstat.st_mtime)))))))
 
+# -------------------------------------------------------------------------
+# Open and close
+
+# Global pointer to currently open StorageNode
 storage = False
 
 # Create a default AtomSpace, and open a connection to storage.

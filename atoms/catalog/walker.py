@@ -6,10 +6,14 @@
 
 from configparser import ConfigParser
 import os
-from witness import witness_file, witness_store_open, witness_store_close
+from witness import file_witness, witness_store_open, witness_store_close
 
 # Crawl the indicated directory
-def dir_witness(config, dirpath):
+# The first argument, fwit, is an instance of the file_witness class.
+# The second is a config file that governs the crawl.
+# The third is he current directory; there will be a depth-first
+# descent into the directory.
+def dir_witness(fwit, config, dirpath):
 
 	# Errors include `PermissionError: [Errno 13] Permission denied`
 	# Not sure what to do about that. Right now, do nothing.
@@ -24,7 +28,7 @@ def dir_witness(config, dirpath):
 	# Files first.
 	for fob in dgen :
 		if fob.is_file(follow_symlinks=False) :
-			witness_file(hostname, fob.path)
+			fwit.witness_file(hostname, fob.path)
 			# Debug print. The print throws an error when the filename
 			# has non-UTF-8 chars in it. Typically because the file was
 			# originally created on MS-Windows. Catch and release.
@@ -51,7 +55,7 @@ def dir_witness(config, dirpath):
 	for fob in os.scandir(dirpath) :
 		if fob.is_dir(follow_symlinks=False) :
 			if not fob.name in prunenames and not fob.path in prunepaths :
-				dir_witness(config, fob.path)
+				dir_witness(fwit, config, fob.path)
 			else:
 				print("skip dir ", fob.path)
 
@@ -90,8 +94,12 @@ def walk_witness(conffile):
 	print("Storage: ", storage_url)
 	witness_store_open(storage_url)
 
+	# Use a crawl witness class. This uses a single, uniform timestamp
+	# so that all observations get tagged with the same timestamp.
+	fkwit = file_witness()
+
 	# Do the heavy lifting
-	dir_witness(crawl_cfg, rootdir)
+	dir_witness(fkwit, crawl_cfg, rootdir)
 
 	witness_store_close()
 
