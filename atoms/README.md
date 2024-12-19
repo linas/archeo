@@ -9,8 +9,8 @@ sqlite3, but keeping the python+flask tech stack. The reason for this
 change is given in the [similarity-README](../src/similarity/README.md).
 
 ### Status
-Under construction. Still raw, can't yet do what the prototype version
-did.
+Works. Minimalistic. Does everything the earlier sqlite3 version did.
+That's not saying much. It's a proof-of-concept.
 
 ### Structure
 There are several parts here:
@@ -49,3 +49,9 @@ Then configure this project. Do the following:
 * Start the web interface. `cd` to the base project directory, and run
   `gunicorn -w 1 -b 0.0.0.0:5080 atoms.webui.home_page:app`
 * Aim your web browser at `http://localhost:5080/` and browse away.
+
+TODO
+----
+A to-do list:
+* File sizes and timestamps need to be in the witness records.
+* Directory listings need to show witnesses.
