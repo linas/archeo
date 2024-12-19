@@ -115,7 +115,28 @@ Some notes about the current design.
   observed.
 
 ### Atomese Technical Issues
-Despite almost a decade of development, atomese still has a variety of
-shortcomings, exposed by the analysis above:
+Despite almost a decade of development, Atomese still has a variety of
+shortcomings, exposed by the analysis above. Lets ponder these.
 
-* Lack of generic similarity tools. Yes, the `learn` project
+There's a lack of generic similarity tools. Yes, the `learn` project
+has a collection of tools for computing mutual information, and
+classifying and clustering. However, these lack a generic API. Adapting
+these to observe structure in a file system requires a lot of by-hand
+engineering (and redesign, re-implementation).
+
+The reason that re-design, re-engineering is needed is because the
+abstraction level is somehow wrong. I can't say "here's a bunch of URL's
+with a bunch of associated flat properties, have at it".  So I guess
+one of the goals here is to obtain the appropriate abstraction level.
+
+I have a deeply-held beleif that the recursive application of structure
+extraction is a key to AGI, but this remains unproven because its
+unimplemented, because the structural abstractions needed to perform
+similarity measurements and syntactical reltions on generic networks
+remain uncaptured. The correct API is groped at, but is challenging
+to create.
+
+Meanwhile, I've failed to ponder neural nets sufficiently. I do not
+understand how to apply a neural net to solve the narrow scope of
+issues in this project (the narrow scope being to identify corrupted
+files.)
