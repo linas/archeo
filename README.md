@@ -129,7 +129,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.7
+Version 0.0.8
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -247,7 +247,7 @@ Tech selection
 
 Tech re-selection
 -----------------
-The prototype version 0.0.5 was written in a very conventional stack
+The prototype version 0.0.6 was written in a very conventional stack
 of sqlite3 for the SQL db, python for the programming language, and
 python flask for the web ui. This stuff is widely used, widely
 understood, and quite easy for ordinary developers to get into and use.
@@ -276,22 +276,10 @@ The current version AtomSpace+python+flask code is in the
 [`atoms`](atoms) directory.  Refer to the README there for how to
 set up and operate.
 
+The current implementation "works", but has many shortcomings.
+That is, it "works", but is woefully incomplete.
+
 HOWTO (Prototype)
 -----------------
 The earlier version 0.0.6 sqlite3+python+flask prototype is in the
-[`src`](src) directory. It has two parts:
-* The cataloger, which runs over file systems, computes file hashes,
-  and logs the resulting filepaths.
-  See the [`src/catalog` README](src/catalog) for more.
-* The Web UI, which can be used to browse the catalog above, find
-  *identical* files, and see where they are located.
-  See the [`src/webui` README](src/webui) for more.
-
-Both parts work just fine, and are "done".
-
-Both parts need some basic python infrastructure. As root:
-```
-apt install python3 python3-flask python3-venv python3-xxhash
-apt install sqlite3
-apt install gunicorn
-```
+[`src`](src) directory. See the README there for HOWTO instructions.

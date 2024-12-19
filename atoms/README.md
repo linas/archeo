@@ -27,7 +27,17 @@ There are several parts here:
   See the [`atoms/webui` README](webui) for more.
 
 ### HOWTO
-Do the following:
+Install dependencies.  As root:
+```
+apt install python3 python3-flask python3-venv python3-xxhash
+apt install gunicorn
+```
+Then the hard part: go to the
+[AtomSpace github repo](https://github.com/opencog/atomspace)
+perform the `git clone` and follow the build and install instructions
+there. It's not that hard.
+
+Then configure this project. Do the following:
 * Set up the craw config file. `cd` to `atoms/catalog` and copy
   `crawler.conf-example` to `crawler.conf`. Edit to suit.
 * Perform a witnessing run. Run `atoms/catalog/main.py` Wait until done.

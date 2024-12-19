@@ -1,10 +1,35 @@
-Tools
------
-Not much here yet. Directories:
+SQLite3 prototype
+=================
+This directory contains a now-abandoned prototype of the system,
+written using a conventional software stack of sqlite3+python+flask
+This prototype "works", but was abandoned due to limitations imposed
+by the very nature of SQL. The
+[AtomSpace](https://github.com/opencog/atomspace)
+provides a superior data processing infrastructure for this kind of
+problem. Addtional details on this tech selection are in the
+[similarity README](similarity/README.md) file.
 
-* `catalog`: the crawler, for populating the initial database.
-* `webui`: the main control panel.
-* `similarity`: infrstructure for finding similar directories.
+HOWTO
+-----
+There are two parts to this prototype:
+* The cataloger, which runs over file systems, computes file hashes,
+  and logs the resulting filepaths.
+  See the [`src/catalog` README](catalog) for more.
+* The Web UI, which can be used to browse the catalog above, find
+  *identical* files, and see where they are located.
+  See the [`src/webui` README]webui) for more.
+
+Both parts work just fine, and are "done".
+
+Please review each README above for addtional install, config and
+operation details.
+
+Both parts need some basic python infrastructure. As root:
+```
+apt install python3 python3-flask python3-venv python3-xxhash
+apt install sqlite3
+apt install gunicorn
+```
 
 TODO
 ----
