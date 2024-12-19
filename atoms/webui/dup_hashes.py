@@ -9,7 +9,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .query import find_duplicates, get_fileinfo_from_keywords
+from .property_listing import item_collection
 
 # ---------------------------------------------------------------------
 
@@ -34,36 +34,8 @@ class DupeHashTable(Table):
 # Find duplicated hashes
 def show_dup_hashes():
 
-	# argument is min number of dupes.
-	dup_hashes = find_duplicates('hashstr', 2)
-
-	itemcount = 0
-	rowlist = []
-	for hashstr in dup_hashes:
-
-		# We use this to construct a second query, for all files with
-		# a given hash. Returned columns ar properties associated with
-		# that hash, including url, filesize, filedate
-		first = True
-		fresult = get_fileinfo_from_keywords(hashstr=hashstr)
-		for frow in fresult:
-			itemcount += 1
-			frow['row'] = itemcount
-			if first:
-				first = False
-			else :
-				frow['hashstr'] = ''
-				frow['count'] = ''
-
-			rowlist.append(frow)
-
-		# Blank line. Maybe there's some prettier way; I can't be bothered.
-		rowlist.append(dict(row='', hashstr='', count='', url='',
-			domain='', filepath='', filename='', filesize='', filedate=''))
-
-	#if 0 == itemcount :
-	#	rowlist.append(dict(row='', hashstr='', count='', url='',
-	#		domain='', filepath='', filename='', filesize='', filedate=''))
+	itco = item_collection()
+	rowlist = itco.build_duplicates('hashstr', 2)
 
 	ftable = DupeHashTable(rowlist)
-	return render_template("dup-hash-list.html", itemcount=itemcount, filetable=ftable)
+	return render_template("dup-hash-list.html", itemcount=itco.itemcount, filetable=ftable)
