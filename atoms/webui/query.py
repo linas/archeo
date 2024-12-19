@@ -4,6 +4,7 @@
 # Database query shim for the webui for Archeo.
 
 import threading
+from datetime import datetime
 
 from opencog.atomspace import AtomSpace
 from opencog.type_constructors import *
@@ -31,8 +32,11 @@ def storage_open(storage_url):
 
 	# We're just going to bulk-load everything. This won't scale
 	# for large DB's, but its OK for now.
+	start = datetime.now()
 	load_atomspace()
-	print("Done loading AtomSpace. Size=", len(space))
+	end = datetime.now()
+	elapsed = end - start
+	print("Done loading AtomSpace. Loaded", len(space), "atoms in", elapsed, "secs")
 
 def storage_close():
 	global storage
