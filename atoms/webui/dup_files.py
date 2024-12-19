@@ -29,7 +29,7 @@ class DupeFileTable(Table):
 #	url = Col('URL')
 #	domain = Col('Domain')
 #	filepath = Col('Path')
-	filepath = LinkCol('Path', attr='filepath', endpoint='directory_detail',
+	filepath = LinkCol('Path', attr='filepath', endpoint='path_detail',
 		url_kwargs=dict(filepath='filepath'))
 	filesize = Col('Size (bytes)')
 	filedate = DatetimeCol('Last modified')

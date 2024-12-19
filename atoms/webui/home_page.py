@@ -26,6 +26,7 @@ from .dup_files import show_dup_files
 from .dup_hashes import show_dup_hashes
 from .filename_details import show_filename_details
 from .dir_list import show_dir_listing
+from .show_path import show_path_listing
 from .similar_summary import show_similar_summary
 
 # Read config file to discover DB location.
@@ -91,6 +92,13 @@ def filename_detail():
 @app.route('/directory.detail', methods=['GET'])
 def directory_detail():
 	return show_dir_listing(request.args['hashstr'])
+
+# ----------------------------------------------------------------------
+# Path-listing sub-page
+# Display contents of a directory
+@app.route('/path.detail', methods=['GET'])
+def path_detail():
+	return show_path_listing(request.args['filepath'])
 
 # ----------------------------------------------------------------------
 # Testing

@@ -23,7 +23,7 @@ class DupeHashTable(Table):
 #	url = Col('URL')
 #	domain = Col('Domain')
 #	filepath = Col('Path')
-	filepath = LinkCol('Path', attr='filepath', endpoint='directory_detail',
+	filepath = LinkCol('Path', attr='filepath', endpoint='path_detail',
 		url_kwargs=dict(filepath='filepath'))
 #	filename = Col('Name')
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
