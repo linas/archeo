@@ -13,7 +13,7 @@ from .query import get_fileinfo_from_keywords
 # -- Print the directory contents.
 
 # Declare table header
-class DirListTable(Table):
+class PathListTable(Table):
 	row = Col('')
 	hashstr = LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
@@ -68,10 +68,11 @@ def show_path_listing(filepath) :
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
-	dir_list_table = DirListTable(filist)
+	path_list_table = PathListTable(filist)
 
-	return render_template("dir-list.html",
-		dirlisttable=dir_list_table)
+	return render_template("path-list.html",
+		filepath=filepath,
+		pathlisttable=path_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
