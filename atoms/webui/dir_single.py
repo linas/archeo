@@ -40,13 +40,7 @@ class DirListTable(Table):
 # of more than one, then all of these should have the same domain and
 # filepath. That is, the content might be appearing multiple times in
 # just one directory.
-def show_single_dir(hashstr, dirinfo) :
-
-	# Is this really needed?
-	dirinfo['hashstr'] = hashstr
-
-	# Where is this content located?
-	location = dirinfo['domain'] + ":" + dirinfo['filepath']
+def show_single_dir(hashstr, dirlist) :
 
 	# How many times does it appear there?
 	if 1 == len(dirlist) :
@@ -56,8 +50,10 @@ def show_single_dir(hashstr, dirinfo) :
 		ntimes = "several times"
 		ess = 's'
 
+	dirinfo = dirlist[0]
+
 	# List the one or more names under which it appears.
-	file_table = FileTable(dirlist)
+	file_table = FileTable(dirinfo)
 
 	# Get a list of all distinct hashes in this directory
 	dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
@@ -77,10 +73,8 @@ def show_single_dir(hashstr, dirinfo) :
 
 		nfiles = len(dentries)
 
-		difro = dict(dentries[0])
+		difro = dentries[0]
 		difro['row'] = totcount
-
-		difro['hashstr'] = hashstr
 
 		filist.append(difro)
 
@@ -89,13 +83,16 @@ def show_single_dir(hashstr, dirinfo) :
 		# name, but with the same contents. Group these together.
 		# Blank out the hash to avoid clutter.
 		for idx in range (1, nfiles) :
-			difro = dict(allfiles[idx])
+			difro = dentries[idx]
 			difro['row'] = ''
 			difro['hashstr'] = ''
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
+
+	# Where is this content located?
+	location = dirinfo['domain'] + ":" + dirinfo['filepath']
 
 	return render_template("dir-list.html", hashstr=hashstr,
 		ntimes=ntimes, location=location, ess=ess,
