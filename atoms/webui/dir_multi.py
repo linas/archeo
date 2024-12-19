@@ -24,7 +24,7 @@ class DirTable(Table):
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
-	filecreate = DatetimeCol('Last modified')
+	filedate = DatetimeCol('Last modified')
 
 # -------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ def show_multi_dir(hashstr, qpaths) :
 	DiffTable.add_column('row', Col(''))
 	DiffTable.add_column('hashstr', LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
-		url_kwargs=dict(signedhash='xxhash')))
+		url_kwargs=dict(hashstr='hashstr')))
 
 	for pa in dirlist:
 		fname = 'filename' + pa['row']
@@ -158,7 +158,7 @@ def show_multi_dir(hashstr, qpaths) :
 
 	summary_table = SummaryTable(dirlist)
 
-	return render_template("similar-dirs.html", hashstr=prthash(sxhash),
+	return render_template("similar-dirs.html", hashstr=hashstr,
 		dirtable=dirtable, difftable=diff_table, summarytable=summary_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
