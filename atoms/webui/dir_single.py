@@ -7,7 +7,7 @@
 from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
 
-from .query import get_fileinfo_from_keywords
+from .property_listing import item_collection
 
 # General plan:
 # -- If we are here, assume that the hash appears in only *one*
@@ -55,37 +55,9 @@ def show_single_dir(hashstr, dirlist) :
 
 	# Get a list of all distinct hashes in this directory
 	dirinfo = dirlist[0]
-	dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
-	hashset = set()
-	for dentry in dentries:
-		hashset.add(dentry['hashstr'])
 
-	# Gather names of the files for each hash
-	filist = []
-	totcount = 0;
-	for hash in hashset:
-		totcount += 1
-
-		# Get the file(s) with this hash.
-		dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'],
-			domain=dirinfo['domain'], hashstr=hash)
-
-		nfiles = len(dentries)
-
-		difro = dentries[0]
-		difro['row'] = totcount
-
-		filist.append(difro)
-
-		# The hash may appear more than once in this directory.
-		# That is, there may be more than one file, having a different
-		# name, but with the same contents. Group these together.
-		# Blank out the hash to avoid clutter.
-		for idx in range (1, nfiles) :
-			difro = dentries[idx]
-			difro['row'] = ''
-			difro['hashstr'] = ''
-			filist.append(difro)
+	itco = item_collection()
+	filist = itco.build_file_list(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
 
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
