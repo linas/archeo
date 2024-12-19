@@ -38,6 +38,12 @@ def storage_open(storage_url):
 	elapsed = end - start
 	print("Done loading AtomSpace. Loaded", len(space), "atoms in", elapsed, "secs")
 
+	start = end
+	flatten_all_urls()
+	end = datetime.now()
+	elapsed = end - start
+	print("Flattened all URLS in", elapsed, "secs")
+
 def storage_close():
 	global storage
 	cog_close(storage)
@@ -92,14 +98,17 @@ def find_duplicated_hashes(min_num_dups) :
 # will appear in real life, in general. So, for now, we suffer and write
 # the extra code below.
 #
-# Note that this flattening is done on the fly, on a case-by-case basis,
-# and the results are not saved to the storage node.
+# This assumes that the URL decoder has already been run on the data.
+# The URL decoder could have, maybe should have written the flat
+# structure.
 #
-# This function flattens the decoded-URL structure into the simpler
-# generic edge form.
-def flatten_url(url) :
-
-	urlnode = ItemNode(url)
+# This takes one argument: it should be either
+#    ItemNode("file:///some/url/to/flatten")
+# which will flatten only one, or
+#    VariableNode("$url")
+# which will cause *all* of them to be flattened.
+#
+def flatten_decoded_urls(urlnode) :
 
 	q = QueryLink(
 			ExecutionLink(
@@ -118,6 +127,19 @@ def flatten_url(url) :
 			EdgeLink(PredicateNode("filename"), ListLink(urlnode, VariableNode("$name"))))
 
 	execute_atom(get_default_atomspace(), q)
+
+# Note that this flattening is done on the fly, on a case-by-case basis,
+# and the results are not saved to the storage node.
+#
+# This function flattens the decoded-URL structure into the simpler
+# generic edge form.
+def flatten_url(url) :
+	urlnode = ItemNode(url)
+	flatten_decoded_urls(urlnode)
+
+def flatten_all_urls():
+	urlnode = VariableNode("$urvar")
+	flatten_decoded_urls(urlnode)
 
 
 # -------------------------------------------------------------------------
