@@ -28,9 +28,9 @@ class PathListTable(Table):
 # Create a list of dictioaries describing files.
 #
 # The  argument is a property.
-def build_file_list(filepath) :
+def build_file_list(property, value) :
 
-	dentries = get_fileinfo_from_keywords(filepath=filepath)
+	dentries = get_fileinfo_from_keywords(**{property:value})
 
 	# Get a list of all distinct hashes in this directory
 	hashset = set()
@@ -44,7 +44,7 @@ def build_file_list(filepath) :
 		totcount += 1
 
 		# Get the file(s) with this hash.
-		dentries = get_fileinfo_from_keywords(filepath=filepath, hashstr=hash)
+		dentries = get_fileinfo_from_keywords(**{property:value, 'hashstr':hash})
 
 		nfiles = len(dentries)
 
@@ -63,7 +63,7 @@ def build_file_list(filepath) :
 			difro['hashstr'] = ''
 			filist.append(difro)
 
-	return filelist
+	return filist
 
 # -------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ def build_file_list(filepath) :
 def show_path_listing(filepath) :
 
 	# filist = build_file_list(filepath=filepath)
-	filist = build_file_list(filepath)
+	filist = build_file_list('filepath', filepath)
 
 	# Generate a detailed report of how the directories dffer
 	path_list_table = PathListTable(filist)
