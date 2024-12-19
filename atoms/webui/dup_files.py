@@ -34,22 +34,23 @@ class DupeFileTable(Table):
 	filesize = Col('Size (bytes)')
 	filedate = DatetimeCol('Last modified')
 
-# Find duplicated filenames
-def show_dup_files():
+# Show duplicated items.
+# First argument: the property that is duplicated
+# Secnd argument: min number of duplications to rise above.
+def show_duplicates(property, min_num_dups):
 
-	# argument is min number of dupes.
-	dup_files = find_duplicates('filename', 2)
+	dup_items = find_duplicates(property, min_num_dups)
 
 	itemcount = 0
 	rowlist = []
-	for fname in dup_files:
+	for item in dup_items:
 		itemcount += 1
 
 		# We use this to construct a second query, for all files with
 		# a given hash. Returned columns ar properties associated with
 		# that hash, including url, filesize, filedate
 		first = True
-		fresult = get_fileinfo_from_keywords(filename=fname)
+		fresult = get_fileinfo_from_keywords(filename=item)
 		for frow in fresult:
 			itemcount += 1
 			frow['row'] = itemcount
@@ -67,3 +68,8 @@ def show_dup_files():
 
 	ftable = DupeFileTable(rowlist)
 	return render_template("file-list.html", filecount=itemcount, filetable=ftable)
+
+# Find duplicated filenames
+def show_dup_files():
+
+	return show_duplicates('filename', 2)
