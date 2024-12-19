@@ -8,7 +8,7 @@ from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .property_listing import build_duplicates
+from .property_listing import item_collection
 
 # ---------------------------------------------------------------------
 
@@ -37,6 +37,7 @@ class DupeFileTable(Table):
 # Find duplicated filenames
 def show_dup_files():
 
-	rowlist = build_duplicates('filename', 2)
+	itco = item_collection()
+	rowlist = itco.build_duplicates('filename', 2)
 	ftable = DupeFileTable(rowlist)
-	return render_template("file-list.html", filecount=itemcount, filetable=ftable)
+	return render_template("file-list.html", filecount=itco.itemcount, filetable=ftable)
