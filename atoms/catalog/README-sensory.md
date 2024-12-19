@@ -140,3 +140,66 @@ Meanwhile, I've failed to ponder neural nets sufficiently. I do not
 understand how to apply a neural net to solve the narrow scope of
 issues in this project (the narrow scope being to identify corrupted
 files.)
+
+### Nuts & Bolts
+What am I actually doing?
+
+I've hand-designed an Atomese representation for file system data and
+snapshots of properties. This is because I know that URL's are suitable
+object identifiers (OID), and what file properites are. I'd like to have
+AI automation for property discovery and for the discovery of OID's.
+
+I'm hand-converting the Atomese representation into a python representation.
+This is beccause the python flask webui system expects python dictionaries
+and not Atomese. Both the python dicts and the Atomese contain "the same
+info", just in different systems. I would like for this to be automated.
+
+Automation of Atomese->python dict conversion requires a very uniform API
+to be given to the Atomese properties: they really do have to be "flat",
+or else the conversion fails.  This converter is again hand-engineered,
+and it is not clear how to use AI automation to generate the required
+code. Any kind of hand-built automation tool suffers from multiple
+defects:
+* It is hard to build, because the abstraction levels ar high up and hard
+  to master.
+* It is hard to debug, because mistakes at high abstraction layers cause
+  failures whose signatures are hard to trace back to the failing code.
+* It is fragile, in that minor changes can create hard-to-debug bugs.
+* It is intellectually isolated. No human is reading what I write here,
+  It is even less likelikely that anyone will look at the automated
+  converter, understand why it is needed, what it does, and how to use it
+  to solve their own special problem using this generic tool.
+  That is, the audience is too small. The audience is of one: me.
+
+I have poor control of search and siplay parameters. For example:
+duplicates are shown, when there are 2 or more of something. The number
+2 is a paramter and its hard-coded. Exposing it in the web page is a
+pain in the neck: one moer thing to wire up and connect, one more thing
+to explain.  I'd like to have AI automated wiring.
+
+Another example is the max number of items to display. Right now, this
+is unbounded, leading to poor performance when there are thousands of
+objects to display. Again, this is a control parameter that needs to be
+wired into place.
+
+It needs to be wired in two different ways: narrowly, into the GUI, and
+generically, as part of the control system for performing AtomSpace
+queries. This is again the "engineering trap": I am carefully hand-crafting
+a specific system, having specific controls. There are two parts to this
+engineering:
+
+* I have to think of what I want (e.g. control the max number of displayed
+  files in a table)
+* I have to implement the code to add this control.
+
+The second bullet is interesting, because the implementation of this code
+is a mostly mechanical process. I have to know what files to edit, what
+structures to touch, but, to a large degree, its "do it the same way that
+the other controls are done".
+
+The second bullet is already abstracted in the MVC Model-View-Controller
+paradigm. I don't want to hand-implement the desired MVC at each stage,
+I want to automated the production of the MVC linkage.
+
+
+
