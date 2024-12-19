@@ -201,5 +201,42 @@ The second bullet is already abstracted in the MVC Model-View-Controller
 paradigm. I don't want to hand-implement the desired MVC at each stage,
 I want to automated the production of the MVC linkage.
 
+### Deja Vu
+Its been done before. I already implemented a version of this abstraction
+almost twenty years ago. It's on sourceforge, under the name of "DUI" --
+"Data Under the Interface" or "DWI" "Data with Interface". It created a
+one-to-one mapping between SQL tables and GTK GUI designer tables.
+I built this under the influence of several prior ideas.
 
+* One was something I saw at a trade show: one of the large-giant vendors
+  of corporate automation software (ERP-- "Enterprise Resource Planning")
+  had a drag-n-drop tool to create GUI's attached to corporate data systems.
+  I guess the idea was to create, for example, chair-purchase requistion
+  forms that were autimatically wired into corporate accounting and
+  financial-controls databases (and routed to the appropriate management
+  and accounting controls).
 
+* One was earlier hands-on cleanup of work-item-tracker "from NASA".
+  Forget what its called. The source code is on my website somewhere.
+  Think of it as a generalized bugzilla: you could hand-craft panel-pages
+  to track issues, physical assets, whatever. You could specify a set of
+  roles, as to who would be allowed to do what (open, change, close,
+  approve) and you could wire up a workflow: after employee files out
+  the char pruchase requistion, it is placed on the manager's to-do list
+  for approval. And down the line.  The tool generated both HTML and
+  SQL directly from the specification files.
+
+* GnuCash. The GnuCash data sits in (a) files, (b) an SQL database. The
+  task is to expose that data into a usable GUI that is pleasant to use
+  an is custom tailored to accounting ideas. So, basically a very custom
+  data visualizer.
+
+In short, people have been doing this shit since the beginning of
+computing.  So how is it that here I am, in 2024, still struggling
+with the basic process of data format conversion?
+
+And even the more abstract levels: the importance of mutual information
+has been known for three-plus decades. The importance of syntax for
+longer. Data clustering algos have been explored for decades. But here
+I am at square fucking one, manually trying to hook stuff together and
+bitching about it. What am I missing?
