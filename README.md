@@ -129,7 +129,7 @@ one.  There's nothing wrong with building a digital shrine for a lost loved
 one. This is what love and cherished memories are about.  Perhaps one
 day, the weight of the past will be too much. That is not today.
 
-Version 0.0.8
+Version 0.0.9
 -------------
 Based on a few days of searching the net, I can't find anything even
 vaguely close to what I want. And so, perhaps stupidly, I've started
@@ -154,7 +154,12 @@ appropriate tool for this particular job. The AtomSpace is much faster,
 and much easier to use, and much more flexible. However, it took the
 first prototype to (re-)discover this. The design decisions that lead
 to this are reviewed in the
-[similarity README](src/similarity/README.md) file.
+[Similarity README](src/similarity/README.md) file.
+
+The use ot the AtomSpace allows an AI meta-issue to be explored: how
+does an AI systm "understand" what it's dealing with, and how does it
+even "see" the data that it's working with? The meta-issue is discussed
+in the [Sensory README](atoms/catalog/README-sensory.md).
 
 Systems Survey
 --------------
