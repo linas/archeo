@@ -8,7 +8,7 @@ from flask import render_template
 from flask_table import Table, Col, LinkCol
 
 # The dot in front of the name searches the current dir.
-from .query import find_duplicated_names
+from .query import find_duplicates
 
 # ---------------------------------------------------------------------
 
@@ -26,16 +26,13 @@ class DupeTable(Table):
 
 # Find duplicated filenames
 def show_dup_files():
-	qresult = find_duplicated_names()
+	qresult = find_duplicates('filename', 2)
 
-	# filecount = len(qresult.fetchall())
 	filecount = 0
 	filelist = []
-	for rec in qresult:
+	for fname in qresult:
 		filecount += 1
-		# Ugly API: columns according to SQL query.
-		fname = rec[0]
-		filelist.append(dict(row=filecount, name=fname, count=rec[2]))
+		filelist.append(dict(row=filecount, name=fname, count=333))
 
 	ftable = DupeTable(filelist)
 	return render_template("file-list.html", filecount=filecount, filetable=ftable)

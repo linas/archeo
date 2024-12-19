@@ -54,40 +54,35 @@ def storage_close():
 
 # -------------------------------------------------------------------------
 
-# Return a list of duplicated filenames.
-# This is fairly normal: the same filename may be used in many places
-def find_duplicated_names() :
-	#sel = "SELECT filename, frecid, COUNT(*) FROM FileRecord GROUP BY filename HAVING COUNT(*) > 1;"
-	#return cursor.execute(sel)
-	return {}
-
-# -------------------------------------------------------------------------
-
 # Return a list of duplicated hashes.
 # This is fairly normal: the same file contents, different locations/names
 # Argument is a minimum number of duplicates that need to be found,
 # in order to make it to the cut.
 def find_duplicated_hashes(min_num_dups) :
 
+	return find_duplicates('hashstr', min_num_dups)
+
+def find_duplicates(keyword, min_num_dups) :
+
 	q = QueryLink(
 			AndLink(
-				EdgeLink(PredicateNode("content xxhash-64"),
-					ListLink(VariableNode ("$URL"), VariableNode("$hash"))),
+				EdgeLink(PredicateNode(pred_from_key[keyword]),
+					ListLink(VariableNode ("$URL"), VariableNode("$prop"))),
 				GroupLink(
-					VariableNode("$hash"),
+					VariableNode("$prop"),
 					IntervalLink(NumberNode (str(min_num_dups)), NumberNode("-1")))),
-				VariableNode("$hash"))
+				VariableNode("$prop"))
 
 	r = execute_atom(get_default_atomspace(), q)
 
 	# Unpack the listing, convert it to a python list
-	hashlist = []
+	proplist = []
 	for hi in r.to_list() :
 		itemnode = hi.to_list()[0]
 		itemname = itemnode.name
-		hashlist.append(itemname)
+		proplist.append(itemname)
 
-	return hashlist
+	return proplist
 
 # -------------------------------------------------------------------------
 
