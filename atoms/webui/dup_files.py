@@ -49,7 +49,7 @@ def show_dup_files():
 		# a given hash. Returned columns ar properties associated with
 		# that hash, including url, filesize, filedate
 		first = True
-		fresult = get_fileinfo_from_keywords(hashstr=hashstr)
+		fresult = get_fileinfo_from_keywords(filename=fname)
 		for frow in fresult:
 			itemcount += 1
 			frow['row'] = itemcount
@@ -65,5 +65,5 @@ def show_dup_files():
 		rowlist.append(dict(row='', hashstr='', count='', url='',
 			domain='', filepath='', filename='', filesize='', filedate=''))
 
-	ftable = DupeFileTable(filelist)
+	ftable = DupeFileTable(rowlist)
 	return render_template("file-list.html", filecount=itemcount, filetable=ftable)
