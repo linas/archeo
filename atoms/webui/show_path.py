@@ -40,16 +40,9 @@ class DirListTable(Table):
 # just one directory.
 def show_path_listing(filepath) :
 
-	dirlist = []
+	dirlist = get_fileinfo_from_keywords(filepath=filepath)
 
-	# How many times does it appear there?
-	if 1 == len(dirlist) :
-		ntimes = "once"
-		ess = ''
-	else :
-		ntimes = "several times"
-		ess = 's'
-
+	print("duuude dirli=", dirlist)
 	# List the one or more names under which it appears.
 	file_table = FileTable(dirlist)
 
