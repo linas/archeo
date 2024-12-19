@@ -18,20 +18,20 @@ class DupeHashTable(Table):
 	row = Col('')
 #	hashstr = Col('xxHash')
 	hashstr = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
-      url_kwargs=dict(hashstr='hashstr'))
+		url_kwargs=dict(hashstr='hashstr'))
 	count = Col('Count')
 #	url = Col('URL')
 #	domain = Col('Domain')
 #	filepath = Col('Path')
 	filepath = LinkCol('Path', attr='filepath', endpoint='directory_detail',
-      url_kwargs=dict(filepath='filepath'))
+		url_kwargs=dict(filepath='filepath'))
 #	filename = Col('Name')
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
 	filedate = DatetimeCol('Last modified')
 
-# Find duplicated filenames
+# Find duplicated hashes
 def show_dup_hashes():
 
 	# argument is min number of dupes.
@@ -49,7 +49,6 @@ def show_dup_hashes():
 		for frow in fresult:
 			itemcount += 1
 			frow['row'] = itemcount
-			frow['filedate'] = float(frow['filedate'])
 			if first:
 				first = False
 			else :
