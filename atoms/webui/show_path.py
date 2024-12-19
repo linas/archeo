@@ -13,12 +13,6 @@ from .query import get_fileinfo_from_keywords
 # -- Print the directory contents.
 
 # Declare table header
-class FileTable(Table):
-	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
-		url_kwargs=dict(filename='filename'))
-	filesize = Col('Size (bytes)')
-	filedate = DatetimeCol('Last modified')
-
 class DirListTable(Table):
 	row = Col('')
 	hashstr = LinkCol('xxHash', attr='hashstr',
@@ -40,15 +34,9 @@ class DirListTable(Table):
 # just one directory.
 def show_path_listing(filepath) :
 
-	dirlist = get_fileinfo_from_keywords(filepath=filepath)
-
-	print("duuude dirli=", dirlist)
-	# List the one or more names under which it appears.
-	file_table = FileTable(dirlist)
+	dentries = get_fileinfo_from_keywords(filepath=filepath)
 
 	# Get a list of all distinct hashes in this directory
-	dirinfo = dirlist[0]
-	dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
 	hashset = set()
 	for dentry in dentries:
 		hashset.add(dentry['hashstr'])
@@ -60,8 +48,7 @@ def show_path_listing(filepath) :
 		totcount += 1
 
 		# Get the file(s) with this hash.
-		dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'],
-			domain=dirinfo['domain'], hashstr=hash)
+		dentries = get_fileinfo_from_keywords(filepath=filepath, hashstr=hash)
 
 		nfiles = len(dentries)
 
@@ -83,12 +70,8 @@ def show_path_listing(filepath) :
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
 
-	# Where is this content located?
-	location = dirinfo['domain'] + ":" + dirinfo['filepath']
-
-	return render_template("dir-list.html", hashstr=hashstr,
-		ntimes=ntimes, location=location, ess=ess,
-		fileinfo=file_table, dirlisttable=dir_list_table)
+	return render_template("dir-list.html",
+		dirlisttable=dir_list_table)
 
 # ------------------ End of File. That's all, folks! ----------------------
 # -------------------------------------------------------------------------
