@@ -20,7 +20,9 @@ from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
 class DirTable(Table):
 	row = Col('')
 	domain = Col('Domain')
-	filepath = Col('Path')
+	#filepath = Col('Path')
+	filepath = LinkCol('Path', attr='filepath', endpoint='filename_detail',
+		url_kwargs=dict(filepath='filepath'))
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
@@ -52,7 +54,10 @@ def show_multi_dir(hashstr, qpaths) :
 	SummaryTable = create_table('boffa')
 	SummaryTable.add_column('row', Col(''))
 	SummaryTable.add_column('domain', Col('Domain'))
-	SummaryTable.add_column('filepath', Col('Path'))
+	# SummaryTable.add_column('filepath', Col('Path'))
+	SummaryTable.add_column('filepath',
+		LinkCol('Path', attr='filepath', endpoint='filename_detail',
+			url_kwargs=dict(filepath='filepath')))
 	# SummaryTable.add_column('common', Col('Files in common'))
 	# SummaryTable.add_column('numunique', Col('Tot unique hashes'))
 	# SummaryTable.add_column('overlapstr', Col('% common'))
