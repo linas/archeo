@@ -5,8 +5,7 @@
 # at least one file in common.
 #
 
-from .query import select_filerecords
-from .utils import prthash, to_sint64, to_uint64
+from .query import get_fileinfo_from_keywords
 
 from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
@@ -32,10 +31,10 @@ class DirTable(Table):
 # Compare contents of filepaths having at least one file with shared
 # content.
 #
-# The first arg is the signed in hash for which the listing is being
+# The first arg is the hash string for which the listing is being
 # expanded on. The second are is the reqult of the DB query, containing
 # a collection of directories in which this hash appears
-def show_multi_dir(sxhash, qpaths) :
+def show_multi_dir(hashstr, qpaths) :
 
 	# Stash the list of directories. We'll walk this list repeatedly.
 	dircount = 0
@@ -76,11 +75,11 @@ def show_multi_dir(sxhash, qpaths) :
 	# Gather a set of all filehashes that appear in all dirs
 	hashset = set()
 	for pa in dirlist:
-		dentries = select_filerecords(filepath=pa['filepath'], domain=pa['domain'])
+		dentries = get_fileinfo_from_keywords(filepath=pa['filepath'], domain=pa['domain'])
 		hlocal = set()
 		for dentry in dentries:
-			hashset.add(dentry['filexxh'])
-			hlocal.add(dentry['filexxh'])
+			hashset.add(dentry['hashstr'])
+			hlocal.add(dentry['hashstr'])
 
 		# How many of these files are unique?
 		pa['numunique'] = len(hlocal)
@@ -93,31 +92,22 @@ def show_multi_dir(sxhash, qpaths) :
 		totcount += 1
 		difro = {}
 		difro['row'] = totcount
-
-		# prthash is used for display on the web page and is
-		# subject to change. The hex conversion is used in the
-		# link URL GET method and must be decodable at the other
-		# end, and thus must not change on a whim. And the
-		# straight-up hash is needed for SQL queries.
-		difro['filexxh'] = hash
-		difro['hashstr'] = prthash(hash)
-		difro['xxhash'] = hex(to_uint64(hash))
+		difro['hashstr'] = hashstr
 
 		# Each dir either has one or more files with that hash,
 		# or none. Report all files having the same hash.
 		same_everywhere = True
 		maxfiles = 0
 		for pa in dirlist:
-			dentry = select_filerecords(filepath=pa['filepath'],
-				domain=pa['domain'], filexxh=hash)
-			allfiles = dentry.fetchall()
-			nfiles = len(allfiles)
+			dentries = get_fileinfo_from_keywords(filepath=pa['filepath'],
+				domain=pa['domain'], hashstr=hashstr)
+			nfiles = len(dentries)
 			if maxfiles < nfiles:
 				maxfiles = nfiles;
 
 			key = 'filename' + pa['row']
 			if 0 < nfiles :
-				difro[key] = allfiles[0]['filename']
+				difro[key] = dentries[0]['filename']
 			else :
 				difro[key] = ''
 				same_everywhere = False
@@ -136,19 +126,17 @@ def show_multi_dir(sxhash, qpaths) :
 			difro = {}
 			difro['row'] = ''
 			difro['hashstr'] = ''
-			difro['xxhash'] = ''
 
 			# We could save the query results above, or we can just
 			# rerun the query. I'm lazy, the performance hit is tiny.
 			# Just rerun the query. Pick up where we left off.
 			for pa in dirlist:
-				dentry = select_filerecords(filepath=pa['filepath'],
-					domain=pa['domain'], filexxh=hash)
-				allfiles = dentry.fetchall()
-				nfiles = len(allfiles)
+				dentries = get_fileinfo_from_keywords(filepath=pa['filepath'],
+					domain=pa['domain'], hashstr=hashstr)
+				nfiles = len(dentries)
 				key = 'filename' + pa['row']
 				if idx < nfiles :
-					difro[key] = allfiles[idx]['filename']
+					difro[key] = dentries[idx]['filename']
 				else :
 					difro[key] = '-'
 
