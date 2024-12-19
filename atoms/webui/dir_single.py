@@ -50,12 +50,11 @@ def show_single_dir(hashstr, dirlist) :
 		ntimes = "several times"
 		ess = 's'
 
-	dirinfo = dirlist[0]
-
 	# List the one or more names under which it appears.
-	file_table = FileTable(dirinfo)
+	file_table = FileTable(dirlist)
 
 	# Get a list of all distinct hashes in this directory
+	dirinfo = dirlist[0]
 	dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
 	hashset = set()
 	for dentry in dentries:
