@@ -25,14 +25,10 @@ class PathListTable(Table):
 
 # -------------------------------------------------------------------------
 
-# Print a directory listing.
+# Create a list of dictioaries describing files.
 #
-# The first argument is the content hash (of some file).
-# The second argument is a FileRecord query result. If it has a length
-# of more than one, then all of these should have the same domain and
-# filepath. That is, the content might be appearing multiple times in
-# just one directory.
-def show_path_listing(filepath) :
+# The  argument is a property.
+def build_file_list(filepath) :
 
 	dentries = get_fileinfo_from_keywords(filepath=filepath)
 
@@ -66,6 +62,18 @@ def show_path_listing(filepath) :
 			difro['row'] = ''
 			difro['hashstr'] = ''
 			filist.append(difro)
+
+	return filelist
+
+# -------------------------------------------------------------------------
+
+# Print a directory listing.
+#
+# The argument is a filepath.
+def show_path_listing(filepath) :
+
+	# filist = build_file_list(filepath=filepath)
+	filist = build_file_list(filepath)
 
 	# Generate a detailed report of how the directories dffer
 	path_list_table = PathListTable(filist)
