@@ -90,7 +90,7 @@ def filename_detail():
 # Display all directories that might hold a given hash.
 @app.route('/directory.detail', methods=['GET'])
 def directory_detail():
-	return show_dir_listing(request.args['signedhash'])
+	return show_dir_listing(request.args['hashstr'])
 
 # ----------------------------------------------------------------------
 # Testing

@@ -4,10 +4,9 @@
 # Do flask rendering to show directory contents.
 #
 
-from .query import select_filerecords
+from .query import get_fileinfo_from_keywords
 from .dir_single import show_single_dir
 from .dir_multi import show_multi_dir
-from .utils import to_sint64
 
 # General plan:
 # -- Look to see if the provided hash appears in one, or more than one
@@ -16,16 +15,11 @@ from .utils import to_sint64
 # Print a directory listing.
 #
 # The argument is the string that came on the URL GET. It is the hash
-# to explore, printed with a leading 0x and is unsigned.
-def show_dir_listing(filehash) :
-
-	# Convert string hash to what sqlite wants.
-	uxhash = int(filehash, 16)
-	sxhash = to_sint64(uxhash)
+# to explore, as an ascii hexadecimal string.
+def show_dir_listing(hashstr) :
 
 	# Get the directory that this file appears in.
-	qpath = select_filerecords(filexxh=sxhash)
-	qdir = qpath.fetchall()
+	qdir = get_fileinfo_from_keywords(hashstr=hashstr)
 
 	# This content can appear multiple times in one directory,
 	# or in multiple distinct directories. Figure out which.
@@ -39,9 +33,9 @@ def show_dir_listing(filehash) :
 			multidir = True
 
 	if multidir :
-		return show_multi_dir(sxhash, qdir)
+		return show_multi_dir(hashstr, qdir)
 	else :
-		return show_single_dir(sxhash, qdir)
+		return show_single_dir(hashstr, qdir)
 
 
 # ------------------ End of File. That's all, folks! ----------------------
