@@ -20,8 +20,8 @@ class DupeFileTable(Table):
 	# param (which just repeats the filename). The attr MUST name an
 	# item in the row dictionary. It is the string that will be displayed
 	# in the generated `a href` link.
-	name = LinkCol('File Name', attr='name', endpoint='filename_detail',
-		url_kwargs=dict(filename='name'))
+	filename = LinkCol('File Name', attr='filename', endpoint='filename_detail',
+		url_kwargs=dict(filename='filename'))
 	count = Col('Count')
 #	hashstr = Col('xxHash')
 	hashstr = LinkCol('xxHash', attr='hashstr', endpoint='directory_detail',
