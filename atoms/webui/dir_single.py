@@ -68,7 +68,7 @@ def show_single_dir(hashstr, dirlist) :
 
 		# Get the file(s) with this hash.
 		dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'],
-			domain=dirinfo['domain'], hashstr=hashstr)
+			domain=dirinfo['domain'], hashstr=hash)
 
 		nfiles = len(dentries)
 
