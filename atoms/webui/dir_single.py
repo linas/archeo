@@ -7,8 +7,7 @@
 from flask import render_template
 from flask_table import Table, Col, DatetimeCol, LinkCol, create_table
 
-from .query import select_filerecords
-from .utils import prthash, to_sint64, to_uint64
+from .query import get_fileinfo_from_keywords
 
 # General plan:
 # -- If we are here, assume that the hash appears in only *one*
@@ -20,31 +19,31 @@ class FileTable(Table):
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
-	filecreate = DatetimeCol('Last modified')
+	filedate = DatetimeCol('Last modified')
 
 class DirListTable(Table):
 	row = Col('')
 	hashstr = LinkCol('xxHash', attr='hashstr',
 		endpoint='directory_detail',
-		url_kwargs=dict(signedhash='xxhash'))
+		url_kwargs=dict(hashstr='hashstr'))
 	filename = LinkCol('Name', attr='filename', endpoint='filename_detail',
 		url_kwargs=dict(filename='filename'))
 	filesize = Col('Size (bytes)')
-	filecreate = DatetimeCol('Last modified')
+	filedate = DatetimeCol('Last modified')
 
 # -------------------------------------------------------------------------
 
 # Print a directory listing.
 #
-# The first argument is a signed int content hash (of some file).
+# The first argument is the content hash (of some file).
 # The second argument is a FileRecord query result. If it has a length
 # of more than one, then all of these should have the same domain and
 # filepath. That is, the content might be appearing multiple times in
 # just one directory.
-def show_single_dir(sxhash, dirlist) :
+def show_single_dir(hashstr, dirinfo) :
 
-	dirinfo = dict(dirlist[0])
-	dirinfo['hashstr'] = prthash(sxhash)
+	# Is this really needed?
+	dirinfo['hashstr'] = hashstr
 
 	# Where is this content located?
 	location = dirinfo['domain'] + ":" + dirinfo['filepath']
@@ -61,10 +60,10 @@ def show_single_dir(sxhash, dirlist) :
 	file_table = FileTable(dirlist)
 
 	# Get a list of all distinct hashes in this directory
-	dentries = select_filerecords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
+	dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'], domain=dirinfo['domain'])
 	hashset = set()
 	for dentry in dentries:
-		hashset.add(dentry['filexxh'])
+		hashset.add(dentry['hashstr'])
 
 	# Gather names of the files for each hash
 	filist = []
@@ -73,23 +72,15 @@ def show_single_dir(sxhash, dirlist) :
 		totcount += 1
 
 		# Get the file(s) with this hash.
-		dentry = select_filerecords(filepath=dirinfo['filepath'],
-			domain=dirinfo['domain'], filexxh=hash)
+		dentries = get_fileinfo_from_keywords(filepath=dirinfo['filepath'],
+			domain=dirinfo['domain'], hashstr=hashstr)
 
-		allfiles = dentry.fetchall()
-		nfiles = len(allfiles)
+		nfiles = len(dentries)
 
-		difro = dict(allfiles[0])
+		difro = dict(dentries[0])
 		difro['row'] = totcount
 
-		# prthash is used for display on the web page and is
-		# subject to change. The hex conversion is used in the
-		# link URL GET method and must be decodable at the other
-		# end, and thus must not change on a whim. And the
-		# straight-up hash is needed for SQL queries.
-		difro['filexxh'] = hash
-		difro['hashstr'] = prthash(hash)
-		difro['xxhash'] = hex(to_uint64(hash))
+		difro['hashstr'] = hashstr
 
 		filist.append(difro)
 
@@ -101,13 +92,12 @@ def show_single_dir(sxhash, dirlist) :
 			difro = dict(allfiles[idx])
 			difro['row'] = ''
 			difro['hashstr'] = ''
-			difro['xxhash'] = ''
 			filist.append(difro)
 
 	# Generate a detailed report of how the directories dffer
 	dir_list_table = DirListTable(filist)
 
-	return render_template("dir-list.html", hashstr=prthash(sxhash),
+	return render_template("dir-list.html", hashstr=hashstr,
 		ntimes=ntimes, location=location, ess=ess,
 		fileinfo=file_table, dirlisttable=dir_list_table)
 
