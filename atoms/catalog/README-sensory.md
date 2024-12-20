@@ -240,3 +240,38 @@ has been known for three-plus decades. The importance of syntax for
 longer. Data clustering algos have been explored for decades. But here
 I am at square fucking one, manually trying to hook stuff together and
 bitching about it. What am I missing?
+
+### Transformers?
+All of these systems have, at their core, a translation layer, converting
+from one format to another (and back.) One buzzword that hops into mind
+is "term rewriting", but the terms are not so much being re-written as
+translated, from one vocabulary/structure, to another. Perhaps the
+buzzword "transformer" is more appropriate.
+
+### Jigsaws?
+Another concept that I'm fixated on is the jigsaw. When translating from
+one system to another, one can imagine the edges as being fairly-well
+defined, and one wishes to find intermediary jigsaw pieces to hook up
+these two ends.
+
+The problem with the jigsaw viewpoint is that the creation and assembly
+of the jigsaw pieces is currently an act of human engineering. For
+example, the interfaces provided by `python flask` are described in a
+human-readable format: on web pages providing documentation and examples,
+on stack-exchange.com question and answer posts. There is no machine
+readable description of what `flask` is, and how to connect up to the API's
+it provides. You are supposed to "just know" what a python `dict` is.
+There's no machine-readable abstraction that describes what a python
+`dict` is, how to create one, and what the syntax is.
+
+This seems to provide a huge barrier to entry. How am I supposed to build
+a bridge from some abstract (Atomese) description of a filesystem, to a
+web-based viewer of that system, when I don't have an Atomese description
+of the web intrfaces?
+
+This now turns the sensory issue towards another system to be observed:
+the `flask` programming API. How can that API be described in abstract,
+machine-readable terms? How much human engineering do I need to put into
+the system, in order to create this machine-readable API description?
+
+Perhaps I'm thinkging of this the wrong way.
