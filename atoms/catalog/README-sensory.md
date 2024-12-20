@@ -274,4 +274,62 @@ the `flask` programming API. How can that API be described in abstract,
 machine-readable terms? How much human engineering do I need to put into
 the system, in order to create this machine-readable API description?
 
-Perhaps I'm thinkging of this the wrong way.
+And one I have it, how will I obtain an algorithm that can place the
+jigsaw pieces in between the abstract syntax notation for a file system,
+and the abstract syntax notation for `flask`?
+
+And even if I had that algorithm, how would I control its operation?
+How would I talk to it, and as it, "Can you please show me this and
+that about my filesystem?" What would it take for it to be observant
+enough to find the things I'm looking for, even before I know what
+those things might be? Ugh.
+
+### Neural net approaches
+Perhaps I'm thinking of this the wrong way. Suppose instead I had access
+to the implementation internals for something like the Microsoft Copilot.
+It has crawled a million github projects and files, and has a rather good
+idea of teh probabilistic distribution of individual byte sequences making
+up programming languages. It has similarity vectors, that know which
+programming constructs are the same (e.g. how to write python `dict`s
+using any one of three different coding styles.) It also has the English
+language model, so it has the verbal descriptions of what the code does.
+Between the two of these, one might think it has some fairly reasonable
+coding ability, and that I could write code merely by talking to it.
+
+That's the dream. The reality is that the abstraction levels are not there
+yet. The LLM's might understand the code at a line-by-line level, but they
+still are unable to reason at one meta-layer up. They cannot yet access the
+next layer of abstraction.  This is a recognized problem, and I presume
+that there are hundreds if not thousands of highly intelligent people
+attacking this problem.
+
+I'm a bit stuck: I don't have the weights, I don't have the GPU's, I don't
+have the infrastructure to fiddle with this stuff, nor the people to talk
+to about it, nor something specific to theorize about. I live in an
+intellectual fucking vacuum and I fucking hate it. With that off my chest,
+dear reader who doesn't exist, let me move on to my next neurosis.
+
+### Problem scope
+Perhaps I've posed a problem that is too hard. I started with a
+description of how the perception of the contents of a filesystem
+provides an ideal playground or toy model for exploring the low-level
+physics of a sensory system, and conclude with a high-level tirade
+that computers aren't yet smart. What, really, is the task here?
+
+So, let me say it again. Architecturally, it seems like the perception
+of structure is a key principle that is to be mastered. One of the issues
+surrounding this has already been articulated: there is no generic
+structure-finding toolkit available, even as there are hundreds (if not
+thousandss) of special-case toolkits adapted for human use. (I'm thinking
+of the toolkits for analyzing weather systems, for example, or the data
+products catalog for the LSST (Vera Rubin) telescope.)
+
+The other partly-articulated issue is the "even if I had a generic
+toolkit, so what?" What would I do with it? On it's own, it is not
+intelligent, per se.  It provides the lower reaches of a sensory
+system that an agent could employ to construct an accurate model
+of external reality, but a so-what aspect continues to beset the
+landscape. What do I do with this agent? Set it free, and let it
+convert everything into paper clips?
+
+I seem to be losing the plot, here.
