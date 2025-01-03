@@ -2,7 +2,7 @@ Web UI
 ------
 This directory implements a basic web-UI control panel into the system.
 
-*** UNDER RECONSTRUCTION Nothing Works!! ***
+*** UNDER CONSTRUCTION !! Kinda bogus !! ***
 
 Design
 ------
@@ -61,13 +61,18 @@ to indicate the location of the file catalog. Then start the webserver.
 ```
 cd /this/project/home/dir
 . .venv/bin/activate  # Not needed, if you already did it above
-gunicorn -w 1 -b 0.0.0.0:5080 atoms.webui.home_page:app
+gunicorn --timeout 900 -w 1 -b 0.0.0.0:5080 atoms.webui.home_page:app
 ```
 The above creates a python "virtual environment" (providing a degree
 of isolation from the rest of the operating system) It then starts a
 a webserver located at `http://localhost:5080/` The `0.0.0.0` exposes
 it to the local network, and so the pages become accessible on other
 (local) machines.
+
+The timeout is set to 900 seconds; you may need to adjust. The AtomSpace
+uses RocksDB; sometimes RocksDB reorganizes itself, this can lead to
+longer stalls. Sometimes AtomSpace needs to compute something complex;
+currntly it does this inline, instead of a special thead.
 
 Reference Material
 ------------------

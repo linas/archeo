@@ -41,7 +41,7 @@ Then configure this project. Do the following:
 * Set up the craw config file. `cd` to `atoms/catalog` and copy
   `crawler.conf-example` to `crawler.conf`. Edit to suit.
 * Perform a witnessing run. Run `atoms/catalog/main.py` Wait until done.
-* Prepare indexes. This is currently a manual sep, may go away later.
+* Prepare indexes. This is currently a manual step, may go away later.
   Run `atoms/splitter/main.py`
 * Configure the web interface. `cd` to `atoms/webui` and copy
   `webui.conf-example` to `webui.conf` and edit as appropriate.

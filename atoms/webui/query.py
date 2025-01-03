@@ -27,11 +27,16 @@ def storage_open(storage_url):
 	space = AtomSpace()
 	push_default_atomspace(space)
 
+	start = datetime.now()
 	storage = RocksStorageNode(storage_url)
 	cog_open(storage)
+	end = datetime.now()
+	elapsed = end - start
+	print("Opened Rocks in", elapsed, "secs")
 
 	# We're just going to bulk-load everything. This won't scale
-	# for large DB's, but its OK for now.
+	# for large DB's, but its OK for now. XXX No. This is already
+	# failing. WTF.
 	start = datetime.now()
 	load_atomspace()
 	end = datetime.now()
